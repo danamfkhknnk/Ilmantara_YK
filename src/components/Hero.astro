@@ -1,0 +1,176 @@
+---
+// Ported from the React `Hero.jsx` "Layerfolio Hero": a CSS-scaled 1440×900
+// canvas plus a real-pixel ruler overlay (ticks every 10px, numbered every
+// 100px) with a live mouse crosshair, and a design-tool-style "You" cursor
+// that follows the mouse in canvas space.
+const CANVAS_W = 1440;
+const CANVAS_H = 900;
+---
+
+<section data-framer-name="01 Hero" class="relative">
+  <div id="hero-container" class="relative h-screen min-h-[680px] overflow-hidden bg-paper" style="cursor: none;">
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 opacity-90"
+      style="background-image: radial-gradient(circle at 1px 1px, rgb(var(--color-ink-rgb) / .16) 1px, transparent 1.2px); background-size: 24px 24px;"
+    ></div>
+    <div
+      aria-hidden="true"
+      class="absolute inset-0"
+      style="background: radial-gradient(1200px 520px at 50% 34%, rgba(255,255,255,0.75), transparent 70%);"
+    ></div>
+
+    <div id="hero-canvas" class="absolute left-0 top-0 origin-top-left" style={`width:${CANVAS_W}px;height:${CANVAS_H}px;transform:scale(1);`}>
+      <div class="absolute inset-0" style="transform: translateY(0px) scale(1); transform-origin: 50% 40%;">
+        <div
+          class="absolute flex items-center gap-2.5 font-mono text-[11px] tracking-[0.02em]"
+          style="left: 176px; top: 20px; color: rgb(var(--color-ink-rgb) / .5);"
+        >
+          <span style="color: rgb(var(--color-accent-rgb));">#</span>
+          <span>Home — Desktop <span class="opacity-60">1440 × 900</span></span>
+        </div>
+      </div>
+
+      <div id="hero-you-cursor" class="pointer-events-none absolute z-30 hidden" style="will-change: transform;">
+        <svg
+          width="20"
+          height="22"
+          viewBox="0 0 20 22"
+          style="position: absolute; left: -2px; top: -2px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.2));"
+        >
+          <path
+            d="M2.5 2.5 L2.5 18 L7 13.8 L10.2 20.4 L13 19.1 L9.9 12.6 L16 12.3 Z"
+            fill={`rgb(var(--color-accent-rgb))`}
+            stroke="#fff"
+            stroke-width="1.4"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <div
+          class="absolute whitespace-nowrap text-[11px] font-medium text-white"
+          style={`left: 14px; top: 17px; background: rgb(var(--color-accent-rgb)); letter-spacing: -0.01em; padding: 5px 7px; border-radius: 3px 8px 8px 8px; box-shadow: 0 4px 10px rgba(0,0,0,.12);`}
+        >
+          You
+        </div>
+      </div>
+    </div>
+
+    <div id="hero-ruler" class="pointer-events-none absolute inset-0" style="opacity: 1;">
+      <svg id="hero-ruler-h" style="position: absolute; left: 0; top: 0; background: rgb(var(--color-panel-rgb) / .92); border-bottom: 1px solid rgb(var(--color-ink-rgb) / .1);"></svg>
+      <svg id="hero-ruler-v" style="position: absolute; left: 0; top: 20px; background: rgb(var(--color-panel-rgb) / .92); border-right: 1px solid rgb(var(--color-ink-rgb) / .1);"></svg>
+      <div
+        style="position: absolute; left: 0; top: 0; width: 20px; height: 20px; background: rgb(var(--color-panel-rgb)); border-right: 1px solid rgb(var(--color-ink-rgb) / .1); border-bottom: 1px solid rgb(var(--color-ink-rgb) / .1);"
+      ></div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ CANVAS_W, CANVAS_H }}>
+  const clamp = (v, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+  const NS = "http://www.w3.org/2000/svg";
+  const RULER_TICK = "rgb(var(--color-ink-rgb) / .28)";
+  const RULER_LABEL = "rgb(var(--color-ink-rgb) / .45)";
+  const ACCENT = "rgb(var(--color-accent-rgb))";
+
+  function tickSize(value) {
+    if (value % 100 === 0) return 14;
+    if (value % 50 === 0) return 8;
+    return 5;
+  }
+
+  function el(tag, attrs) {
+    const node = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+    return node;
+  }
+
+  function init() {
+    const container = document.getElementById("hero-container");
+    const canvas = document.getElementById("hero-canvas");
+    const youCursor = document.getElementById("hero-you-cursor");
+    const hSvg = document.getElementById("hero-ruler-h");
+    const vSvg = document.getElementById("hero-ruler-v");
+    if (!container || !canvas) return;
+
+    let scale = 1;
+    let size = { width: CANVAS_W, height: CANVAS_H };
+    let mouse = null;
+
+    function drawRuler() {
+      const { width, height } = size;
+      hSvg.setAttribute("width", String(width));
+      hSvg.setAttribute("height", "20");
+      vSvg.setAttribute("width", "20");
+      vSvg.setAttribute("height", String(Math.max(0, height - 20)));
+
+      hSvg.replaceChildren();
+      vSvg.replaceChildren();
+
+      for (let x = 20; x <= width; x += 10) {
+        const size_ = tickSize(x);
+        hSvg.appendChild(el("line", { x1: x, x2: x, y1: 20 - size_, y2: 20, stroke: RULER_TICK, "stroke-width": 1 }));
+        if (x % 100 === 0) {
+          const t = el("text", { x: x + 3, y: 10, fill: RULER_LABEL, "font-family": "'Geist Mono', monospace", "font-size": 8.5 });
+          t.textContent = String(x);
+          hSvg.appendChild(t);
+        }
+      }
+      if (mouse) {
+        hSvg.appendChild(el("line", { x1: mouse.x, x2: mouse.x, y1: 0, y2: 20, stroke: ACCENT, "stroke-width": 1.5 }));
+      }
+
+      for (let y = 20; y <= height - 20; y += 10) {
+        const size_ = tickSize(y);
+        vSvg.appendChild(el("line", { y1: y - 20, y2: y - 20, x1: 20 - size_, x2: 20, stroke: RULER_TICK, "stroke-width": 1 }));
+        if (y % 100 === 0) {
+          const t = el("text", {
+            x: 10,
+            y: y - 20 + 7,
+            fill: RULER_LABEL,
+            "font-family": "'Geist Mono', monospace",
+            "font-size": 8.5,
+            transform: `rotate(-90 10 ${y - 20 + 7})`,
+          });
+          t.textContent = String(y);
+          vSvg.appendChild(t);
+        }
+      }
+      if (mouse) {
+        vSvg.appendChild(el("line", { y1: mouse.y - 20, y2: mouse.y - 20, x1: 0, x2: 20, stroke: ACCENT, "stroke-width": 1.5 }));
+      }
+    }
+
+    function updateCursor() {
+      if (!mouse) {
+        youCursor.classList.add("hidden");
+        return;
+      }
+      youCursor.classList.remove("hidden");
+      youCursor.style.left = `${mouse.x / scale}px`;
+      youCursor.style.top = `${mouse.y / scale}px`;
+    }
+
+    const ro = new ResizeObserver(([entry]) => {
+      scale = clamp(entry.contentRect.width / CANVAS_W, 0.3, 1);
+      size = { width: entry.contentRect.width, height: entry.contentRect.height };
+      canvas.style.transform = `scale(${scale})`;
+      drawRuler();
+      updateCursor();
+    });
+    ro.observe(container);
+
+    container.addEventListener("mousemove", (e) => {
+      const rect = container.getBoundingClientRect();
+      mouse = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      drawRuler();
+      updateCursor();
+    });
+    container.addEventListener("mouseleave", () => {
+      mouse = null;
+      drawRuler();
+      updateCursor();
+    });
+  }
+
+  init();
+</script>

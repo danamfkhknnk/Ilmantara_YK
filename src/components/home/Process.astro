@@ -1,0 +1,85 @@
+---
+const TAGS = [
+  { label: "Auto layout", active: true },
+  { label: "Horizontal" },
+  { label: "Gap 24" },
+  { label: "Padding 24" },
+];
+
+const STEPS = [
+  { index: "01", week: "WEEK 1", title: "Discover", variant: "light", body: "I sit where the problem" },
+  {
+    index: "02",
+    week: "WEEK 2",
+    title: "Define",
+    variant: "dark",
+    body: "We agree the one outcome that matters and write it down with a number next to it.",
+  },
+  { index: "03", week: "WEEKS 3-8", title: "Design", variant: "white" },
+  { index: "04", week: "WEEKS 8-12", title: "Deliver", variant: "white" },
+];
+
+const CARD_BG = {
+  light: "bg-ink/[0.06] text-ink",
+  dark: "bg-ink text-white",
+  white: "bg-white text-ink",
+};
+
+const META_COLOR = {
+  light: "text-ink/40",
+  dark: "text-white/40",
+  white: "text-ink/40",
+};
+
+const BODY_COLOR = {
+  light: "text-ink/50",
+  dark: "text-white/60",
+  white: "text-ink/50",
+};
+---
+
+<section data-framer-name="07 Process" class="px-6 py-24 md:px-10 md:pb-44">
+  <p class="font-mono text-xs font-medium tracking-wide">
+    <span class="text-accent">[07]</span> <span class="text-ink/50">PROCESS</span>
+  </p>
+
+  <h2 class="mt-4 text-[40px] font-bold leading-[1.05] tracking-[-0.02em] text-ink md:text-[48px]">
+    How a project runs
+  </h2>
+
+  <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
+    <div class="flex flex-wrap items-center gap-2">
+      {TAGS.map((tag) => (
+        <span
+          class={
+            tag.active
+              ? "rounded-full bg-accent px-3 py-1 font-mono text-xs font-medium text-white"
+              : "rounded-full bg-ink/5 px-3 py-1 font-mono text-xs text-ink/50"
+          }
+        >
+          {tag.label}
+        </span>
+      ))}
+    </div>
+    <span class="rounded-full bg-ink/5 px-3 py-1 font-mono text-xs text-ink/50">Step 1 / 4</span>
+  </div>
+
+  <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {STEPS.map((step) => (
+      <div class={`flex h-[340px] flex-col justify-between rounded-2xl p-6 ${CARD_BG[step.variant]}`}>
+        <div class={`flex items-center justify-between font-mono text-xs ${META_COLOR[step.variant]}`}>
+          <span>{step.index}</span>
+          <span>{step.week}</span>
+        </div>
+        <div>
+          <h3 class="text-[28px] font-bold leading-tight tracking-[-0.01em]">{step.title}</h3>
+          {step.body && (
+            <p class={`mt-2 overflow-hidden text-sm leading-snug ${BODY_COLOR[step.variant]}`}>
+              {step.body}
+            </p>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

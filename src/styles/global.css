@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Geist";
+  src: url("../assets/fonts/gyBhhwUxId8gMGYQMKR3pzfaWI_RnOM4mJPby1QNtA.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("../assets/fonts/gyBhhwUxId8gMGYQMKR3pzfaWI_RruM4mJPby1QNtA.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("../assets/fonts/gyBhhwUxId8gMGYQMKR3pzfaWI_RQuQ4mJPby1QNtA.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("../assets/fonts/gyBhhwUxId8gMGYQMKR3pzfaWI_Re-Q4mJPby1QNtA.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("../assets/fonts/or3yQ6H-1_WfwkMZI_qYPLs1a-t7PU0AbeEPKJ5W7ihaO_CS.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("../assets/fonts/or3yQ6H-1_WfwkMZI_qYPLs1a-t7PU0AbeHaL55W7ihaO_CS.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: Geist, "Inter Display", Inter, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Tailwind v4 derives opacity modifiers (e.g. text-ink/70) from any valid
+     CSS color via color-mix, so no `<alpha-value>` placeholder is needed —
+     each theme color just resolves the raw space-separated triplet below
+     (kept separate so plain CSS/JS can also read `rgb(var(--color-x-rgb))`). */
+  --color-ink: rgb(var(--color-ink-rgb));
+  --color-paper: rgb(var(--color-paper-rgb));
+  --color-panel: rgb(var(--color-panel-rgb));
+  --color-accent: rgb(var(--color-accent-rgb));
+  --color-positive: rgb(var(--color-positive-rgb));
+  --color-mara: rgb(var(--color-mara-rgb));
+  --color-theo: rgb(var(--color-theo-rgb));
+}
+
+:root {
+  --color-ink-rgb: 12 12 14;
+  --color-paper-rgb: 236 236 232;
+  --color-panel-rgb: 248 248 246;
+  --color-accent-rgb: 75 59 255;
+  --color-positive-rgb: 25 195 125;
+  --color-mara-rgb: 255 91 36;
+  --color-theo-rgb: 16 179 122;
+}
+
+body {
+  margin: 0;
+  background: rgb(236, 236, 232);
+  color: rgb(12, 12, 14);
+  font-family: Geist, "Inter Display", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

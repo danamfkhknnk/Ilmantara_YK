@@ -1,0 +1,34 @@
+{
+  "name": "ilmantara-yk",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "concurrently -n astro,reference -c blue,magenta \"astro dev\" \"serve orange-property-949925.framer.app -l 4300\"",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "playwright test",
+    "ui:screenshot": "playwright test tests/visual.spec.ts",
+    "ui:compare": "node tools/scripts/compare.mjs",
+    "ui:test": "npm run ui:screenshot && npm run ui:compare"
+  },
+  "dependencies": {
+    "@sanity/client": "^8.9.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.7",
+    "tailwindcss": "^4.3.3"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "concurrently": "^10.0.5",
+    "pixelmatch": "^8.0.0",
+    "pngjs": "^7.0.0",
+    "serve": "^14.2.6"
+  }
+}

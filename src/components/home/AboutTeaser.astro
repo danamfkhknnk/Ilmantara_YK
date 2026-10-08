@@ -1,0 +1,71 @@
+---
+const TAGS = ["Research", "Interaction design", "Prototyping", "Design systems", "Framer", "Workshops"];
+---
+
+<section data-framer-name="03 About" class="px-6 py-32 md:px-10 md:py-48">
+  <div class="grid gap-10 lg:grid-cols-[420px_1fr]">
+    <div class="relative">
+      <img
+        src="/images/EyNglsC5qO5YzdL87lJoka3is2g.18a4a304.jpg"
+        alt="At the desk, sketching on a tablet"
+        class="aspect-[4/5] w-full rounded-2xl object-cover"
+      />
+      <span class="absolute -bottom-3 left-4 rounded-full bg-ink px-3 py-1 text-xs font-medium text-white shadow-lg">
+        Mara · dragging
+      </span>
+    </div>
+
+    <div>
+      <p class="font-mono text-xs font-medium">
+        <span class="text-accent">[03]</span> <span class="text-ink/40">ABOUT</span>
+      </p>
+      <h2 class="mt-4 text-[36px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink md:text-[42px]">
+        I've spent nine years{" "}
+        <span class="relative inline-block rounded border border-accent px-1">untangling</span> the software
+        people use at work, for{" "}
+        <span class="rounded bg-accent/10 px-2 py-0.5 text-accent">
+          <span aria-hidden="true">◇</span> 4.2M people
+        </span>{" "}
+        a month: payroll, physio bookings, furniture and mountain huts.
+      </h2>
+
+      <div class="mt-8 grid gap-6 sm:grid-cols-2">
+        <p class="text-ink/70">
+          I start where the problem happens: on the reception desk, in the pay run, at the trailhead. Then I
+          design the fewest decisions that get someone from stuck to done, and I stay until it ships.
+        </p>
+        <p class="text-ink/70">
+          Before going independent I designed at Fietsbank and Harbour Labs. Today I lead design at Orrin and
+          take one outside project at a time.
+        </p>
+      </div>
+
+      <div class="mt-8 grid grid-cols-3 gap-6 border-t border-ink/10 pt-6 text-sm">
+        <div>
+          <p class="font-mono text-xs uppercase text-ink/40">Based in</p>
+          <p class="mt-1 font-medium text-ink">Rotterdam, NL</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs uppercase text-ink/40">Working with</p>
+          <p class="mt-1 font-medium text-ink">Teams of 5 to 5,000</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs uppercase text-ink/40">Languages</p>
+          <p class="mt-1 font-medium text-ink">English, Dutch, German</p>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-2">
+        {TAGS.map((tag) => (
+          <span class="rounded-full bg-ink/5 px-3 py-1.5 text-sm text-ink/70">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <a href="/about" class="mt-6 inline-block text-sm font-medium text-ink underline">
+        More about me →
+      </a>
+    </div>
+  </div>
+</section>

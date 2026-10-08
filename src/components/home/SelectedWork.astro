@@ -1,0 +1,176 @@
+---
+const PROJECTS = [
+  {
+    tab: "Orrin",
+    eyebrow: "Orrin Payroll · 2026",
+    title: "Orrin",
+    summary: "Payroll for freelancers, rebuilt so a monthly pay run takes four minutes instead of an afternoon.",
+    stats: [
+      { value: "4 min", label: "average pay run, down from 3 h" },
+      { value: "−38%", label: "failed first payments" },
+      { value: "4.8", label: "App Store rating, 11k reviews" },
+    ],
+    tags: ["FINTECH", "IOS", "DESIGN SYSTEM"],
+    href: "/work/orrin",
+    accent: "#9AE62B",
+    frame: { brand: "Orrin", headline: "Pay your freelancers in one tap." },
+  },
+  {
+    tab: "Quayside",
+    eyebrow: "Quayside Clinics · 2025",
+    title: "Quayside",
+    summary: "A booking flow receptionists actually trust, cutting no-shows across four clinics.",
+    stats: [
+      { value: "−54%", label: "missed appointments" },
+      { value: "3×", label: "faster front-desk check-in" },
+      { value: "4.9", label: "patient satisfaction score" },
+    ],
+    tags: ["HEALTH", "WEB", "SERVICE DESIGN"],
+    href: "/work/quayside",
+    accent: "#4B3BFF",
+    frame: { brand: "Quayside", headline: "Book, arrive, done." },
+  },
+  {
+    tab: "Holm & Hearth",
+    eyebrow: "Holm & Hearth · 2025",
+    title: "Holm & Hearth",
+    summary: "A 'will it fit?' room-planner that cut furniture returns by a quarter.",
+    stats: [
+      { value: "−25%", label: "returns from size mismatches" },
+      { value: "2.1×", label: "add-to-cart on planned rooms" },
+      { value: "9", label: "weeks from sketch to launch" },
+    ],
+    tags: ["COMMERCE", "WEB", "3D"],
+    href: "/work/holm-and-hearth",
+    accent: "#FF5B24",
+    frame: { brand: "Holm & Hearth", headline: "Plan the room before you buy it." },
+  },
+  {
+    tab: "Vale",
+    eyebrow: "Vale Huts · 2026",
+    title: "Vale",
+    summary: "Offline-first booking for mountain huts with one working bar of signal.",
+    stats: [
+      { value: "100%", label: "bookings sync, even offline" },
+      { value: "6", label: "languages shipped at launch" },
+      { value: "12", label: "huts onboarded in month one" },
+    ],
+    tags: ["TRAVEL", "IOS", "OFFLINE-FIRST"],
+    href: "/work/vale",
+    accent: "#10B37A",
+    frame: { brand: "Vale", headline: "Book a hut with one bar of signal." },
+  },
+];
+---
+
+<section id="selected-work" data-framer-name="04 Selected work" class="relative" style="height: 4200px;">
+  <div class="sticky top-14 px-6 py-24 md:px-10">
+    <div class="flex flex-wrap items-center gap-4 border-b border-dashed border-ink/15 pb-4">
+      <p class="font-mono text-xs font-medium">
+        <span class="text-accent">[04]</span> <span class="text-ink/40">SELECTED WORK</span>
+      </p>
+      <div class="ml-auto flex flex-wrap gap-1">
+        {PROJECTS.map((p, i) => (
+          <button
+            type="button"
+            data-work-tab={i}
+            class={`rounded-full px-3 py-1.5 font-mono text-xs transition-colors ${
+              i === 0 ? "bg-ink text-white" : "text-ink/40 hover:text-ink"
+            }`}
+          >
+            {String(i + 1).padStart(2, "0")} {p.tab.toUpperCase()}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {PROJECTS.map((project, i) => (
+      <div data-work-panel={i} class={i === 0 ? "" : "hidden"}>
+        <div class="mt-10 grid gap-10 lg:grid-cols-[360px_1fr]">
+          <div>
+            <p class="font-mono text-xs text-ink/40">{project.eyebrow}</p>
+            <h3 class="mt-3 text-[64px] font-semibold leading-none tracking-[-0.03em] text-ink">{project.title}</h3>
+            <p class="mt-5 text-ink/70">{project.summary}</p>
+
+            <div class="mt-8 grid grid-cols-3 gap-4 border-t border-ink/10 pt-6">
+              {project.stats.map((stat) => (
+                <div>
+                  <p class="text-2xl font-semibold text-ink">{stat.value}</p>
+                  <p class="mt-1 text-xs text-ink/50">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="rounded-full border border-ink/10 px-3 py-1 font-mono text-xs text-ink/60">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <a href={project.href} class="mt-6 inline-block text-sm font-medium text-ink underline">
+              Read the case study →
+            </a>
+          </div>
+
+          <div>
+            <p class="font-mono text-xs text-accent"># {project.title} — Hero · 1920 × 1200</p>
+            <div class="mt-3 aspect-[16/10] overflow-hidden rounded-2xl bg-ink p-8 text-white">
+              <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2 font-semibold">
+                  <span class="h-2.5 w-2.5 rounded-full" style={`background: ${project.accent};`}></span>
+                  {project.frame.brand}
+                </span>
+                <span class="flex gap-6 text-sm text-white/60">
+                  <span>Product</span>
+                  <span>Pricing</span>
+                  <span>Stories</span>
+                </span>
+                <span class="rounded-full bg-white px-4 py-2 text-sm font-medium text-ink">Get started</span>
+              </div>
+              <p class="mt-16 max-w-md text-4xl font-semibold leading-tight">{project.frame.headline}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById("selected-work");
+  if (section) {
+    const tabs = Array.from(section.querySelectorAll("[data-work-tab]"));
+    const panels = Array.from(section.querySelectorAll("[data-work-panel]"));
+    let userPicked = false;
+
+    function setActive(index) {
+      tabs.forEach((tab, i) => {
+        tab.classList.toggle("bg-ink", i === index);
+        tab.classList.toggle("text-white", i === index);
+        tab.classList.toggle("text-ink/40", i !== index);
+        tab.classList.toggle("hover:text-ink", i !== index);
+      });
+      panels.forEach((panel, i) => panel.classList.toggle("hidden", i !== index));
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => {
+        userPicked = true;
+        setActive(i);
+      });
+    });
+
+    function onScroll() {
+      if (userPicked) return;
+      const rect = section.getBoundingClientRect();
+      const progress = -rect.top / (rect.height - window.innerHeight);
+      const index = Math.min(panels.length - 1, Math.max(0, Math.floor(progress * panels.length)));
+      setActive(index);
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+</script>

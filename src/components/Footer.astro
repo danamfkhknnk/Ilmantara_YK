@@ -1,0 +1,144 @@
+---
+const PAGES = [
+  { label: "Home", to: "/" },
+  { label: "Work", to: "/work" },
+  { label: "About", to: "/about" },
+  { label: "Services", to: "/services" },
+  { label: "Journal", to: "/journal" },
+  { label: "Playground", to: "/playground" },
+  { label: "Contact", to: "/contact" },
+];
+
+const ELSEWHERE = [
+  { label: "LinkedIn", href: "#" },
+  { label: "Dribbble", href: "#" },
+  { label: "Instagram", href: "#" },
+  { label: "Read.cv", href: "#" },
+  { label: "hello@noorcastell.studio", href: "mailto:hello@noorcastell.studio", muted: true },
+];
+
+const VERSIONS = [
+  { tag: "v26.10", note: "Added the Kiln Audio case study" },
+  { tag: "v26.07", note: "New journal: receptionists and booking flows" },
+  { tag: "v26.04", note: "Orrin pay run results are in" },
+  { tag: "v26.01", note: "Portfolio rebuilt as a design file" },
+];
+---
+
+<footer data-framer-name="Footer" class="bg-paper px-6 pt-24 pb-10 md:px-10 md:pt-[190px]">
+  <p class="font-mono text-xs font-medium tracking-wide text-accent">[12] NEXT STEP</p>
+
+  <div class="mt-4 grid gap-10 lg:grid-cols-[1fr_320px]">
+    <h2 class="text-[56px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
+      Got a messy workflow? Let's untangle it.
+    </h2>
+    <div>
+      <p class="text-ink/70">
+        Tell me what's slow, confusing or costing you support tickets. I reply within one working
+        day with a first idea and a fixed price.
+      </p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <a
+          href="/contact"
+          class="flex items-center gap-1.5 rounded-xl bg-accent px-4 py-3 text-sm font-medium text-white"
+        >
+          Book a 20-min intro <span aria-hidden="true">→</span>
+        </a>
+        <button class="flex items-center gap-1.5 rounded-xl bg-white px-4 py-3 text-sm font-medium text-ink">
+          Copy email
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-16 grid divide-y divide-ink/10 rounded-2xl bg-white sm:grid-cols-2 sm:divide-y-0 sm:divide-x lg:grid-cols-4">
+    <div class="p-6">
+      <div class="flex items-center justify-between text-sm">
+        <span class="font-medium text-ink">Pages</span>
+        <span class="text-ink/40">{PAGES.length}</span>
+      </div>
+      <ul class="mt-4 space-y-3">
+        {PAGES.map((page, i) => (
+          <li class="flex items-center justify-between text-sm">
+            <a href={page.to} class="font-medium text-ink hover:underline">
+              {page.label}
+            </a>
+            <span class="font-mono text-xs text-ink/40">{String(i + 1).padStart(2, "0")}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="p-6">
+      <div class="flex items-center justify-between text-sm">
+        <span class="font-medium text-ink">Elsewhere</span>
+        <span class="text-ink/40" aria-hidden="true">↗</span>
+      </div>
+      <ul class="mt-4 space-y-3">
+        {ELSEWHERE.map((item) => (
+          <li class="flex items-center justify-between text-sm">
+            <a href={item.href} class={item.muted ? "text-ink/50" : "font-medium text-ink hover:underline"}>
+              {item.label}
+            </a>
+            <span class="text-ink/30" aria-hidden="true">
+              {item.muted ? "@" : "↗"}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="p-6">
+      <div class="flex items-center justify-between text-sm">
+        <span class="font-medium text-ink">Local time</span>
+        <span class="flex items-center gap-1 text-xs text-positive">
+          <span class="h-1.5 w-1.5 rounded-full bg-positive"></span> online
+        </span>
+      </div>
+      <p class="mt-4 font-mono text-4xl font-semibold tracking-tight text-ink" data-local-time>--:--:--</p>
+      <p class="mt-4 text-sm text-ink/60">Rotterdam. I reply within one working day, usually faster.</p>
+    </div>
+
+    <div class="p-6">
+      <div class="flex items-center justify-between text-sm">
+        <span class="font-medium text-ink">Version history</span>
+        <span class="font-mono text-xs text-ink/40">v26.10</span>
+      </div>
+      <ul class="mt-4 space-y-3 text-sm">
+        {VERSIONS.map((v) => (
+          <li>
+            <span class="font-mono text-xs text-accent">{v.tag}</span>{" "}
+            <span class="text-ink/70">{v.note}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <p
+    aria-hidden="true"
+    class="mt-10 select-none overflow-hidden whitespace-nowrap text-[120px] font-semibold leading-none tracking-[-0.03em] md:text-[150px]"
+    style="-webkit-text-stroke: 1px rgba(12,12,14,0.6); color: transparent;"
+  >
+    Noor Castell
+  </p>
+
+  <div class="mt-6 flex flex-col gap-2 border-t border-ink/10 pt-6 text-xs text-ink/50 sm:flex-row sm:items-center sm:justify-between">
+    <span>© 2026 Noor Castell. Built in Framer.</span>
+    <span>Rotterdam · Amsterdam</span>
+    <a href="#top" class="hover:text-ink">Back to top</a>
+  </div>
+</footer>
+
+<script>
+  function updateLocalTime() {
+    const el = document.querySelector("[data-local-time]");
+    if (!el) return;
+    el.textContent = new Date().toLocaleTimeString("en-GB", {
+      timeZone: "Europe/Amsterdam",
+      hour12: false,
+    });
+  }
+  updateLocalTime();
+  setInterval(updateLocalTime, 1000);
+</script>

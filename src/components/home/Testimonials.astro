@@ -1,0 +1,128 @@
+---
+const DOT = {
+  blue: "#3B6FF5",
+  orange: "#FF5B24",
+  green: "rgb(16,179,122)",
+  purple: "rgb(75,59,255)",
+  teal: "#1FB8A6",
+  yellow: "#D4A72C",
+};
+
+const TESTIMONIALS = [
+  {
+    initials: "ML",
+    avatarBg: "#FF5B24",
+    name: "Mara Lindqvist",
+    role: "Head of Product, Orrin",
+    tag: "Orrin",
+    quote:
+      "Noor asked better questions in week one than we had in a year. The pay run redesign paid for itself in a month of support tickets.",
+    dots: [DOT.blue, DOT.orange],
+  },
+  {
+    initials: "IA",
+    avatarBg: "rgb(16,179,122)",
+    name: "Idris Achterberg",
+    role: "Operations Director, Quayside Clinics",
+    tag: "Quayside",
+    quote:
+      "She spent four mornings on our front desk before drawing anything. Our receptionists still talk about it, and the booking flow shows it.",
+    dots: [DOT.blue, DOT.green],
+  },
+  {
+    initials: "SH",
+    avatarBg: "#A8562E",
+    name: "Saskia Holm",
+    role: "Co-founder, Holm & Hearth",
+    tag: "Holm & Hearth",
+    quote: "The 'will it fit?' check was a text field. It cut our returns by a quarter. Noor has no ego about the size of the idea.",
+    dots: [DOT.purple, DOT.orange],
+  },
+  {
+    initials: "ED",
+    avatarBg: "rgb(75,59,255)",
+    name: "Eirik Dahl",
+    role: "CTO, Vale Huts",
+    tag: "Vale",
+    quote:
+      "Offline-first sounded like an engineering problem until Noor made it a design rule. Every screen had a weight budget, and she kept us to it.",
+    dots: [DOT.purple, DOT.teal],
+  },
+  {
+    initials: "LB",
+    avatarBg: "#D4A72C",
+    name: "Lotte Brink",
+    role: "Founder, Kiln Audio",
+    tag: "Kiln Audio",
+    quote: "We launched with six people and a sound test in the browser. 11,000 pre-orders later, I'd hire Noor for anything.",
+    dots: [DOT.orange, DOT.yellow],
+  },
+  {
+    initials: "TV",
+    avatarBg: "rgb(75,59,255)",
+    name: "Tomas Verhey",
+    role: "Partner, Tessel Architects",
+    tag: "Tessel",
+    quote: "She got ninety architects to agree on what 'status' means. That alone deserves an award.",
+    dots: [DOT.purple, DOT.blue],
+  },
+];
+---
+
+<section data-framer-name="08 Testimonials" class="px-6 py-24 md:px-10 md:pb-48">
+  <p class="font-mono text-xs font-medium tracking-wide">
+    <span class="text-accent">[08]</span> <span class="text-ink/40">TESTIMONIALS</span>
+  </p>
+
+  <div class="mt-4 grid gap-6 lg:grid-cols-[1fr_320px]">
+    <h2 class="text-[56px] font-bold leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
+      Comments left on the file
+    </h2>
+    <div>
+      <p class="text-ink/70">Six clients, six threads. Resolve them if you've read enough.</p>
+      <a href="/contact" class="mt-3 inline-block text-sm text-ink underline underline-offset-2">
+        Start a project →
+      </a>
+    </div>
+  </div>
+
+  <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {TESTIMONIALS.map((t) => (
+      <div class="rounded-2xl bg-white p-5">
+        <div class="flex items-start justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <div
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white"
+              style={`background-color: ${t.avatarBg};`}
+            >
+              {t.initials}
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-ink">{t.name}</p>
+              <p class="text-xs text-ink/50">{t.role}</p>
+            </div>
+          </div>
+          <span class="flex shrink-0 items-center gap-1 whitespace-nowrap text-xs">
+            <span class="text-ink/30" aria-hidden="true">◇</span>
+            <span class="text-accent">{t.tag}</span>
+          </span>
+        </div>
+
+        <p class="mt-4 text-[15px] leading-snug text-ink/80">&ldquo;{t.quote}&rdquo;</p>
+
+        <div class="mt-5 flex items-center justify-between border-t border-ink/10 pt-3">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="flex items-center gap-1 rounded-full bg-paper px-2 py-1 text-ink/70">
+              <span aria-hidden="true">○</span> Resolve
+            </span>
+            <span class="text-ink/40">1 reply · Noor</span>
+          </div>
+          <div class="flex items-center">
+            <span class="h-2.5 w-2.5 rounded-full ring-2 ring-white" style={`background-color: ${t.dots[0]};`}></span>
+            <span class="-ml-1 h-2.5 w-2.5 rounded-full ring-2 ring-white" style={`background-color: ${t.dots[1]};`}></span>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

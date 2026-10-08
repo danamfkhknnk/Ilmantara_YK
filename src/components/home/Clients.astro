@@ -1,0 +1,72 @@
+---
+const CLIENTS = [
+  { name: "Orrin", industry: "FINTECH" },
+  { name: "Quayside Clinics", industry: "HEALTH" },
+  { name: "Holm & Hearth", industry: "COMMERCE" },
+  { name: "Vale Huts", industry: "TRAVEL" },
+  { name: "Kiln Audio", industry: "HARDWARE" },
+  { name: "Tessel Architects", industry: "ARCHITECTURE" },
+  { name: "Fietsbank", industry: "MOBILITY" },
+  { name: "Harbour Labs", industry: "SAAS" },
+];
+
+const SKILLS = [
+  "Interaction design",
+  "Prototyping",
+  "Design systems",
+  "User research",
+  "Framer sites",
+  "Service design",
+  "Motion",
+  "Workshops",
+  "Accessibility",
+  "Design QA",
+];
+---
+
+<section data-framer-name="02 Clients" class="px-6 py-8 md:px-10">
+  <style>
+    @keyframes clients-marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @keyframes skills-marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+  </style>
+
+  <div class="flex items-center gap-4">
+    <span class="flex shrink-0 items-center gap-1.5 whitespace-nowrap font-mono text-[11px] uppercase tracking-wide text-ink/50">
+      <span class="text-accent" aria-hidden="true">◇</span>
+      Shipped with
+    </span>
+    <div class="h-px flex-1 bg-ink/15"></div>
+    <span class="shrink-0 whitespace-nowrap font-mono text-[11px] uppercase tracking-wide text-ink/50">
+      8 Clients · 10 Skills
+    </span>
+  </div>
+
+  <div class="mt-6 overflow-hidden">
+    <div class="flex w-max gap-3 [animation:clients-marquee_32s_linear_infinite]">
+      {[...CLIENTS, ...CLIENTS].map((client) => (
+        <div class="flex shrink-0 items-center gap-2 rounded-full bg-white px-4 py-2.5 shadow-sm">
+          <span class="text-xs text-accent" aria-hidden="true">◇</span>
+          <span class="text-sm font-semibold text-ink">{client.name}</span>
+          <span class="font-mono text-[10px] tracking-wide text-ink/40">{client.industry}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-3 overflow-hidden">
+    <div class="flex w-max gap-3 [animation:skills-marquee_26s_linear_infinite]">
+      {[...SKILLS, ...SKILLS].map((skill) => (
+        <div class="flex shrink-0 items-center gap-2 rounded-full bg-ink/[0.06] px-4 py-2.5">
+          <span class="font-mono text-[10px] text-ink/40" aria-hidden="true">T</span>
+          <span class="text-sm text-ink/70">{skill}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

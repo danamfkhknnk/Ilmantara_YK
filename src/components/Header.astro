@@ -1,0 +1,61 @@
+---
+import Logo from "./Logo.astro";
+
+const NAV_LINKS = [
+  { label: "Home", to: "/" },
+  { label: "Work", to: "/work" },
+  { label: "About", to: "/about" },
+  { label: "Services", to: "/services" },
+  { label: "Playground", to: "/playground" },
+];
+
+const VIEWERS = [
+  { initials: "M", color: "rgb(var(--color-mara-rgb))" },
+  { initials: "T", color: "rgb(var(--color-theo-rgb))" },
+  { initials: "+3", color: "rgb(138,138,144)" },
+];
+
+const currentPath = new URL(Astro.request.url).pathname;
+---
+
+<nav
+  class="fixed inset-x-0 top-0 z-20 flex h-14 w-full items-center justify-between border-b border-ink/10 bg-paper/90 pl-4 pr-[14px] backdrop-blur-md"
+  style="background-color: rgba(250,250,248,0.9)"
+>
+  <Logo />
+
+  <div class="hidden items-center gap-0.5 rounded-[10px] bg-ink/5 p-[3px] md:flex">
+    {NAV_LINKS.map((link) => {
+      const isActive = link.to === "/" ? currentPath === "/" : currentPath.startsWith(link.to);
+      return (
+        <a
+          href={link.to}
+          class={`flex h-[30px] items-center rounded-[7px] px-3 text-[13px] font-medium transition hover:scale-110 ${
+            isActive ? "text-ink" : "text-ink/[.62] hover:text-ink"
+          }`}
+        >
+          {link.label}
+        </a>
+      );
+    })}
+  </div>
+
+  <div class="flex items-center gap-[10px]">
+    <div class="hidden items-center sm:flex">
+      {VIEWERS.map((viewer) => (
+        <span
+          class="flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 text-[10px] font-semibold text-white"
+          style={{ backgroundColor: viewer.color, borderColor: "rgb(250,250,248)" }}
+        >
+          {viewer.initials}
+        </span>
+      ))}
+    </div>
+    <a
+      href="/contact"
+      class="flex h-[34px] items-center rounded-[9px] bg-ink px-3.5 text-[13px] font-medium text-white"
+    >
+      Hire me
+    </a>
+  </div>
+</nav>
