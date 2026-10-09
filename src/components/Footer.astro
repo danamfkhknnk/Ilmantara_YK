@@ -1,58 +1,60 @@
 ---
-const PAGES = [
-  { label: "Home", to: "/" },
-  { label: "Work", to: "/work" },
-  { label: "About", to: "/about" },
-  { label: "Services", to: "/services" },
-  { label: "Journal", to: "/journal" },
-  { label: "Playground", to: "/playground" },
-  { label: "Contact", to: "/contact" },
-];
+import { getNavigation, getSocialLinks, getSiteSettings } from "../lib/sanity";
 
-const ELSEWHERE = [
-  { label: "LinkedIn", href: "#" },
-  { label: "Dribbble", href: "#" },
-  { label: "Instagram", href: "#" },
-  { label: "Read.cv", href: "#" },
-  { label: "hello@noorcastell.studio", href: "mailto:hello@noorcastell.studio", muted: true },
-];
+const [navigation, socialLinks, siteSettings] = await Promise.all([
+  getNavigation(),
+  getSocialLinks(),
+  getSiteSettings(),
+]);
 
-const VERSIONS = [
-  { tag: "v26.10", note: "Added the Kiln Audio case study" },
-  { tag: "v26.07", note: "New journal: receptionists and booking flows" },
-  { tag: "v26.04", note: "Orrin pay run results are in" },
-  { tag: "v26.01", note: "Portfolio rebuilt as a design file" },
+const PAGES = navigation.map((item) => ({ label: item.label, to: item.href }));
+const ELSEWHERE = socialLinks;
+
+// The "Copy email" button copies whichever social link looks like an email
+// (an `mailto:` href), so editing the address in Sanity's socialLinks list
+// updates the button too instead of needing a separate field for it.
+const emailLink = socialLinks.find((item) => item.href.startsWith("mailto:"));
+const copyEmail = emailLink ? emailLink.href.replace(/^mailto:/, "") : "hello@ilmantara.com";
+
+// Position of each of the 8 Figma/Framer-style selection handles around the
+// footer mark, ported 1:1 from the reference's `.lff-mark` overlay (corners
+// + edge midpoints of the bounding box).
+const HANDLES = [
+  { left: "0%", top: "0%" },
+  { left: "50%", top: "0%" },
+  { left: "100%", top: "0%" },
+  { left: "100%", top: "50%" },
+  { left: "100%", top: "100%" },
+  { left: "50%", top: "100%" },
+  { left: "0%", top: "100%" },
+  { left: "0%", top: "50%" },
 ];
 ---
 
 <footer data-framer-name="Footer" class="bg-paper px-6 pt-24 pb-10 md:px-10 md:pt-[190px]">
   <p class="font-mono text-xs font-medium tracking-wide text-accent">[12] NEXT STEP</p>
 
-  <div class="mt-4 grid gap-10 lg:grid-cols-[1fr_320px]">
-    <h2 class="text-[56px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
-      Got a messy workflow? Let's untangle it.
-    </h2>
+  <div class="mt-4 grid gap-10 lg:grid-cols-[1fr_280px_280px]">
     <div>
-      <p class="text-ink/70">
+      <h2 class="text-[56px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
+        Got a messy workflow? Let's untangle it.
+      </h2>
+      <p class="mt-4 text-ink/70">
         Tell me what's slow, confusing or costing you support tickets. I reply within one working
         day with a first idea and a fixed price.
       </p>
       <div class="mt-5 flex flex-wrap gap-3">
-        <a
-          href="/contact"
-          class="flex items-center gap-1.5 rounded-xl bg-accent px-4 py-3 text-sm font-medium text-white"
+        <button
+          type="button"
+          data-copy-email={copyEmail}
+          class="flex items-center gap-1.5 rounded-xl bg-white px-4 py-3 text-sm font-medium text-ink transition-colors"
         >
-          Book a 20-min intro <span aria-hidden="true">→</span>
-        </a>
-        <button class="flex items-center gap-1.5 rounded-xl bg-white px-4 py-3 text-sm font-medium text-ink">
           Copy email
         </button>
       </div>
     </div>
-  </div>
 
-  <div class="mt-16 grid divide-y divide-ink/10 rounded-2xl bg-white sm:grid-cols-2 sm:divide-y-0 sm:divide-x lg:grid-cols-4">
-    <div class="p-6">
+    <div class="rounded-2xl bg-white p-6">
       <div class="flex items-center justify-between text-sm">
         <span class="font-medium text-ink">Pages</span>
         <span class="text-ink/40">{PAGES.length}</span>
@@ -69,7 +71,7 @@ const VERSIONS = [
       </ul>
     </div>
 
-    <div class="p-6">
+    <div class="rounded-2xl bg-white p-6">
       <div class="flex items-center justify-between text-sm">
         <span class="font-medium text-ink">Elsewhere</span>
         <span class="text-ink/40" aria-hidden="true">↗</span>
@@ -87,58 +89,44 @@ const VERSIONS = [
         ))}
       </ul>
     </div>
+  </div>
 
-    <div class="p-6">
-      <div class="flex items-center justify-between text-sm">
-        <span class="font-medium text-ink">Local time</span>
-        <span class="flex items-center gap-1 text-xs text-positive">
-          <span class="h-1.5 w-1.5 rounded-full bg-positive"></span> online
-        </span>
-      </div>
-      <p class="mt-4 font-mono text-4xl font-semibold tracking-tight text-ink" data-local-time>--:--:--</p>
-      <p class="mt-4 text-sm text-ink/60">Rotterdam. I reply within one working day, usually faster.</p>
-    </div>
-
-    <div class="p-6">
-      <div class="flex items-center justify-between text-sm">
-        <span class="font-medium text-ink">Version history</span>
-        <span class="font-mono text-xs text-ink/40">v26.10</span>
-      </div>
-      <ul class="mt-4 space-y-3 text-sm">
-        {VERSIONS.map((v) => (
-          <li>
-            <span class="font-mono text-xs text-accent">{v.tag}</span>{" "}
-            <span class="text-ink/70">{v.note}</span>
-          </li>
-        ))}
-      </ul>
+  <div
+    id="footer-mark"
+    aria-hidden="true"
+    class="relative mt-[56px] w-full select-none whitespace-nowrap font-bold leading-[0.8] tracking-[-0.065em] transition-colors duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] text-transparent hover:text-ink [-webkit-text-stroke:1.5px_rgb(12,12,14)] text-[83px] min-[640px]:text-[145px] min-[768px]:mt-[88px] min-[768px]:text-[168px] min-[1024px]:text-[230px] min-[1280px]:text-[293px] min-[1440px]:text-[332px] min-[1536px]:text-[355px]"
+  >
+    {siteSettings.name}
+    <div class="pointer-events-none absolute inset-0" style="border: 1.5px solid rgb(var(--color-accent-rgb)); opacity: 1;">
+      {HANDLES.map((handle) => (
+        <span
+          class="absolute h-2.5 w-2.5 -ml-[5px] -mt-[5px] bg-white"
+          style={`left: ${handle.left}; top: ${handle.top}; border: 1.5px solid rgb(var(--color-accent-rgb));`}
+        />
+      ))}
     </div>
   </div>
 
-  <p
-    aria-hidden="true"
-    class="mt-10 select-none overflow-hidden whitespace-nowrap text-[120px] font-semibold leading-none tracking-[-0.03em] md:text-[150px]"
-    style="-webkit-text-stroke: 1px rgba(12,12,14,0.6); color: transparent;"
-  >
-    Noor Castell
-  </p>
-
   <div class="mt-6 flex flex-col gap-2 border-t border-ink/10 pt-6 text-xs text-ink/50 sm:flex-row sm:items-center sm:justify-between">
-    <span>© 2026 Noor Castell. Built in Framer.</span>
-    <span>Rotterdam · Amsterdam</span>
+    <span>© 2026 {siteSettings.name}. All rights reserved.</span>
+    <span>{siteSettings.location}</span>
     <a href="#top" class="hover:text-ink">Back to top</a>
   </div>
 </footer>
 
 <script>
-  function updateLocalTime() {
-    const el = document.querySelector("[data-local-time]");
-    if (!el) return;
-    el.textContent = new Date().toLocaleTimeString("en-GB", {
-      timeZone: "Europe/Amsterdam",
-      hour12: false,
-    });
-  }
-  updateLocalTime();
-  setInterval(updateLocalTime, 1000);
+  const button = document.querySelector("[data-copy-email]");
+  button?.addEventListener("click", async () => {
+    const email = button.getAttribute("data-copy-email") ?? "";
+    const originalLabel = button.textContent;
+    try {
+      await navigator.clipboard.writeText(email);
+      button.textContent = "Copied!";
+    } catch {
+      button.textContent = "Couldn't copy";
+    }
+    setTimeout(() => {
+      button.textContent = originalLabel;
+    }, 1800);
+  });
 </script>
