@@ -1,5 +1,8 @@
 import siteSettings from "./siteSettings";
 import navigation from "./navigation";
 import socialLinks from "./socialLinks";
+import project from "./project";
+import testimonial from "./testimonial";
+import process from "./process";
 
-export const schemaTypes = [siteSettings, navigation, socialLinks];
+export const schemaTypes = [siteSettings, navigation, socialLinks, project, testimonial, process];

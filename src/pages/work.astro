@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+import WorkHeader from "../components/work/WorkHeader.astro";
+import WorkCases from "../components/work/WorkCases.astro";
+import Clients from "../components/home/Clients.astro";
+import Process from "../components/home/Process.astro";
+import Testimonials from "../components/home/Testimonials.astro";
+import { getProjects } from "../lib/sanity";
+
+const projects = await getProjects();
+const years = projects.map((p) => p.year).filter(Boolean).sort();
+const range =
+  years.length === 0
+    ? ""
+    : years[0] === years[years.length - 1]
+      ? years[0]
+      : `${years[0]}-${years[years.length - 1]}`;
+const tags = [...new Set(projects.map((p) => p.category).filter(Boolean))].join(", ");
+const headerFacts = {
+  count: `${projects.length} case ${projects.length === 1 ? "study" : "studies"}`,
+  range,
+  tags: tags || undefined,
+};
+---
+
+<Layout title="Work · Noor Castell">
+  <WorkHeader
+    count={headerFacts.count}
+    range={headerFacts.range}
+    tags={headerFacts.tags}
+  />
+  <WorkCases />
+  <Process index="04" active="01" />
+  <Testimonials index="05" />
+</Layout>

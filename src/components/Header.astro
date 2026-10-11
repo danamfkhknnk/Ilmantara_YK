@@ -25,7 +25,7 @@ const currentPath = new URL(Astro.request.url).pathname;
       return (
         <a
           href={link.to}
-          class={`flex h-[30px] items-center rounded-[7px] px-3 text-[13px] font-medium transition hover:scale-110 ${
+          class={`flex h-[30px] items-center rounded-[7px] px-3 text-[13px] font-medium transition-colors ${
             isActive ? "text-ink" : "text-ink/[.62] hover:text-ink"
           }`}
         >

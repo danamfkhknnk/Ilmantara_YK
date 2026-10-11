@@ -31,7 +31,8 @@ const HANDLES = [
 ];
 ---
 
-<footer data-framer-name="Footer" class="bg-paper px-6 pt-24 pb-10 md:px-10 md:pt-[190px]">
+<footer data-framer-name="Footer" class="bg-paper px-5 pb-10 pt-24 sm:px-8 md:pt-[190px] lg:px-16">
+  <div class="mx-auto max-w-[1312px]">
   <p class="font-mono text-xs font-medium tracking-wide text-accent">[12] NEXT STEP</p>
 
   <div class="mt-4 grid gap-10 lg:grid-cols-[1fr_280px_280px]">
@@ -47,7 +48,7 @@ const HANDLES = [
         <button
           type="button"
           data-copy-email={copyEmail}
-          class="flex items-center gap-1.5 rounded-xl bg-white px-4 py-3 text-sm font-medium text-ink transition-colors"
+          class="flex items-center gap-1.5 rounded-xl bg-white px-4 py-3 text-sm font-medium text-ink transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,0.55)]"
         >
           Copy email
         </button>
@@ -62,7 +63,7 @@ const HANDLES = [
       <ul class="mt-4 space-y-3">
         {PAGES.map((page, i) => (
           <li class="flex items-center justify-between text-sm">
-            <a href={page.to} class="font-medium text-ink hover:underline">
+            <a href={page.to} class="rounded-[7px] font-medium text-ink transition-colors hover:bg-accent/[0.08] hover:text-accent">
               {page.label}
             </a>
             <span class="font-mono text-xs text-ink/40">{String(i + 1).padStart(2, "0")}</span>
@@ -79,7 +80,7 @@ const HANDLES = [
       <ul class="mt-4 space-y-3">
         {ELSEWHERE.map((item) => (
           <li class="flex items-center justify-between text-sm">
-            <a href={item.href} class={item.muted ? "text-ink/50" : "font-medium text-ink hover:underline"}>
+            <a href={item.href} class={item.muted ? "rounded-[7px] text-ink/50 transition-colors hover:bg-accent/[0.08] hover:text-accent" : "rounded-[7px] font-medium text-ink transition-colors hover:bg-accent/[0.08] hover:text-accent"}>
               {item.label}
             </a>
             <span class="text-ink/30" aria-hidden="true">
@@ -111,6 +112,7 @@ const HANDLES = [
     <span>© 2026 {siteSettings.name}. All rights reserved.</span>
     <span>{siteSettings.location}</span>
     <a href="#top" class="hover:text-ink">Back to top</a>
+  </div>
   </div>
 </footer>
 

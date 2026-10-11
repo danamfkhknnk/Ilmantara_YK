@@ -11,7 +11,7 @@ const VIEWPORTS = [
   { name: 'mobile', width: 390, height: 844 },
 ];
 
-const ROUTES = ['/'];
+const ROUTES = ['/', '/work'];
 
 test.describe('visual screenshots', () => {
   for (const route of ROUTES) {
@@ -27,7 +27,7 @@ test.describe('visual screenshots', () => {
           : path.join('tools', 'screenshots');
         await fs.mkdir(outDir, { recursive: true });
 
-        const safeRoute = route === '/' ? 'home' : route.replace(/\//g, '-');
+        const safeRoute = route === '/' ? 'home' : route.replace(/^\//, '').replace(/\//g, '-');
         const outPath = path.join(outDir, `${safeRoute}-${vp.name}.png`);
         await page.screenshot({ path: outPath, fullPage: true });
       });

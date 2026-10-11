@@ -1,23 +1,12 @@
 ---
-const TAGS = [
-  { label: "Auto layout", active: true },
-  { label: "Horizontal" },
-  { label: "Gap 24" },
-  { label: "Padding 24" },
-];
+import { getProcess } from "../../lib/sanity";
 
-const STEPS = [
-  { index: "01", week: "WEEK 1", title: "Discover", variant: "light", body: "I sit where the problem" },
-  {
-    index: "02",
-    week: "WEEK 2",
-    title: "Define",
-    variant: "dark",
-    body: "We agree the one outcome that matters and write it down with a number next to it.",
-  },
-  { index: "03", week: "WEEKS 3-8", title: "Design", variant: "white" },
-  { index: "04", week: "WEEKS 8-12", title: "Deliver", variant: "white" },
-];
+const { index = "07", active = "02" } = Astro.props;
+// Only non-legacy renders (work page) get the reference's expanding-row
+// behaviour; the legacy home render keeps its static 4-equal-column grid.
+const expandable = active !== "02";
+
+const { tags: TAGS, steps: STEPS } = await getProcess();
 
 const CARD_BG = {
   light: "bg-ink/[0.06] text-ink",
@@ -38,9 +27,9 @@ const BODY_COLOR = {
 };
 ---
 
-<section data-framer-name="07 Process" class="px-6 py-24 md:px-10 md:pb-44">
+<section data-framer-name="07 Process" class="mx-auto max-w-[1312px] px-5 py-24 sm:px-8 md:pb-44 lg:px-16">
   <p class="font-mono text-xs font-medium tracking-wide">
-    <span class="text-accent">[07]</span> <span class="text-ink/50">PROCESS</span>
+    <span class="text-accent">[{index}]</span> <span class="text-ink/50">PROCESS</span>
   </p>
 
   <h2 class="mt-4 text-[40px] font-bold leading-[1.05] tracking-[-0.02em] text-ink md:text-[48px]">
@@ -61,25 +50,120 @@ const BODY_COLOR = {
         </span>
       ))}
     </div>
-    <span class="rounded-full bg-ink/5 px-3 py-1 font-mono text-xs text-ink/50">Step 1 / 4</span>
+    <span data-process-count class="rounded-full bg-ink/5 px-3 py-1 font-mono text-xs text-ink/50">Step 1 / 4</span>
   </div>
 
-  <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-    {STEPS.map((step) => (
-      <div class={`flex h-[340px] flex-col justify-between rounded-2xl p-6 ${CARD_BG[step.variant]}`}>
-        <div class={`flex items-center justify-between font-mono text-xs ${META_COLOR[step.variant]}`}>
+  <div class={`mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 ${expandable ? "lg:flex lg:flex-row" : "lg:grid-cols-4"}`} data-process-steps data-expandable={expandable ? "" : undefined}>
+    {STEPS.map((step) => {
+    const isActive = step.index === active;
+    // Legacy home render (active="02"): 01 stays light with truncated body,
+    // 02 dark. Any other active step: dark active card, white rest.
+    const variant = isActive ? "dark" : active === "02" && step.index === "01" ? "light" : "white";
+    const body = isActive ? step.fullBody : active === "02" ? step.shortBody : undefined;
+    const bodyVisible = body !== undefined;
+    return (
+      <div
+        data-process-step={step.index}
+        data-full-body={step.fullBody ?? ""}
+        class={`flex h-[340px] flex-col justify-between rounded-2xl p-6 ${expandable ? "lg:flex-1" : "transition-colors duration-500"} ${expandable ? (isActive ? "lg:grow-[2.3]" : "lg:grow") : ""} ${CARD_BG[variant]}`}
+        style={
+          expandable
+            ? "transition: flex-grow .9s cubic-bezier(.22,1,.36,1), background-color .5s, color .5s, border-color .5s;"
+            : undefined
+        }
+      >
+        <div data-process-meta class={`flex items-center justify-between font-mono text-xs ${META_COLOR[variant]}`}>
           <span>{step.index}</span>
           <span>{step.week}</span>
         </div>
         <div>
           <h3 class="text-[28px] font-bold leading-tight tracking-[-0.01em]">{step.title}</h3>
-          {step.body && (
-            <p class={`mt-2 overflow-hidden text-sm leading-snug ${BODY_COLOR[step.variant]}`}>
-              {step.body}
-            </p>
-          )}
+          <p
+            data-process-body
+            data-body-visible={bodyVisible ? "" : undefined}
+            class={`overflow-hidden text-sm leading-snug transition-[max-height,opacity,margin] duration-500 ease-out ${bodyVisible ? "mt-2 max-h-40 opacity-100" : "max-h-0 opacity-0"} ${BODY_COLOR[variant]}`}
+          >
+            {body ?? step.fullBody ?? ""}
+          </p>
         </div>
       </div>
-    ))}
+    );
+  })}
   </div>
 </section>
+
+<script>
+  document.querySelectorAll("[data-process-steps]").forEach((wrap) => {
+    const expandable = wrap.hasAttribute("data-expandable");
+    const section = wrap.closest("section");
+    const counter = section ? section.querySelector("[data-process-count]") : null;
+    const counterSnapshot = counter ? counter.textContent : null;
+    const DARK = ["bg-ink", "text-white"];
+    const WHITE = ["bg-white", "text-ink"];
+    const LIGHT = ["bg-ink/[0.06]", "text-ink"];
+    const GROW_ON = ["lg:grow-[2.3]"];
+    const GROW_OFF = ["lg:grow"];
+
+    function paint(step, active) {
+      step.classList.remove(...DARK, ...WHITE, ...LIGHT);
+      step.classList.add(...(active ? DARK : WHITE));
+      if (expandable) {
+        step.classList.remove(...GROW_ON, ...GROW_OFF);
+        step.classList.add(...(active ? GROW_ON : GROW_OFF));
+      }
+      const meta = step.querySelector("[data-process-meta]");
+      if (meta) {
+        meta.classList.remove("text-white/40", "text-ink/40");
+        meta.classList.add(active ? "text-white/40" : "text-ink/40");
+      }
+      const body = step.querySelector("[data-process-body]");
+      if (body) {
+        // Full copy lives in the node; visibility is class-driven so the
+        // text can fade in/out like the reference.
+        if (body.getAttribute("data-full") === null) {
+          body.setAttribute("data-full", body.textContent ?? "");
+        }
+        body.textContent = body.getAttribute("data-full");
+        body.classList.remove(
+          "mt-2", "max-h-40", "opacity-100", "max-h-0", "opacity-0",
+          "text-white/60", "text-ink/50"
+        );
+        body.classList.add(
+          ...(active ? ["mt-2", "max-h-40", "opacity-100"] : ["max-h-0", "opacity-0"]),
+          active ? "text-white/60" : "text-ink/50"
+        );
+      }
+      if (counter && active) {
+        counter.textContent = `Step ${Number(step.getAttribute("data-process-step"))} / 4`;
+      }
+    }
+
+    let current = null;
+    let pending = 0;
+    wrap.addEventListener("mouseover", (e) => {
+      const step = e.target.closest ? e.target.closest("[data-process-step]") : null;
+      if (!step || step === current || !wrap.contains(step)) return;
+      // Hover intent: ignore fly-by crossings so fast sweeps don't flash
+      // every intermediate card — only settle when the cursor rests.
+      clearTimeout(pending);
+      pending = setTimeout(() => {
+        if (!wrap.contains(step)) return;
+        if (step.matches(":hover")) {
+          current = step;
+          wrap.querySelectorAll("[data-process-step]").forEach((s) => paint(s, s === step));
+        }
+      }, 70);
+    });
+    // Restore the exact server-rendered state when the pointer leaves the grid.
+    const snapshot = Array.from(wrap.querySelectorAll("[data-process-step]")).map((s) => s.outerHTML);
+    wrap.addEventListener("mouseleave", () => {
+      clearTimeout(pending);
+      current = null;
+      wrap.querySelectorAll("[data-process-step]").forEach((el, i) => {
+        const tmp = new DOMParser().parseFromString(snapshot[i], "text/html").body.firstElementChild;
+        if (tmp) el.replaceWith(tmp);
+      });
+      if (counter && counterSnapshot !== null) counter.textContent = counterSnapshot;
+    });
+  });
+</script>
