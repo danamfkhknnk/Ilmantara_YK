@@ -1,11 +1,11 @@
 ---
-import { getTestimonials } from "../../lib/sanity";
+import { getTestimonials, getTestimonialsSection } from "../../lib/sanity";
 
 const { index = "08" } = Astro.props;
 
 const FALLBACK_DOTS = ["#3B6FF5", "#FF5B24", "#10B37A", "#4B3BFF", "#1FB8A6", "#D4A72C"];
 
-const testimonials = await getTestimonials();
+const [testimonials, section] = await Promise.all([getTestimonials(), getTestimonialsSection()]);
 
 function initialsOf(name) {
   const parts = name.trim().split(/\s+/);
@@ -20,12 +20,12 @@ function initialsOf(name) {
 
   <div class="mt-4 grid gap-6 lg:grid-cols-[1fr_320px]">
     <h2 class="text-[56px] font-bold leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
-      Kind words, kept verbatim
+      {section.heading}
     </h2>
     <div>
-      <p class="text-ink/70">Collected from delivery calls and inbox threads. Ask me for an intro.</p>
-      <a href="/contact" class="mt-3 inline-flex items-center gap-2.5 border-b-[1.5px] border-current pb-1.5 text-[15px] font-medium text-ink transition-all duration-300 hover:gap-4 hover:text-accent">
-        Start a project →
+      <p class="text-ink/70">{section.supportingText}</p>
+      <a href={section.ctaHref} class="mt-3 inline-flex items-center gap-2.5 border-b-[1.5px] border-current pb-1.5 text-[15px] font-medium text-ink transition-all duration-300 hover:gap-4 hover:text-accent">
+        {section.ctaLabel}
       </a>
     </div>
   </div>

@@ -6,7 +6,7 @@ const { index = "07", active = "02" } = Astro.props;
 // behaviour; the legacy home render keeps its static 4-equal-column grid.
 const expandable = active !== "02";
 
-const { tags: TAGS, steps: STEPS } = await getProcess();
+const { steps: STEPS } = await getProcess();
 
 const CARD_BG = {
   light: "bg-ink/[0.06] text-ink",
@@ -32,25 +32,18 @@ const BODY_COLOR = {
     <span class="text-accent">[{index}]</span> <span class="text-ink/50">PROCESS</span>
   </p>
 
-  <h2 class="mt-4 text-[40px] font-bold leading-[1.05] tracking-[-0.02em] text-ink md:text-[48px]">
-    How a project runs
-  </h2>
+  <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h2 class="text-[40px] font-bold leading-[1.05] tracking-[-0.02em] text-ink md:text-[48px]">
+        How a project runs
+      </h2>
 
-  <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
-    <div class="flex flex-wrap items-center gap-2">
-      {TAGS.map((tag) => (
-        <span
-          class={
-            tag.active
-              ? "rounded-full bg-accent px-3 py-1 font-mono text-xs font-medium text-white"
-              : "rounded-full bg-ink/5 px-3 py-1 font-mono text-xs text-ink/50"
-          }
-        >
-          {tag.label}
-        </span>
-      ))}
+      <p class="mt-4 max-w-[640px] text-ink/70">
+        No guesswork, no unnecessary complexity. Just a clear process from understanding your needs to
+        delivering the right solution.
+      </p>
     </div>
-    <span data-process-count class="rounded-full bg-ink/5 px-3 py-1 font-mono text-xs text-ink/50">Step 1 / 4</span>
+    <span data-process-count class="shrink-0 rounded-full bg-ink/5 px-3 py-1 font-mono text-xs text-ink/50">Step 1 / 4</span>
   </div>
 
   <div class={`mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 ${expandable ? "lg:flex lg:flex-row" : "lg:grid-cols-4"}`} data-process-steps data-expandable={expandable ? "" : undefined}>
@@ -154,15 +147,14 @@ const BODY_COLOR = {
         }
       }, 70);
     });
-    // Restore the exact server-rendered state when the pointer leaves the grid.
-    const snapshot = Array.from(wrap.querySelectorAll("[data-process-step]")).map((s) => s.outerHTML);
+    // Restore the default (server-rendered) state by repainting the live
+    // nodes — never by replacing them — so the flex-grow / color change
+    // transitions smoothly back, just like hover-in.
+    const defaultStep = wrap.querySelector("[data-process-step].bg-ink");
     wrap.addEventListener("mouseleave", () => {
       clearTimeout(pending);
       current = null;
-      wrap.querySelectorAll("[data-process-step]").forEach((el, i) => {
-        const tmp = new DOMParser().parseFromString(snapshot[i], "text/html").body.firstElementChild;
-        if (tmp) el.replaceWith(tmp);
-      });
+      wrap.querySelectorAll("[data-process-step]").forEach((s) => paint(s, s === defaultStep));
       if (counter && counterSnapshot !== null) counter.textContent = counterSnapshot;
     });
   });

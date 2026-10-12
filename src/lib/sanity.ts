@@ -146,50 +146,50 @@ export async function getNavigation(fallback: NavItem[] = NAVIGATION_FALLBACK): 
 const TESTIMONIALS_FALLBACK: Testimonial[] = [
   {
     quote:
-      "Every sale update broke our old theme. Ilmantara rebuilt it clean, and our checkout hasn't glitched once since. Conversion went from 0.8% to 1.9% in two months.",
+      "We needed more than a visual refresh. The new store feels faster, the checkout experience is smoother, and managing products is finally straightforward.",
     name: "Ayu Lestari",
-    role: "Owner, wellness store",
-    tag: "myart",
+    role: "Owner, Wellness Store",
+    tag: "Shopify",
     color: "#FF5B24",
   },
   {
     quote:
-      "My old commission form got maybe three requests a month. The new page with the live avatar preview gets that in a week, and half the messages mention the demo.",
+      "I had an idea but wasn't sure how to turn it into a working product. The process was clear from day one, and the final result was exactly what I needed.",
     name: "Misa K.",
-    role: "Independent illustrator",
-    tag: "miseart",
+    role: "Independent Illustrator",
+    tag: "Web App",
     color: "#10B37A",
   },
   {
     quote:
-      "I gave him a messy spreadsheet of subscription rules on Monday. By Friday there was a staging link where I could pause, swap, and prorate everything myself.",
+      "Our subscription rules were getting complicated to manage manually. Now everything runs through one dashboard, saving us time and reducing mistakes.",
     name: "Dimas Prasetyo",
-    role: "Founder, coffee subscription",
+    role: "Founder, Coffee Subscription",
     tag: "Laravel",
     color: "#A8562E",
   },
   {
     quote:
-      "I was nervous hiring six time zones away. Then the updates started landing every morning my time, with a video walkthrough. Never felt far.",
+      "Working remotely was easier than expected. I always knew what was happening, got regular updates, and could review progress before each major milestone.",
     name: "Jonas Weber",
-    role: "Online retailer, Berlin",
+    role: "Online Retailer, Berlin",
     tag: "Shopify",
     color: "#4B3BFF",
   },
   {
     quote:
-      "Fixed price with no surprises, the one thing every other developer got wrong. He replied on WhatsApp faster than my own team.",
+      "The best part was having one developer who understood both the interface and the backend. We spent less time explaining things and more time getting them done.",
     name: "Ratna Dewi",
-    role: "Boutique owner, Jakarta",
-    tag: "Shopify",
+    role: "Boutique Owner, Jakarta",
+    tag: "Full-stack",
     color: "#D4A72C",
   },
   {
     quote:
-      "Only complaint: he's usually booked, so we waited three weeks to start. Worth it. The admin panel he built saves our ops team an hour a day.",
+      "We needed an internal tool that fit our workflow, not another spreadsheet. The custom dashboard brought everything together and made daily operations much easier.",
     name: "Andre Wijaya",
-    role: "Startup founder",
-    tag: "Web app",
+    role: "Startup Founder",
+    tag: "Web App",
     color: "#1FB8A6",
   },
 ];
@@ -211,6 +211,48 @@ export async function getTestimonials(
     return items?.length ? items : fallback;
   } catch (error) {
     console.error("[sanity] failed to fetch testimonials:", error);
+    return fallback;
+  }
+}
+
+export type TestimonialsSection = {
+  heading: string;
+  supportingText?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+const TESTIMONIALS_SECTION_FALLBACK: TestimonialsSection = {
+  heading: "Good work. Good people.",
+  supportingText: "A few words about the process, the collaboration, and what we built together.",
+  ctaLabel: "Have a project in mind? →",
+  ctaHref: "/contact",
+};
+
+/**
+ * Testimonials section heading + CTA, from the `testimonialsSection`
+ * singleton doc (_id: "testimonialsSection"):
+ *   { heading, supportingText, ctaLabel, ctaHref }
+ * Falls back to the house copy so the section keeps rendering before the
+ * document exists in the dataset.
+ */
+export async function getTestimonialsSection(
+  fallback: TestimonialsSection = TESTIMONIALS_SECTION_FALLBACK
+): Promise<TestimonialsSection> {
+  if (!sanityClient) return fallback;
+  try {
+    const doc = await sanityClient.fetch<Partial<TestimonialsSection> | null>(
+      `*[_type == "testimonialsSection"][0]{heading, supportingText, ctaLabel, ctaHref}`
+    );
+    if (!doc?.heading) return fallback;
+    return {
+      heading: doc.heading,
+      supportingText: doc.supportingText || fallback.supportingText,
+      ctaLabel: doc.ctaLabel || fallback.ctaLabel,
+      ctaHref: doc.ctaHref || fallback.ctaHref,
+    };
+  } catch (error) {
+    console.error("[sanity] failed to fetch testimonials section:", error);
     return fallback;
   }
 }

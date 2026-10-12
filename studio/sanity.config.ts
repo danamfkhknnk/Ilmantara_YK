@@ -11,6 +11,7 @@ const SINGLETONS = [
   { id: "siteSettings", type: "siteSettings", title: "Site settings" },
   { id: "navigation", type: "navigation", title: "Navigation menu" },
   { id: "socialLinks", type: "socialLinks", title: "Social & contact links" },
+  { id: "testimonialsSection", type: "testimonialsSection", title: "Testimonials section" },
 ];
 
 export default defineConfig({
