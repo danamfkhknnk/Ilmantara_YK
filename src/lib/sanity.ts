@@ -22,6 +22,7 @@ export type Project = {
   url?: string;
   imageUrl?: string;
   imageAlt?: string;
+  priority?: boolean;
 };
 export type Testimonial = {
   quote: string;
@@ -45,12 +46,14 @@ const SITE_SETTINGS_FALLBACK: SiteSettings = {
   location: "Yogyakarta, Indonesia",
 };
 
+// About and Services have no standalone pages — they're sections on the
+// homepage, so they link there as anchors, same as Playground.
 const NAVIGATION_FALLBACK: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Work", href: "/work" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Playground", href: "/playground" },
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Playground", href: "/#playground" },
 ];
 
 const SOCIAL_LINKS_FALLBACK: SocialItem[] = [
@@ -75,6 +78,7 @@ const PROJECTS_FALLBACK: Project[] = [
     url: "https://test-ihmol6aj.myshopify.com/",
     imageUrl: "/images/work/project-wellness.png",
     imageAlt: "Wellness brands Shopify store",
+    priority: true,
   },
   {
     title: "Interactive Shopify Art Commission with Real-Time VRM Face Tracking",
@@ -87,6 +91,7 @@ const PROJECTS_FALLBACK: Project[] = [
     url: "https://mise-u5ukp4yf.myshopify.com",
     imageUrl: "/images/work/project-vrm.png",
     imageAlt: "Art commission site with real-time VRM face tracking",
+    priority: true,
   },
 ];
 
@@ -225,8 +230,7 @@ export type TestimonialsSection = {
 const TESTIMONIALS_SECTION_FALLBACK: TestimonialsSection = {
   heading: "Good work. Good people.",
   supportingText: "A few words about the process, the collaboration, and what we built together.",
-  ctaLabel: "Have a project in mind? →",
-  ctaHref: "/contact",
+  ctaLabel: "Have a project in mind?",
 };
 
 /**
@@ -324,23 +328,33 @@ export async function getProcess(fallback: Process = PROCESS_FALLBACK): Promise<
 
 /**
  * Portfolio projects, from `project` documents ordered by `order`:
- *   { title, name, slug, description, category, year, url, image{asset, alt} }
+ *   { title, name, slug, description, category, year, url, priority, image{asset, alt} }
  * Falls back to the mirrored portofolio-astro data so /work keeps rendering
  * before the documents exist in the dataset.
+ *
+ * Pass `priorityOnly: true` to only pull documents with `priority == true`
+ * — used by the homepage "Selected work" spotlight, which curates a subset
+ * rather than listing every project (that's what /work is for).
  */
-export async function getProjects(fallback: Project[] = PROJECTS_FALLBACK): Promise<Project[]> {
-  if (!sanityClient) return fallback;
+export async function getProjects(
+  fallback: Project[] = PROJECTS_FALLBACK,
+  options: { priorityOnly?: boolean } = {}
+): Promise<Project[]> {
+  const { priorityOnly = false } = options;
+  const filteredFallback = priorityOnly ? fallback.filter((p) => p.priority) : fallback;
+  if (!sanityClient) return filteredFallback;
   try {
+    const match = priorityOnly ? `_type == "project" && priority == true` : `_type == "project"`;
     const items = await sanityClient.fetch<Project[] | null>(
-      `*[_type == "project"] | order(order asc) {
-        title, name, "slug": slug.current, description, category, year, url,
+      `*[${match}] | order(order asc) {
+        title, name, "slug": slug.current, description, category, year, url, priority,
         "imageUrl": image.asset->url, "imageAlt": image.alt
       }`
     );
-    return items?.length ? items : fallback;
+    return items?.length ? items : filteredFallback;
   } catch (error) {
     console.error("[sanity] failed to fetch projects:", error);
-    return fallback;
+    return filteredFallback;
   }
 }
 
@@ -358,6 +372,72 @@ export async function getSocialLinks(fallback: SocialItem[] = SOCIAL_LINKS_FALLB
     return items?.length ? items : fallback;
   } catch (error) {
     console.error("[sanity] failed to fetch social links:", error);
+    return fallback;
+  }
+}
+
+export type Service = {
+  title: string;
+  description?: string;
+  features?: string[];
+  price?: string;
+  order?: number;
+};
+
+/**
+ * Homepage services, mirrored from the previous hardcoded SERVICES data.
+ * Shown when Sanity has no `service` documents yet.
+ */
+const SERVICES_FALLBACK: Service[] = [
+  {
+    title: "Product design",
+    description:
+      "End-to-end design for web and mobile products, from the first sketch to the shipped screen. I work inside your team's rhythm, not beside it.",
+    features: ["UX and UI design", "Prototyping", "Usability testing", "Design QA"],
+    price: "From €9,500 / month",
+    order: 1,
+  },
+  {
+    title: "Websites",
+    description:
+      "Marketing sites and launch pages that explain the product before anyone has to ask, built in Framer so your team can edit them.",
+    features: ["Art direction", "Copy structure", "Framer build", "SEO basics"],
+    price: "From €12,000 / project",
+    order: 2,
+  },
+  {
+    title: "Design systems",
+    description:
+      "A written list of decisions first, then the components. Systems your team will actually use, documented where they work.",
+    features: ["Audit", "Tokens and components", "Documentation", "Team onboarding"],
+    price: "From €18,000 / project",
+    order: 3,
+  },
+  {
+    title: "Research sprints",
+    description:
+      "Two weeks of watching real people use your product, then a short report with the three changes that matter most.",
+    features: ["Field visits", "Interviews", "Session recordings", "Priority report"],
+    price: "€7,500 fixed",
+    order: 4,
+  },
+];
+
+/**
+ * Services, from `service` documents ordered by `order`:
+ *   { title, description, features[], price, order }
+ * Falls back to the house data so the section keeps rendering before the
+ * documents exist in the dataset.
+ */
+export async function getServices(fallback: Service[] = SERVICES_FALLBACK): Promise<Service[]> {
+  if (!sanityClient) return fallback;
+  try {
+    const items = await sanityClient.fetch<Service[] | null>(
+      `*[_type == "service"] | order(order asc) { title, description, features, price, order }`
+    );
+    return items?.length ? items : fallback;
+  } catch (error) {
+    console.error("[sanity] failed to fetch services:", error);
     return fallback;
   }
 }

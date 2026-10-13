@@ -108,7 +108,7 @@ const HANDLES = [
   <div
     id="footer-mark"
     aria-hidden="true"
-    class="relative mt-[56px] w-max max-w-full select-none whitespace-nowrap font-bold leading-[0.8] tracking-[-0.065em] transition-colors duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] text-transparent hover:text-ink [-webkit-text-stroke:1.5px_rgb(12,12,14)] text-[min(20.2cqw,280px)] min-[768px]:mt-[88px]"
+    class="relative mt-[56px] w-max max-w-full select-none whitespace-nowrap font-bold leading-[0.8] tracking-[-0.065em] transition-colors duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] text-transparent [-webkit-text-stroke:1.5px_rgb(12,12,14)] text-[min(20.2cqw,280px)] min-[768px]:mt-[88px]"
   >
     {siteSettings.name}
     <div class="pointer-events-none absolute inset-0" style="border: 1.5px solid rgb(var(--color-accent-rgb)); opacity: 1;">
@@ -164,4 +164,44 @@ const HANDLES = [
   fitMark();
   window.addEventListener("resize", fitMark);
   if (document.fonts?.ready) document.fonts.ready.then(fitMark);
+
+  // Mark text fill (background always stays transparent) is whichever of
+  // "at the very bottom of the page" and "hovering the mark" is true, but
+  // not both — reaching the bottom fills the text in on its own, and
+  // hovering always flips whatever state is currently showing back the
+  // other way (so hovering while already at the bottom un-fills it again).
+  function isAtBottom() {
+    const doc = document.documentElement;
+    return window.scrollY + window.innerHeight >= doc.scrollHeight - 2;
+  }
+
+  let atBottom = isAtBottom();
+  let hovering = false;
+
+  function paintMark() {
+    if (!mark) return;
+    const filled = atBottom !== hovering;
+    mark.classList.toggle("text-ink", filled);
+    mark.classList.toggle("text-transparent", !filled);
+  }
+
+  mark?.addEventListener("mouseenter", () => {
+    hovering = true;
+    paintMark();
+  });
+  mark?.addEventListener("mouseleave", () => {
+    hovering = false;
+    paintMark();
+  });
+
+  function onScrollBottom() {
+    const next = isAtBottom();
+    if (next !== atBottom) {
+      atBottom = next;
+      paintMark();
+    }
+  }
+  window.addEventListener("scroll", onScrollBottom, { passive: true });
+  window.addEventListener("resize", onScrollBottom);
+  paintMark();
 </script>

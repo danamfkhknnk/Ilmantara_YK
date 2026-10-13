@@ -1,176 +1,337 @@
 ---
-const PROJECTS = [
-  {
-    tab: "Orrin",
-    eyebrow: "Orrin Payroll · 2026",
-    title: "Orrin",
-    summary: "Payroll for freelancers, rebuilt so a monthly pay run takes four minutes instead of an afternoon.",
-    stats: [
-      { value: "4 min", label: "average pay run, down from 3 h" },
-      { value: "−38%", label: "failed first payments" },
-      { value: "4.8", label: "App Store rating, 11k reviews" },
-    ],
-    tags: ["FINTECH", "IOS", "DESIGN SYSTEM"],
-    href: "/work/orrin",
-    accent: "#9AE62B",
-    frame: { brand: "Orrin", headline: "Pay your freelancers in one tap." },
-  },
-  {
-    tab: "Quayside",
-    eyebrow: "Quayside Clinics · 2025",
-    title: "Quayside",
-    summary: "A booking flow receptionists actually trust, cutting no-shows across four clinics.",
-    stats: [
-      { value: "−54%", label: "missed appointments" },
-      { value: "3×", label: "faster front-desk check-in" },
-      { value: "4.9", label: "patient satisfaction score" },
-    ],
-    tags: ["HEALTH", "WEB", "SERVICE DESIGN"],
-    href: "/work/quayside",
-    accent: "#4B3BFF",
-    frame: { brand: "Quayside", headline: "Book, arrive, done." },
-  },
-  {
-    tab: "Holm & Hearth",
-    eyebrow: "Holm & Hearth · 2025",
-    title: "Holm & Hearth",
-    summary: "A 'will it fit?' room-planner that cut furniture returns by a quarter.",
-    stats: [
-      { value: "−25%", label: "returns from size mismatches" },
-      { value: "2.1×", label: "add-to-cart on planned rooms" },
-      { value: "9", label: "weeks from sketch to launch" },
-    ],
-    tags: ["COMMERCE", "WEB", "3D"],
-    href: "/work/holm-and-hearth",
-    accent: "#FF5B24",
-    frame: { brand: "Holm & Hearth", headline: "Plan the room before you buy it." },
-  },
-  {
-    tab: "Vale",
-    eyebrow: "Vale Huts · 2026",
-    title: "Vale",
-    summary: "Offline-first booking for mountain huts with one working bar of signal.",
-    stats: [
-      { value: "100%", label: "bookings sync, even offline" },
-      { value: "6", label: "languages shipped at launch" },
-      { value: "12", label: "huts onboarded in month one" },
-    ],
-    tags: ["TRAVEL", "IOS", "OFFLINE-FIRST"],
-    href: "/work/vale",
-    accent: "#10B37A",
-    frame: { brand: "Vale", headline: "Book a hut with one bar of signal." },
-  },
-];
+import { getProjects } from "../../lib/sanity";
+
+// Same material as WorkCases / work page — title, description, category,
+// year, URL and image all come from the CMS (Sanity `project` docs) — but
+// only the ones flagged `priority` in the CMS, since this is a curated
+// spotlight, not the full list (that's /work).
+const projects = await getProjects(undefined, { priorityOnly: true });
+
+const ACCENTS = ["#4B3BFF", "#FF5B24", "#10B37A", "#9AE62B"];
+
+const CASES = projects.map((p, i) => {
+  const brand = p.name ?? p.title.split(" ").slice(0, 2).join(" ");
+  return {
+    tab: brand,
+    eyebrow: [p.category, p.year].filter(Boolean).join(" · "),
+    title: p.title,
+    shortTitle: brand,
+    summary: p.description ?? "",
+    tag: p.category ?? "Project",
+    year: p.year ?? "",
+    href: p.url ?? `/work/${p.slug}`,
+    external: !!p.url,
+    img: p.imageUrl ?? "/images/work/project-wellness.png",
+    imgAlt: p.imageAlt ?? p.title,
+    accent: ACCENTS[i % ACCENTS.length],
+  };
+});
+
+const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
 ---
 
-<section id="selected-work" data-framer-name="04 Selected work" class="relative" style="height: 4200px;">
-  <div class="sticky top-14 px-6 py-24 md:px-10">
-    <div class="flex flex-wrap items-center gap-4 border-b border-dashed border-ink/15 pb-4">
-      <p class="font-mono text-xs font-medium">
-        <span class="text-accent">[04]</span> <span class="text-ink/40">SELECTED WORK</span>
-      </p>
-      <div class="ml-auto flex flex-wrap gap-1">
-        {PROJECTS.map((p, i) => (
-          <button
-            type="button"
-            data-work-tab={i}
-            class={`rounded-full px-3 py-1.5 font-mono text-xs transition-colors ${
-              i === 0 ? "bg-ink text-white" : "text-ink/40 hover:text-ink"
-            }`}
-          >
-            {String(i + 1).padStart(2, "0")} {p.tab.toUpperCase()}
-          </button>
-        ))}
+<section
+  id="selected-work"
+  data-framer-name="04 Selected work"
+  class="relative bg-paper lg:[height:var(--work-h)]"
+  style={`--work-h: ${sectionHeight};`}
+>
+  <div id="work-pin" class="relative lg:sticky lg:top-0 lg:h-screen lg:min-h-[560px] lg:overflow-hidden">
+    <!-- dotted canvas + glow, like the reference -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 hidden lg:block"
+      style="background-image: radial-gradient(circle at 1px 1px, rgba(12,12,14,0.15) 1px, transparent 1.2px); background-size: 24px 24px;"
+    ></div>
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 hidden lg:block"
+      style="background: radial-gradient(900px 640px at 70% 55%, rgba(255,255,255,0.85), rgba(255,255,255,0) 70%);"
+    ></div>
+
+    <div class="relative mx-auto h-full w-full max-w-[1440px] px-5 pb-20 pt-16 md:px-8 lg:px-16 lg:pb-0 lg:pt-[92px]">
+      <!-- header row -->
+      <div class="flex flex-wrap items-center gap-3">
+        <p class="font-mono text-[11px] font-medium uppercase tracking-[0.05em] text-ink/55">
+          <span class="text-accent">[04]</span> Selected work
+        </p>
+        <div class="h-px flex-1 bg-ink/10"></div>
+        <div class="flex flex-wrap gap-1.5">
+          {CASES.map((c, i) => (
+            <button
+              type="button"
+              data-work-tab={i}
+              class={`rounded-md px-2.5 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.05em] transition-colors duration-300 ${
+                i === 0 ? "bg-ink text-white" : "bg-transparent text-ink/50 hover:text-ink"
+              }`}
+            >
+              {String(i + 1).padStart(2, "0")} {c.tab}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
 
-    {PROJECTS.map((project, i) => (
-      <div data-work-panel={i} class={i === 0 ? "" : "hidden"}>
-        <div class="mt-10 grid gap-10 lg:grid-cols-[360px_1fr]">
-          <div>
-            <p class="font-mono text-xs text-ink/40">{project.eyebrow}</p>
-            <h3 class="mt-3 text-[64px] font-semibold leading-none tracking-[-0.03em] text-ink">{project.title}</h3>
-            <p class="mt-5 text-ink/70">{project.summary}</p>
+      <!-- desktop: text left, 3D stage right (grid, so the stage
+           never touches the right edge — container padding is the margin) -->
+      <div class="relative mt-8 lg:mt-10 lg:grid lg:h-[calc(100%-140px)] lg:grid-cols-[440px_minmax(0,1fr)] lg:items-start lg:gap-9">
+        <div class="relative lg:h-full">
+          {CASES.map((c, i) => (
+            <article
+              data-work-panel={i}
+              class={`work-panel transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:absolute lg:left-0 lg:top-0 lg:w-full ${
+                i === 0 ? "lg:translate-y-0 lg:opacity-100 lg:blur-none" : "lg:pointer-events-none lg:translate-y-10 lg:opacity-0 lg:blur-[6px]"
+              } ${i > 0 ? "mt-16 lg:mt-0" : ""}`}
+            >
+              <p class="flex gap-2.5 font-mono text-xs font-medium text-ink/50">
+                <span>{c.tag}</span><span>·</span><span>{c.year}</span>
+              </p>
+              <h3 class="mt-4 text-balance text-[30px] font-semibold leading-[1.02] tracking-[-0.02em] text-ink lg:text-[44px]">
+                {c.title}
+              </h3>
+              <p class="mt-2 max-w-[480px] text-[15px] leading-[1.55] text-ink/60">
+                {c.summary}
+              </p>
 
-            <div class="mt-8 grid grid-cols-3 gap-4 border-t border-ink/10 pt-6">
-              {project.stats.map((stat) => (
-                <div>
-                  <p class="text-2xl font-semibold text-ink">{stat.value}</p>
-                  <p class="mt-1 text-xs text-ink/50">{stat.label}</p>
+              <!-- mobile image (same file as WorkCases card) -->
+              <a
+                href={c.href}
+                target={c.external ? "_blank" : undefined}
+                rel={c.external ? "noopener noreferrer" : undefined}
+                class="group mt-6 block lg:hidden"
+              >
+                <div class="relative aspect-[8/5] overflow-hidden rounded-2xl">
+                  <img
+                    src={c.img}
+                    alt={c.imgAlt}
+                    loading="lazy"
+                    class="absolute inset-0 h-full w-full object-cover object-top"
+                  />
                 </div>
-              ))}
-            </div>
+                <p class="mt-3 text-[20px] font-semibold tracking-[-0.01em] text-ink">{c.title}</p>
+              </a>
 
-            <div class="mt-6 flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span class="rounded-full border border-ink/10 px-3 py-1 font-mono text-xs text-ink/60">
-                  {tag}
-                </span>
-              ))}
-            </div>
+              <a
+                href={c.href}
+                target={c.external ? "_blank" : undefined}
+                rel={c.external ? "noopener noreferrer" : undefined}
+                class="group mt-7 inline-flex items-center gap-2.5 border-b-[1.5px] border-current pb-1.5 text-[15px] font-medium tracking-[-0.01em] text-ink transition-all duration-300 hover:gap-4 hover:text-accent"
+              >
+                See detail project
+                <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">
+                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" fill="none"></path>
+                </svg>
+              </a>
+            </article>
+          ))}
+        </div>
 
-            <a href={project.href} class="mt-6 inline-block text-sm font-medium text-ink underline">
-              Read the case study →
-            </a>
-          </div>
-
-          <div>
-            <p class="font-mono text-xs text-accent"># {project.title} · Hero · 1920 × 1200</p>
-            <div class="mt-3 aspect-[16/10] overflow-hidden rounded-2xl bg-ink p-8 text-white">
-              <div class="flex items-center justify-between">
-                <span class="flex items-center gap-2 font-semibold">
-                  <span class="h-2.5 w-2.5 rounded-full" style={`background: ${project.accent};`}></span>
-                  {project.frame.brand}
-                </span>
-                <span class="flex gap-6 text-sm text-white/60">
-                  <span>Product</span>
-                  <span>Pricing</span>
-                  <span>Stories</span>
-                </span>
-                <span class="rounded-full bg-white px-4 py-2 text-sm font-medium text-ink">Get started</span>
-              </div>
-              <p class="mt-16 max-w-md text-4xl font-semibold leading-tight">{project.frame.headline}</p>
+        <!-- Project image with About-style scroll reveal: full project
+             image covered by a paper overlay (clip-path window frame)
+             that opens as you scroll. No floating ornaments. -->
+        <div class="hidden min-w-0 lg:block">
+          <div class="relative ml-auto aspect-[16/10] w-full max-w-[760px] overflow-hidden bg-ink/5 shadow-[0_30px_70px_-30px_rgba(12,12,14,0.34)]">
+            {CASES.map((c, i) => (
+              <img
+                src={c.img}
+                alt={c.imgAlt}
+                draggable="false"
+                data-work-hero={i}
+                class={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500 ease-out ${
+                  i === 0 ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+            <!-- reveal overlay, same technique as the About image:
+                 window-frame mask whose border shrinks 16% → 0% on scroll -->
+            <div
+              data-work-reveal
+              aria-hidden="true"
+              class="pointer-events-none absolute inset-0 z-10"
+              style="background: rgba(17,18,20,0.92); clip-path: polygon(0 0,100% 0,100% 100%,0 100%,0 16%,16% 16%,16% 84%,84% 84%,84% 16%,0 16%);"
+            ></div>
+            <!-- crop frame like About: blue border + dots at the corners,
+                 tracks the same inset as the overlay hole, fades on open -->
+            <div
+              data-work-frame
+              aria-hidden="true"
+              class="pointer-events-none absolute z-20 border-[1.5px] border-accent"
+              style="left: 16%; top: 16%; right: 16%; bottom: 16%;"
+            >
+              <span class="absolute left-0 top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
+              <span class="absolute left-full top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
+              <span class="absolute left-0 top-full h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
+              <span class="absolute left-full top-full h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
             </div>
           </div>
         </div>
       </div>
-    ))}
+    </div>
   </div>
 </section>
 
 <script>
   const section = document.getElementById("selected-work");
+  const mq = window.matchMedia("(min-width: 1024px)");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   if (section) {
     const tabs = Array.from(section.querySelectorAll("[data-work-tab]"));
     const panels = Array.from(section.querySelectorAll("[data-work-panel]"));
-    let userPicked = false;
+    const heroes = Array.from(section.querySelectorAll("[data-work-hero]"));
+    const revealOverlay = section.querySelector("[data-work-reveal]");
+    const revealFrame = section.querySelector("[data-work-frame]");
+    const N = panels.length;
+    let current = 0;
+
+    // Reveal, same technique as the reference About image: a window-frame
+    // overlay (clip-path "donut" polygon) whose border shrinks 16% → 0%
+    // while the image eases scale 1.14 → 1 — driven by scroll progress
+    // inside the active project's own segment, so it visibly opens
+    // (melebar) on every project, not just the first.
+    const clamp = (v, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+    const remap = (v, lo, hi) => clamp((v - lo) / (hi - lo));
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const easeOutQuart = (t) => 1 - (1 - t) ** 4;
+
+    function setReveal(local) {
+      const b = easeOutQuart(remap(local, 0.05, 0.7));
+      const v = lerp(16, 0, b);
+      if (revealOverlay instanceof HTMLElement) {
+        revealOverlay.style.clipPath = `polygon(0 0,100% 0,100% 100%,0 100%,0 ${v}%,${v}% ${v}%,${v}% ${100 - v}%,${100 - v}% ${100 - v}%,${100 - v}% ${v}%,0 ${v}%)`;
+        revealOverlay.style.opacity = v < 0.4 ? "0" : "1";
+      }
+      if (revealFrame instanceof HTMLElement) {
+        revealFrame.style.left = `${v}%`;
+        revealFrame.style.top = `${v}%`;
+        revealFrame.style.right = `${v}%`;
+        revealFrame.style.bottom = `${v}%`;
+        revealFrame.style.opacity = String(1 - b);
+      }
+      const activeHero = heroes[current];
+      if (activeHero instanceof HTMLElement) {
+        // Image eases scale 1.14 → 1 while sliding in from the right,
+        // driven 1:1 by scroll (no CSS transition on transform).
+        activeHero.style.transform = `translateX(${lerp(48, 0, b).toFixed(1)}px) scale(${lerp(1.14, 1, b).toFixed(3)})`;
+      }
+    }
+
+    const BELOW = "lg:translate-y-10";
+    const ABOVE = "lg:-translate-y-10";
+
+    function showPanel(panel) {
+      panel.classList.remove("lg:opacity-0", BELOW, ABOVE, "lg:blur-[6px]", "lg:pointer-events-none");
+      panel.classList.add("lg:opacity-100", "lg:translate-y-0", "lg:blur-none");
+    }
+
+    function hidePanel(panel, exitCls) {
+      panel.classList.remove("lg:opacity-100", "lg:translate-y-0", "lg:blur-none", BELOW, ABOVE);
+      panel.classList.add("lg:opacity-0", exitCls, "lg:blur-[6px]", "lg:pointer-events-none");
+    }
 
     function setActive(index) {
+      const prev = current;
+      current = index;
       tabs.forEach((tab, i) => {
-        tab.classList.toggle("bg-ink", i === index);
-        tab.classList.toggle("text-white", i === index);
-        tab.classList.toggle("text-ink/40", i !== index);
-        tab.classList.toggle("hover:text-ink", i !== index);
+        const on = i === index;
+        tab.classList.toggle("bg-ink", on);
+        tab.classList.toggle("text-white", on);
+        tab.classList.toggle("bg-transparent", !on);
+        tab.classList.toggle("text-ink/50", !on);
       });
-      panels.forEach((panel, i) => panel.classList.toggle("hidden", i !== index));
+      panels.forEach((panel, i) => {
+        const on = i === index;
+        if (reduceMotion || !mq.matches || prev === index) {
+          // Instant state (first paint / reduced motion / mobile).
+          if (on) showPanel(panel);
+          else hidePanel(panel, BELOW);
+          return;
+        }
+        if (on) {
+          // Entering, like the reference: starts blurred + offset below
+          // (scrolling forward) or above (scrolling back), then slides
+          // into place.
+          const from = index > prev ? BELOW : ABOVE;
+          panel.classList.remove("lg:opacity-100", "lg:translate-y-0", "lg:blur-none", "lg:opacity-0", BELOW, ABOVE, "lg:blur-[6px]", "lg:pointer-events-none");
+          panel.classList.add("lg:opacity-0", from, "lg:blur-[6px]", "lg:pointer-events-none");
+          void panel.offsetWidth;
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            if (current !== index || !mq.matches) return;
+            showPanel(panel);
+          }));
+        } else {
+          // Exiting: slides out upward (forward) / downward (back),
+          // blurring away like the reference handoff.
+          hidePanel(panel, index > prev ? ABOVE : BELOW);
+        }
+      });
+      heroes.forEach((img, i) => {
+        const on = i === index;
+        img.classList.toggle("opacity-100", on);
+        img.classList.toggle("opacity-0", !on);
+        if (!on && img instanceof HTMLElement) img.style.transform = "";
+      });
+    }
+
+    function onScroll() {
+      if (!mq.matches) return;
+      const rect = section.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      if (total <= 0) return;
+      const progress = Math.min(0.999, Math.max(0, -rect.top / total));
+      const floating = progress * N;
+      const index = Math.min(N - 1, Math.floor(floating));
+      if (index !== current) setActive(index);
+      setReveal(floating - index);
     }
 
     tabs.forEach((tab, i) => {
       tab.addEventListener("click", () => {
-        userPicked = true;
-        setActive(i);
+        if (!mq.matches || reduceMotion) {
+          setActive(i);
+          panels[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+        const rect = section.getBoundingClientRect();
+        const top = window.scrollY + rect.top;
+        const total = rect.height - window.innerHeight;
+        window.scrollTo({ top: top + ((i + 0.5) / N) * total, behavior: "smooth" });
       });
     });
 
-    function onScroll() {
-      if (userPicked) return;
-      const rect = section.getBoundingClientRect();
-      const progress = -rect.top / (rect.height - window.innerHeight);
-      const index = Math.min(panels.length - 1, Math.max(0, Math.floor(progress * panels.length)));
-      setActive(index);
+    function openReveal() {
+      if (revealOverlay instanceof HTMLElement) {
+        revealOverlay.style.clipPath =
+          "polygon(0 0,100% 0,100% 100%,0 100%,0 0%,0% 0%,0% 100%,100% 100%,100% 0%,0 0%)";
+        revealOverlay.style.opacity = "0";
+      }
+      if (revealFrame instanceof HTMLElement) revealFrame.style.opacity = "0";
+      const hero = heroes[0];
+      if (hero instanceof HTMLElement) hero.style.transform = "translateX(0px) scale(1)";
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    function onResize() {
+      if (!mq.matches || reduceMotion) openReveal();
+      else onScroll();
+    }
+
+    if (reduceMotion || !mq.matches) {
+      setActive(0);
+      onResize();
+    } else {
+      setActive(0);
+      setReveal(0);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onResize);
+      onScroll();
+    }
+    mq.addEventListener?.("change", () => {
+      if (mq.matches && !reduceMotion) {
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+      } else {
+        window.removeEventListener("scroll", onScroll);
+        onResize();
+      }
+    });
   }
 </script>

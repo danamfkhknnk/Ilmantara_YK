@@ -1,14 +1,14 @@
 ---
 // Ported from the React `Hero.jsx` "Layerfolio Hero": a CSS-scaled 1440×900
 // canvas plus a real-pixel ruler overlay (ticks every 10px, numbered every
-// 100px) with a live mouse crosshair, and a design-tool-style "You" cursor
-// that follows the mouse in canvas space.
+// 100px) with a live mouse crosshair. The "You" cursor itself is global now
+// (see `YouCursor.astro`) so it shows site-wide, not just in the hero.
 const CANVAS_W = 1440;
 const CANVAS_H = 900;
 ---
 
 <section data-framer-name="01 Hero" class="relative">
-  <div id="hero-container" class="relative h-screen min-h-[680px] overflow-hidden bg-paper" style="cursor: none;">
+  <div id="hero-container" class="relative h-screen min-h-[680px] overflow-hidden bg-paper">
     <div
       aria-hidden="true"
       class="absolute inset-0 opacity-90"
@@ -28,29 +28,6 @@ const CANVAS_H = 900;
         >
           <span style="color: rgb(var(--color-accent-rgb));">#</span>
           <span>Home · Desktop <span class="opacity-60">1440 × 900</span></span>
-        </div>
-      </div>
-
-      <div id="hero-you-cursor" class="pointer-events-none absolute z-30 hidden" style="will-change: transform;">
-        <svg
-          width="20"
-          height="22"
-          viewBox="0 0 20 22"
-          style="position: absolute; left: -2px; top: -2px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.2));"
-        >
-          <path
-            d="M2.5 2.5 L2.5 18 L7 13.8 L10.2 20.4 L13 19.1 L9.9 12.6 L16 12.3 Z"
-            fill={`rgb(var(--color-accent-rgb))`}
-            stroke="#fff"
-            stroke-width="1.4"
-            stroke-linejoin="round"
-          />
-        </svg>
-        <div
-          class="absolute whitespace-nowrap text-[11px] font-medium text-white"
-          style={`left: 14px; top: 17px; background: rgb(var(--color-accent-rgb)); letter-spacing: -0.01em; padding: 5px 7px; border-radius: 3px 8px 8px 8px; box-shadow: 0 4px 10px rgba(0,0,0,.12);`}
-        >
-          You
         </div>
       </div>
     </div>
@@ -87,7 +64,6 @@ const CANVAS_H = 900;
   function init() {
     const container = document.getElementById("hero-container");
     const canvas = document.getElementById("hero-canvas");
-    const youCursor = document.getElementById("hero-you-cursor");
     const hSvg = document.getElementById("hero-ruler-h");
     const vSvg = document.getElementById("hero-ruler-v");
     if (!container || !canvas) return;
@@ -140,22 +116,11 @@ const CANVAS_H = 900;
       }
     }
 
-    function updateCursor() {
-      if (!mouse) {
-        youCursor.classList.add("hidden");
-        return;
-      }
-      youCursor.classList.remove("hidden");
-      youCursor.style.left = `${mouse.x / scale}px`;
-      youCursor.style.top = `${mouse.y / scale}px`;
-    }
-
     const ro = new ResizeObserver(([entry]) => {
       scale = clamp(entry.contentRect.width / CANVAS_W, 0.3, 1);
       size = { width: entry.contentRect.width, height: entry.contentRect.height };
       canvas.style.transform = `scale(${scale})`;
       drawRuler();
-      updateCursor();
     });
     ro.observe(container);
 
@@ -163,12 +128,10 @@ const CANVAS_H = 900;
       const rect = container.getBoundingClientRect();
       mouse = { x: e.clientX - rect.left, y: e.clientY - rect.top };
       drawRuler();
-      updateCursor();
     });
     container.addEventListener("mouseleave", () => {
       mouse = null;
       drawRuler();
-      updateCursor();
     });
   }
 

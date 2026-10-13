@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import YouCursor from "../components/YouCursor.astro";
 
 const { title = "Ilmantara Portfolio" } = Astro.props;
 ---
@@ -22,5 +23,6 @@ const { title = "Ilmantara Portfolio" } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <YouCursor />
   </body>
 </html>

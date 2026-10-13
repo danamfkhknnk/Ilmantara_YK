@@ -65,6 +65,7 @@
   --color-positive: rgb(var(--color-positive-rgb));
   --color-mara: rgb(var(--color-mara-rgb));
   --color-theo: rgb(var(--color-theo-rgb));
+  --color-flow: rgb(var(--color-flow-rgb));
 }
 
 :root {
@@ -75,6 +76,8 @@
   --color-positive-rgb: 25 195 125;
   --color-mara-rgb: 255 91 36;
   --color-theo-rgb: 16 179 122;
+  /* Flowchart "Path Ahead?" decision nodes — the playground's only use of blue. */
+  --color-flow-rgb: 59 118 255;
 }
 
 body {

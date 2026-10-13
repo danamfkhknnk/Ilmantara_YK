@@ -31,8 +31,8 @@ const CASES = projects.map((p) => {
       >
         <!-- canvas label -->
         <div class="mb-2.5 flex items-center justify-between font-mono text-[11px] font-medium uppercase tracking-[0.04em] text-ink/50">
+          {c.year && <span>#{c.year}</span>}
           <span>{c.tag}</span>
-          {c.year && <span>{c.year}</span>}
         </div>
 
         <!-- project image -->

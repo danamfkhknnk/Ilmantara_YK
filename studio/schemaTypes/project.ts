@@ -29,6 +29,13 @@ export default {
       type: "number",
       description: "Lower numbers show first on the Work page.",
     },
+    {
+      name: "priority",
+      title: "Priority",
+      type: "boolean",
+      description: "Feature this project in the homepage \"Selected work\" spotlight.",
+      initialValue: false,
+    },
   ],
   orderings: [
     { title: "Manual order", name: "manualOrder", by: [{ field: "order", direction: "asc" }] },
