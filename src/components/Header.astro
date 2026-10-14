@@ -12,9 +12,11 @@ const NAV_LINKS = [
 ];
 
 const VIEWERS = [
-  { initials: "M", color: "rgb(var(--color-mara-rgb))" },
-  { initials: "T", color: "rgb(var(--color-theo-rgb))" },
-  { initials: "+3", color: "rgb(138,138,144)" },
+  { name: "Dimas", initials: "D", color: "rgb(var(--color-mara-rgb))" },
+  { name: "Tegar", initials: "T", color: "rgb(var(--color-theo-rgb))" },
+  { name: "Natan", initials: "N", color: "rgb(var(--color-accent-rgb))" },
+  { name: "Dana", initials: "D", color: "rgb(var(--color-flow-rgb))" },
+  { name: "Nafis", initials: "N", color: "rgb(138,138,144)" },
 ];
 
 const currentPath = new URL(Astro.request.url).pathname;
@@ -48,10 +50,17 @@ const currentPath = new URL(Astro.request.url).pathname;
       <div class="hidden items-center min-[1200px]:flex">
         {VIEWERS.map((viewer) => (
           <span
-            class="flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 text-[10px] font-semibold text-white"
-            style={{ backgroundColor: viewer.color, borderColor: "rgb(250,250,248)" }}
+            class="group relative flex"
           >
-            {viewer.initials}
+            <span
+              class="flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 text-[10px] font-semibold text-white"
+              style={{ backgroundColor: viewer.color, borderColor: "rgb(250,250,248)" }}
+            >
+              {viewer.initials}
+            </span>
+            <span class="pointer-events-none absolute left-1/2 top-[calc(100%+6px)] z-30 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-1.5 py-0.5 text-[10px] font-medium text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+              {viewer.name}
+            </span>
           </span>
         ))}
       </div>
