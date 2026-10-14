@@ -30,7 +30,7 @@ const currentPath = new URL(Astro.request.url).pathname;
   <div class="flex h-14 w-full items-center justify-between pl-4 pr-[14px]">
     <Logo />
 
-    <div class="hidden items-center gap-0.5 rounded-[10px] bg-ink/5 p-[3px] min-[1200px]:flex">
+    <div class="hidden items-center gap-0.5 rounded-[10px] bg-ink/5 p-[3px] lg:flex">
       {NAV_LINKS.map((link) => {
         const isActive = link.to === "/" ? currentPath === "/" : currentPath.startsWith(link.to);
         return (
@@ -47,7 +47,7 @@ const currentPath = new URL(Astro.request.url).pathname;
     </div>
 
     <div class="flex items-center gap-[10px]">
-      <div class="hidden items-center min-[1200px]:flex">
+      <div class="hidden items-center lg:flex">
         {VIEWERS.map((viewer) => (
           <span
             class="group relative flex"
@@ -66,7 +66,7 @@ const currentPath = new URL(Astro.request.url).pathname;
       </div>
       <a
         href="/contact"
-        class="hidden h-[34px] items-center rounded-[9px] bg-ink px-3.5 text-[13px] font-medium text-white min-[1200px]:flex"
+        class="hidden h-[34px] items-center rounded-[9px] bg-ink px-3.5 text-[13px] font-medium text-white lg:flex"
       >
         Hire me
       </a>
@@ -75,7 +75,7 @@ const currentPath = new URL(Astro.request.url).pathname;
         data-nav-toggle
         aria-expanded="false"
         aria-controls="mobile-nav-drawer"
-        class="relative flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[10px] bg-ink min-[1200px]:hidden"
+        class="relative flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[10px] bg-ink lg:hidden"
       >
         <span class="sr-only">Toggle menu</span>
         <span class="relative h-4 w-4">
@@ -99,7 +99,7 @@ const currentPath = new URL(Astro.request.url).pathname;
   <div
     id="mobile-nav-drawer"
     data-nav-drawer
-    class="max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-500 ease-out min-[1200px]:hidden"
+    class="max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-500 ease-out lg:hidden"
   >
     <div class="flex flex-col gap-1 px-4 pb-2 pt-3">
       {NAV_LINKS.map((link, i) => {
@@ -157,7 +157,7 @@ const currentPath = new URL(Astro.request.url).pathname;
     toggle.addEventListener("click", () => setOpen(!open));
     drawer.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
     window.addEventListener("resize", () => {
-      if (window.innerWidth >= 1200 && open) setOpen(false);
+      if (window.innerWidth >= 1024 && open) setOpen(false);
     });
   });
 </script>
