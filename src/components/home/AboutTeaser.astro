@@ -1,71 +1,28 @@
 ---
-const TAGS = ["Research", "Interaction design", "Prototyping", "Design systems", "Framer", "Workshops"];
+import AboutPhoto from "../about-preview/AboutPhoto.astro";
+import AboutSelection from "../about-preview/AboutSelection.astro";
+import AboutStudioInfo from "../about-preview/AboutStudioInfo.astro";
+import AboutTechnologies from "../about-preview/AboutTechnologies.astro";
+import AboutMoreLink from "../about-preview/AboutMoreLink.astro";
 ---
-
-<section id="about" data-framer-name="03 About" class="scroll-mt-14 px-6 py-32 md:px-10 md:py-48">
-  <div class="grid gap-10 lg:grid-cols-[420px_1fr]">
-    <div class="relative">
-      <img
-        src="/images/EyNglsC5qO5YzdL87lJoka3is2g.18a4a304.jpg"
-        alt="At the desk, sketching on a tablet"
-        class="aspect-[4/5] w-full rounded-2xl object-cover"
-      />
-      <span class="absolute -bottom-3 left-4 rounded-full bg-ink px-3 py-1 text-xs font-medium text-white shadow-lg">
-        Mara · dragging
-      </span>
-    </div>
-
-    <div>
-      <p class="font-mono text-xs font-medium">
-        <span class="text-accent">[03]</span> <span class="text-ink/40">ABOUT</span>
-      </p>
-      <h2 class="mt-4 text-[36px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink md:text-[42px]">
-        I've spent nine years{" "}
-        <span class="relative inline-block rounded border border-accent px-1">untangling</span> the software
-        people use at work, for{" "}
-        <span class="rounded bg-accent/10 px-2 py-0.5 text-accent">
-          <span aria-hidden="true">◇</span> 4.2M people
-        </span>{" "}
-        a month: payroll, physio bookings, furniture and mountain huts.
-      </h2>
-
-      <div class="mt-8 grid gap-6 sm:grid-cols-2">
-        <p class="text-ink/70">
-          I start where the problem happens: on the reception desk, in the pay run, at the trailhead. Then I
-          design the fewest decisions that get someone from stuck to done, and I stay until it ships.
-        </p>
-        <p class="text-ink/70">
-          Before going independent I designed at Fietsbank and Harbour Labs. Today I lead design at Orrin and
-          take one outside project at a time.
-        </p>
-      </div>
-
-      <div class="mt-8 grid grid-cols-3 gap-6 border-t border-ink/10 pt-6 text-sm">
-        <div>
-          <p class="font-mono text-xs uppercase text-ink/40">Based in</p>
-          <p class="mt-1 font-medium text-ink">Rotterdam, NL</p>
-        </div>
-        <div>
-          <p class="font-mono text-xs uppercase text-ink/40">Working with</p>
-          <p class="mt-1 font-medium text-ink">Teams of 5 to 5,000</p>
-        </div>
-        <div>
-          <p class="font-mono text-xs uppercase text-ink/40">Languages</p>
-          <p class="mt-1 font-medium text-ink">English, Dutch, German</p>
+<section data-about-section aria-labelledby="about-heading" class="w-full overflow-x-clip bg-paper font-['AboutGeist',sans-serif] text-ink">
+  <div data-about-inner class="mx-auto grid max-w-[1312px] grid-cols-[minmax(0,5fr)_minmax(0,7fr)] items-center gap-[88px] px-16 py-[150px] max-[1000px]:grid-cols-1 max-[1000px]:gap-14 max-[1000px]:px-8 max-[1000px]:py-[110px] max-[640px]:px-5 max-[640px]:py-[88px]">
+    <AboutPhoto />
+    <div data-about-copy class="transition-[opacity,transform,filter] duration-[800ms] ease-[cubic-bezier(.22,1,.36,1)] data-[seen=false]:translate-y-[18px] data-[seen=false]:opacity-0 data-[seen=false]:blur-[4px] motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:blur-none motion-reduce:transition-none">
+      <div class="flex items-center gap-[10px] font-['AboutMono',monospace] text-[11px] font-medium leading-none tracking-[.05em] text-ink/55 uppercase"><b class="font-medium text-accent">[03]</b> ABOUT</div>
+      <h2 id="about-heading" data-about-heading class="mt-[26px] text-[46px] font-medium leading-[1.12] tracking-[-.04em] [text-wrap:pretty] max-[1000px]:text-[38px] max-[640px]:text-[29px]">I build websites and <span data-about-selected class="relative mx-[.02em] inline-block px-[.08em]">digital products<AboutSelection /></span> that make businesses easier to discover, use, and <span data-about-chip class="inline-flex items-center gap-[.22em] rounded-[.24em] bg-white px-[.28em] pt-[.02em] pb-[.06em] align-[.04em] text-[.9em] text-accent"><svg width=".62em" height=".62em" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 .9 11.1 6 6 11.1.9 6Z" fill="none" stroke="currentColor" stroke-width="1.5" /><path d="M6 3.6 8.4 6 6 8.4 3.6 6Z" fill="currentColor" /></svg>grow.</span></h2>
+      <div data-about-body class="mt-10 grid grid-cols-2 gap-7 text-[17px] font-normal leading-[1.55] tracking-[-.01em] text-ink/74 max-[640px]:grid-cols-1 max-[640px]:gap-4">
+        <p>From simple landing pages to custom web applications, I turn ideas into fast, reliable, and purposeful digital experiences.</p>
+        <div class="space-y-4">
+          <p>I focus on where design meets technology. Understanding the problem, shaping the right solution, building it with clean code, and making sure everything works beautifully across devices.</p>
         </div>
       </div>
-
-      <div class="mt-6 flex flex-wrap gap-2">
-        {TAGS.map((tag) => (
-          <span class="rounded-full bg-ink/5 px-3 py-1.5 text-sm text-ink/70">
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      <a href="/about" class="mt-6 inline-block text-sm font-medium text-ink underline">
-        More about me →
-      </a>
+      <AboutStudioInfo />
+      <AboutTechnologies />
     </div>
   </div>
 </section>
+<style>
+  @font-face { font-family: AboutGeist; src: url('../../assets/fonts/hero-reference/Geist-latin-v5.woff2') format('woff2'); font-style: normal; font-weight: 100 900; font-display: swap; }
+  @font-face { font-family: AboutMono; src: url('../../assets/fonts/hero-reference/GeistMono-latin-v6.woff2') format('woff2'); font-style: normal; font-weight: 100 900; font-display: swap; }
+</style>
