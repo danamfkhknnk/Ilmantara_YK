@@ -19,3 +19,56 @@ import AboutSelection from './AboutSelection.astro';
     <div class="absolute top-[17px] left-[14px] rounded-[3px_8px_8px_8px] bg-[#FF5B24] px-[7px] py-[5px] text-[11px] font-medium leading-none whitespace-nowrap text-white">Mara · dragging</div>
   </div>
 </div>
+
+<script>
+  // Scroll-driven crop reveal, like the reference About image: a paper
+  // overlay (window-frame clip-path mask) + blue crop frame with thirds
+  // grid opens 16% → 0% while the photo eases scale 1.14 → 1.
+  (() => {
+    const photo = document.querySelector("[data-about-photo]");
+    if (!photo) return;
+    const img = photo.querySelector("[data-about-image]");
+    const mask = photo.querySelector("[data-about-mask]");
+    const frame = photo.querySelector("[data-about-frame]");
+    const grid = photo.querySelector("[data-about-grid]");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const clamp = (v, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+    const easeOutQuart = (t) => 1 - (1 - t) ** 4;
+
+    function paint(p) {
+      const b = easeOutQuart(clamp(p));
+      const v = 16 * (1 - b);
+      if (mask instanceof HTMLElement) {
+        mask.style.clipPath = `polygon(0 0,100% 0,100% 100%,0 100%,0 ${v}%,${v}% ${v}%,${v}% ${100 - v}%,${100 - v}% ${100 - v}%,${100 - v}% ${v}%,0 ${v}%)`;
+        mask.style.opacity = v < 0.4 ? "0" : "1";
+      }
+      if (frame instanceof HTMLElement) {
+        frame.style.left = `${v}%`;
+        frame.style.top = `${v}%`;
+        frame.style.right = `${v}%`;
+        frame.style.bottom = `${v}%`;
+        frame.style.opacity = String(1 - b);
+      }
+      if (grid instanceof HTMLElement) grid.style.opacity = String(1 - b);
+      if (img instanceof HTMLElement) img.style.transform = `scale(${(1.14 - 0.14 * b).toFixed(3)})`;
+    }
+
+    if (reduce) {
+      paint(1);
+      return;
+    }
+    let tick = 0;
+    function measure() {
+      tick = 0;
+      const r = photo.getBoundingClientRect();
+      const vh = window.innerHeight || 800;
+      paint((vh * 0.9 - r.top) / (vh * 0.55));
+    }
+    function requestMeasure() {
+      if (!tick) tick = requestAnimationFrame(measure);
+    }
+    window.addEventListener("scroll", requestMeasure, { passive: true });
+    window.addEventListener("resize", requestMeasure);
+    measure();
+  })();
+</script>

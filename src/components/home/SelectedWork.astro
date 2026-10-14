@@ -163,16 +163,16 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
                 }`}
               />
             ))}
-            <!-- reveal overlay, same technique as the About image:
-                 window-frame mask whose border shrinks 16% → 0% on scroll -->
+            <!-- reveal overlay, same as the About image: paper window-frame
+                 mask 16% → 0% + blue crop frame with thirds grid -->
             <div
               data-work-reveal
               aria-hidden="true"
               class="pointer-events-none absolute inset-0 z-10"
-              style="background: rgba(17,18,20,0.92); clip-path: polygon(0 0,100% 0,100% 100%,0 100%,0 16%,16% 16%,16% 84%,84% 84%,84% 16%,0 16%);"
+              style="background: rgba(236,236,232,0.62); clip-path: polygon(0 0,100% 0,100% 100%,0 100%,0 16%,16% 16%,16% 84%,84% 84%,84% 16%,0 16%);"
             ></div>
-            <!-- crop frame like About: blue border + dots at the corners,
-                 tracks the same inset as the overlay hole, fades on open -->
+            <!-- crop frame like About: blue border + dots at corners and
+                 edge midpoints + thirds grid, tracks the overlay hole -->
             <div
               data-work-frame
               aria-hidden="true"
@@ -180,9 +180,14 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
               style="left: 16%; top: 16%; right: 16%; bottom: 16%;"
             >
               <span class="absolute left-0 top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
+              <span class="absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
               <span class="absolute left-full top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
-              <span class="absolute left-0 top-full h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
+              <span class="absolute left-full top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
               <span class="absolute left-full top-full h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
+              <span class="absolute left-1/2 top-full h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
+              <span class="absolute left-0 top-full h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
+              <span class="absolute left-0 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
+              <div data-work-grid aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.5)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.5)_1px,transparent_1px)] bg-size-[33.33%_33.33%]"></div>
             </div>
           </div>
         </div>
@@ -202,6 +207,7 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
     const heroes = Array.from(section.querySelectorAll("[data-work-hero]"));
     const revealOverlay = section.querySelector("[data-work-reveal]");
     const revealFrame = section.querySelector("[data-work-frame]");
+    const revealGrid = section.querySelector("[data-work-grid]");
     const N = panels.length;
     let current = 0;
 
@@ -229,6 +235,7 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
         revealFrame.style.bottom = `${v}%`;
         revealFrame.style.opacity = String(1 - b);
       }
+      if (revealGrid instanceof HTMLElement) revealGrid.style.opacity = String(1 - b);
       const activeHero = heroes[current];
       if (activeHero instanceof HTMLElement) {
         // Image eases scale 1.14 → 1 while sliding in from the right,
@@ -327,6 +334,7 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
         revealOverlay.style.opacity = "0";
       }
       if (revealFrame instanceof HTMLElement) revealFrame.style.opacity = "0";
+      if (revealGrid instanceof HTMLElement) revealGrid.style.opacity = "0";
       const hero = heroes[0];
       if (hero instanceof HTMLElement) hero.style.transform = "translateX(0px) scale(1)";
     }
