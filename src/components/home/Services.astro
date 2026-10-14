@@ -1,10 +1,36 @@
 ---
-import { getServices } from "../../lib/sanity";
-
-// All card content — title, description, bullets, price — comes from the
-// CMS (Sanity `service` docs ordered by `order`), with the house data as
-// fallback. Grid: 1 column on mobile, 2 on tablet (md) and desktop (lg).
-const services = await getServices();
+// Static content — CMS integration removed, edit directly here.
+// Grid: 1 column on mobile, 2 on tablet (md) and desktop (lg).
+const services = [
+  {
+    title: "Product design",
+    description:
+      "End-to-end design for web and mobile products, from the first sketch to the shipped screen. I work inside your team's rhythm, not beside it.",
+    features: ["UX and UI design", "Prototyping", "Usability testing", "Design QA"],
+    price: "From €9,500 / month",
+  },
+  {
+    title: "Websites",
+    description:
+      "Marketing sites and launch pages that explain the product before anyone has to ask, built in Framer so your team can edit them.",
+    features: ["Art direction", "Copy structure", "Framer build", "SEO basics"],
+    price: "From €12,000 / project",
+  },
+  {
+    title: "Design systems",
+    description:
+      "A written list of decisions first, then the components. Systems your team will actually use, documented where they work.",
+    features: ["Audit", "Tokens and components", "Documentation", "Team onboarding"],
+    price: "From €18,000 / project",
+  },
+  {
+    title: "Research sprints",
+    description:
+      "Two weeks of watching real people use your product, then a short report with the three changes that matter most.",
+    features: ["Field visits", "Interviews", "Session recordings", "Priority report"],
+    price: "€7,500 fixed",
+  },
+];
 
 const CARDS = services.map((s, i) => ({
   index: String(i + 1).padStart(2, "0"),
@@ -18,7 +44,7 @@ const COUNT_LABEL = CARDS.length === 4 ? "Four" : String(CARDS.length);
 ---
 
 <section id="services" data-framer-name="06 Services" data-services class="w-full scroll-mt-14 overflow-x-clip bg-paper text-ink">
-  <div class="mx-auto max-w-[1312px] px-5 py-[88px] md:px-8 md:py-[110px] lg:px-16 lg:py-[140px] lg:pb-[150px]">
+  <div class="mx-auto max-w-[1312px] px-5 py-[88px] md:px-8 md:py-[110px] lg:px-16">
     <div
       data-services-head
       data-seen="false"

@@ -1,8 +1,15 @@
 ---
 import Logo from "./Logo.astro";
-import { getNavigation } from "../lib/sanity";
 
-const NAV_LINKS = (await getNavigation()).map((item) => ({ label: item.label, to: item.href }));
+// Static nav — CMS integration removed, edit the list directly here.
+const NAV_LINKS = [
+  { label: "Home", to: "/" },
+  { label: "Work", to: "/work" },
+  { label: "About", to: "/#about" },
+  { label: "Services", to: "/#services" },
+  { label: "Journal", to: "/journal" },
+  { label: "Playground", to: "/#playground" },
+];
 
 const VIEWERS = [
   { initials: "M", color: "rgb(var(--color-mara-rgb))" },

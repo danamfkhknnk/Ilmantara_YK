@@ -1,11 +1,66 @@
 ---
-import { getTestimonials, getTestimonialsSection } from "../../lib/sanity";
 
 const { index = "08" } = Astro.props;
 
 const FALLBACK_DOTS = ["#3B6FF5", "#FF5B24", "#10B37A", "#4B3BFF", "#1FB8A6", "#D4A72C"];
 
-const [testimonials, section] = await Promise.all([getTestimonials(), getTestimonialsSection()]);
+// Static content — CMS integration removed, edit directly here.
+const testimonials = [
+  {
+    quote:
+      "We needed more than a visual refresh. The new store feels faster, the checkout experience is smoother, and managing products is finally straightforward.",
+    name: "Ayu Lestari",
+    role: "Owner, Wellness Store",
+    tag: "Shopify",
+    color: "#FF5B24",
+  },
+  {
+    quote:
+      "I had an idea but wasn't sure how to turn it into a working product. The process was clear from day one, and the final result was exactly what I needed.",
+    name: "Misa K.",
+    role: "Independent Illustrator",
+    tag: "Web App",
+    color: "#10B37A",
+  },
+  {
+    quote:
+      "Our subscription rules were getting complicated to manage manually. Now everything runs through one dashboard, saving us time and reducing mistakes.",
+    name: "Dimas Prasetyo",
+    role: "Founder, Coffee Subscription",
+    tag: "Laravel",
+    color: "#A8562E",
+  },
+  {
+    quote:
+      "Working remotely was easier than expected. I always knew what was happening, got regular updates, and could review progress before each major milestone.",
+    name: "Jonas Weber",
+    role: "Online Retailer, Berlin",
+    tag: "Shopify",
+    color: "#4B3BFF",
+  },
+  {
+    quote:
+      "The best part was having one developer who understood both the interface and the backend. We spent less time explaining things and more time getting them done.",
+    name: "Ratna Dewi",
+    role: "Boutique Owner, Jakarta",
+    tag: "Full-stack",
+    color: "#D4A72C",
+  },
+  {
+    quote:
+      "We needed an internal tool that fit our workflow, not another spreadsheet. The custom dashboard brought everything together and made daily operations much easier.",
+    name: "Andre Wijaya",
+    role: "Startup Founder",
+    tag: "Web App",
+    color: "#1FB8A6",
+  },
+];
+
+const section = {
+  heading: "Good work. Good people.",
+  supportingText: "A few words about the process, the collaboration, and what we built together.",
+  ctaLabel: "Have a project in mind?",
+};
 
 function initialsOf(name) {
   const parts = name.trim().split(/\s+/);

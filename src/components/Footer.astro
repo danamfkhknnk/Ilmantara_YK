@@ -1,18 +1,26 @@
 ---
-import { getNavigation, getSocialLinks, getSiteSettings } from "../lib/sanity";
-
-const [navigation, socialLinks, siteSettings] = await Promise.all([
-  getNavigation(),
-  getSocialLinks(),
-  getSiteSettings(),
-]);
+// Static content — CMS integration removed, edit directly here.
+const navigation = [
+  { label: "Home", href: "/" },
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Journal", href: "/journal" },
+  { label: "Playground", href: "/#playground" },
+];
+const socialLinks = [
+  { label: "LinkedIn", href: "#" },
+  { label: "Upwork", href: "#" },
+  { label: "hello@ilmantara.com", href: "mailto:hello@ilmantara.com", muted: true },
+];
+const siteSettings = { name: "Ilmantara", location: "Yogyakarta, Indonesia" };
 
 const PAGES = navigation.map((item) => ({ label: item.label, to: item.href }));
 const ELSEWHERE = socialLinks;
 
 // The "Copy email" button copies whichever social link looks like an email
-// (an `mailto:` href), so editing the address in Sanity's socialLinks list
-// updates the button too instead of needing a separate field for it.
+// (an `mailto:` href), so editing the address in the list above updates the
+// button too instead of needing a separate field for it.
 const emailLink = socialLinks.find((item) => item.href.startsWith("mailto:"));
 const copyEmail = emailLink ? emailLink.href.replace(/^mailto:/, "") : "hello@ilmantara.com";
 

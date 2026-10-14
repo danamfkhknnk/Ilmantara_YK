@@ -16,7 +16,6 @@
     "ui:test": "npm run ui:screenshot && npm run ui:compare"
   },
   "dependencies": {
-    "@sanity/client": "^8.9.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.7",
     "tailwindcss": "^4.3.3"

@@ -24,12 +24,16 @@
     let x = 0;
     let y = 0;
     let visible = false;
+    let inHero = false;
     let raf = 0;
 
     function render() {
       raf = 0;
       cursor.style.transform = `translate3d(${x + OFFSET_X}px, ${y + OFFSET_Y}px, 0)`;
-      cursor.classList.toggle("hidden", !visible);
+      // The hero paints its own "You" cursor (wordmark editor feedback),
+      // so the global pill stays out of the way while inside #ha-container
+      // — otherwise the two overlap and read as a double cursor.
+      cursor.classList.toggle("hidden", !visible || inHero);
     }
     function schedule() {
       if (!raf) raf = requestAnimationFrame(render);
@@ -39,6 +43,7 @@
       x = e.clientX;
       y = e.clientY;
       visible = true;
+      inHero = e.target instanceof Element && !!e.target.closest("#ha-container");
       schedule();
     });
     document.addEventListener("mouseleave", () => {
