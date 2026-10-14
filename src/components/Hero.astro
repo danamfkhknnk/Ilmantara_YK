@@ -1,13 +1,20 @@
 ---
-// Reference hero port for /hero-preview only.
+// Shared custom hero for the homepage.
 // Specification: research/hero-reference-20261012T095713Z/README.md.
 import glyphData from "../data/hero-glyphs.json";
+import editorUrl from "../lib/hero-wordmark-editor.js?url";
 
 const CANVAS_W = 1440;
 const CANVAS_H = 900;
 const MOBILE_CANVAS_W = 420;
 const MOBILE_CANVAS_H = 860;
-const TOTAL_DURATION = 12.4;
+const ORIGINAL_DURATION = 12.4;
+const TOTAL_DURATION = 25;
+const TEAM = [
+  { id: "tegar", name: "Tegar", role: "Creative Director", shortRole: "CD", color: "#E5484D", labelColor: "#fff", message: "Keep it bold." },
+  { id: "nafis", name: "Nafis", role: "UI Designer", shortRole: "UI", color: "#F5C542", labelColor: "#0C0C0E", message: "" },
+  { id: "natan", name: "Natan", role: "Developer", shortRole: "Dev", color: "#8B5E3C", labelColor: "#fff", message: "Spacing checked. Ready to build." },
+];
 
 const ACCENT = "#4B3BFF";
 const INK = "#0C0C0E";
@@ -15,19 +22,17 @@ const PAPER = "#ECECE8";
 const MARA_COLOR = "#FF5B24";
 const GUIDE_COLOR = "#FF3D6E";
 
-const STATEMENT_MUTED = "Product designer in Rotterdam.";
-const STATEMENT = "I turn complicated workflows into software people actually keep open.";
+const HEADLINE = "We're a top-notch digital agency.";
+const DESCRIPTION = "Our team helps businesses craft meaningful and interactive product experiences.";
 const CURRENT_ROLE = "Design lead at Orrin";
 const AVAILABILITY = "Booking projects from November";
-const PRIMARY_LABEL = "See selected work";
-const PRIMARY_LINK = "#work";
-const SECONDARY_LABEL = "Book a 20-min intro";
-const SECONDARY_LINK = "/contact";
+const PRIMARY_LABEL = "See Selected Work";
+const PRIMARY_LINK = "/#selected-work";
 const PHOTO_SRC = "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=900&q=80&auto=format&fit=crop";
 const PHOTO_NAME = "at-the-desk.jpg";
-const COMMENT_AUTHOR = "Mara · PM";
+const COMMENT_AUTHOR = "Dimas";
 const COMMENT_TEXT = "Can the name go bigger? It's the first thing a client reads.";
-const REPLY_AUTHOR = "Theo · Eng";
+const REPLY_AUTHOR = "Dana";
 const REPLY_TEXT = "Bumped it to 208. Shipping.";
 const PROJECT_NAME = "Orrin";
 const PROJECT_AMOUNT = "€12,480.00";
@@ -36,7 +41,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
 ---
 
 <section data-hero-anim data-framer-name="01 Hero" class="relative">
-  <div id="ha-container" class="relative -mt-14 h-screen min-h-[560px] cursor-none overflow-hidden bg-paper font-sans text-[12px] text-ink select-none [--font-sans:HeroGeist,Geist,sans-serif] [--font-mono:HeroMono,monospace]">
+  <div id="ha-container" class="relative -mt-14 h-screen min-h-[760px] min-[900px]:min-h-[560px] cursor-none overflow-hidden bg-paper font-sans text-[12px] text-ink select-none [--font-sans:HeroGeist,Geist,sans-serif] [--font-mono:HeroMono,monospace]">
     <div
       aria-hidden="true"
       class="absolute inset-0 opacity-90"
@@ -75,70 +80,46 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         <span>{AVAILABILITY}</span>
       </div>
 
-      <svg id="ha-name-svg" class="absolute left-0 top-0 overflow-visible" aria-hidden="true">
-        <defs>
-          <clipPath id="ha-glyph-clip"></clipPath>
-          <radialGradient id="ha-spot-rg">
-            <stop offset="0.72" stop-color="#fff"></stop>
-            <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
-          </radialGradient>
-          <mask id="ha-spot-mask" maskUnits="userSpaceOnUse" x="-2000" y="-3000" width="12000" height="6000">
-            <circle id="ha-spot-mask-circle" r="0" fill="url(#ha-spot-rg)"></circle>
-          </mask>
-        </defs>
-        <g id="ha-glyph-scale">
+      <svg id="ha-name-svg" class="pointer-events-none absolute left-0 top-0 overflow-visible" role="group" aria-label="Ilmantara move and resize controls">
+        <g id="ha-glyph-scale" aria-hidden="true">
           <g id="ha-glyph-fill"></g>
           <g id="ha-glyph-outline"></g>
-          <!-- Spotlight: a carousel photo peeking through the glyph shapes,
-               clipped to the letters and masked by a soft circle that either
-               follows the scripted second cursor (D≈9.45-11.9s) or, as a
-               permanent easter egg, the real mouse whenever it hovers the
-               wordmark directly. See docs/components/Hero-04-Wordmark.md. -->
-          <g id="ha-spotlight" clip-path="url(#ha-glyph-clip)" mask="url(#ha-spot-mask)">
-            <image id="ha-spot-img-0" preserveAspectRatio="xMidYMid slice"></image>
-            <image id="ha-spot-img-1" preserveAspectRatio="xMidYMid slice"></image>
-            <image id="ha-spot-img-2" preserveAspectRatio="xMidYMid slice"></image>
-            <image id="ha-spot-img-3" preserveAspectRatio="xMidYMid slice"></image>
-            <rect id="ha-spot-overlay" opacity="0.18"></rect>
-          </g>
-          <circle id="ha-spot-ring" r="0" fill="none" stroke={ACCENT} stroke-width="1" stroke-dasharray="3 4" opacity="0.55"></circle>
           <g id="ha-anchors"></g>
         </g>
-        <g id="ha-selbox">
+        <g id="ha-selbox" aria-hidden="true">
           <rect id="ha-selrect" fill="none" stroke={ACCENT} stroke-width="1.5"></rect>
           <g id="ha-handles"></g>
         </g>
+        <rect id="ha-move-surface" fill="transparent" class="pointer-events-none focus-visible:stroke-accent focus-visible:stroke-[2px]"></rect>
+        <g id="ha-editor-hitareas"></g>
       </svg>
       <svg id="ha-hover-svg" class="pointer-events-none absolute left-0 top-0 z-[25] overflow-visible" aria-hidden="true">
         <g id="ha-hover-box" style="opacity:0"><rect fill="none" stroke={ACCENT} stroke-width="1.5"></rect></g>
         <g id="ha-guides"></g>
         <text id="ha-hover-label" class="font-mono text-[10px] font-medium" fill={ACCENT}></text>
       </svg>
-      <div id="ha-dimlabel" class="absolute origin-center rounded-[4px] bg-accent px-[7px] py-[5px] font-mono text-[11px] font-medium leading-none whitespace-nowrap text-white transition-[background] duration-200"></div>
+      <div id="ha-dimlabel" class="pointer-events-none absolute origin-center rounded-[4px] bg-accent px-[7px] py-[5px] font-mono text-[11px] font-medium leading-none whitespace-nowrap text-white transition-[background] duration-200"></div>
 
-      <p id="ha-statement" class="absolute m-0 text-center" style="text-wrap: balance;">
-        <span style="color: rgba(12,12,14,.46);">{STATEMENT_MUTED} </span><span>{STATEMENT}</span>
-      </p>
+      <div id="ha-statement" class="absolute text-center">
+        <h2 id="ha-headline" class="m-0 text-[26px] font-semibold leading-[1.16] tracking-[-0.032em] text-balance min-[900px]:text-[36px]">{HEADLINE}</h2>
+        <p id="ha-description" class="mx-auto mb-0 mt-3 max-w-[650px] text-[18px] font-normal leading-[1.45] tracking-[-0.015em] text-balance text-ink/60 min-[900px]:text-[20px]">{DESCRIPTION}</p>
+      </div>
 
       <div id="ha-cta" class="absolute left-0 flex flex-wrap justify-center gap-[10px]">
-        <a href={PRIMARY_LINK} id="ha-cta-primary" class="group box-border inline-flex h-12 cursor-none items-center gap-[10px] rounded-[10px] px-5 text-[15px] font-medium transition-[transform,box-shadow,background] duration-[350ms] ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,.55)] active:translate-y-0 active:scale-[.98] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent" style={`background:${INK}; color:#fff; line-height:15px; letter-spacing:-0.015em;`}>
+        <a href={PRIMARY_LINK} id="ha-cta-primary" class="group box-border inline-flex h-12 cursor-none items-center gap-[10px] rounded-[10px] px-5 text-[15px] font-medium transition-[transform,box-shadow,background] duration-[350ms] ease-[cubic-bezier(.22,1,.36,1)] motion-safe:[@media(hover:hover)]:hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,.55)] active:translate-y-0 motion-safe:active:scale-[.98] motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent" style={`background:${INK}; color:#fff; line-height:15px; letter-spacing:-0.015em;`}>
           {PRIMARY_LABEL}
-          <svg class="transition-transform duration-[350ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-0.5 group-hover:translate-y-0.5" width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 4.5 L11 11 L4.5 11" stroke="currentColor" stroke-width="1.6" fill="none"></path></svg>
-        </a>
-        <a href={SECONDARY_LINK} id="ha-cta-secondary" class="box-border inline-flex h-12 cursor-none items-center gap-[10px] rounded-[10px] px-5 text-[15px] font-medium transition-[transform,box-shadow,background] duration-[350ms] ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,.55)] active:translate-y-0 active:scale-[.98] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent" style="background: rgba(255,255,255,.9); color: #0C0C0E; border: 1px solid rgba(12,12,14,0.10); line-height:15px; letter-spacing:-0.015em;">
-          <span style={`width:7px;height:7px;border-radius:9px;background:${ACCENT};`}></span>
-          {SECONDARY_LABEL}
+          <svg class="transition-transform duration-[350ms] ease-[cubic-bezier(.22,1,.36,1)] motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:translate-y-0.5 motion-reduce:transition-none" width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 4.5 L11 11 L4.5 11" stroke="currentColor" stroke-width="1.6" fill="none"></path></svg>
         </a>
       </div>
 
-      <div id="ha-photo" class="absolute">
+      <div id="ha-photo" data-floating-component="photo" class="absolute will-change-transform transition-shadow duration-200 [@media(hover:hover)]:hover:shadow-[0_0_0_2px_#4B3BFF40] motion-reduce:transition-none">
         <div class="absolute left-0 -top-[18px] flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none text-ink/55">
           <span>▣</span><span>{PHOTO_NAME}</span>
         </div>
         <img src={PHOTO_SRC} alt="Noor sketching interface ideas on a tablet" draggable="false" class="block h-full w-full rounded-[2px] object-cover" style="box-shadow: 0 20px 40px -20px rgba(12,12,14,.45);" />
       </div>
 
-      <div id="ha-card" class="absolute w-[206px]">
+      <div id="ha-card" data-floating-component="card" class="absolute w-[206px] will-change-transform transition-shadow duration-200 [@media(hover:hover)]:hover:shadow-[0_0_0_2px_#4B3BFF40] motion-reduce:transition-none">
         <div class="absolute left-0 -top-[18px] flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none whitespace-nowrap text-accent">
           <span>◇</span><span>Now: {PROJECT_NAME} app</span>
         </div>
@@ -169,12 +150,12 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       <!-- Avatar + collapsed-thread badge: the comment/reply card scales/fades
            out of this same anchor point as it collapses (K window). -->
       <div id="ha-comment-pulse" class="absolute size-8 rounded-full border-2 border-[#FF5B24] opacity-0" aria-hidden="true"></div>
-      <div id="ha-thread-anchor" class="absolute z-20" style="opacity:0;">
-        <div id="ha-avatar" class="absolute -left-[14px] -top-[30px] flex size-7 items-center justify-center rounded-[50%_50%_50%_4px] border-2 border-white bg-[#FF5B24] text-[12px] font-semibold leading-none text-white shadow-[0_6px_14px_rgba(255,91,36,.35)]">
+      <div id="ha-thread-anchor" class="pointer-events-none absolute z-20" style="opacity:0;">
+        <button type="button" id="ha-avatar" data-comment-toggle="mara" aria-label="Toggle Mara comment" aria-controls="ha-comment" aria-expanded="false" disabled tabindex="-1" class="pointer-events-none cursor-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent absolute -left-[14px] -top-[30px] flex size-7 items-center justify-center rounded-[50%_50%_50%_4px] border-2 border-white bg-[#FF5B24] text-[12px] font-semibold leading-none text-white shadow-[0_6px_14px_rgba(255,91,36,.35)]">
           {COMMENT_AUTHOR[0]}
           <span id="ha-thread-badge" class="absolute -right-[9px] -top-[7px] h-4 min-w-[16px] rounded-[9px] text-center text-[9px] font-semibold leading-4 text-white" style={`background:${INK};`}>2</span>
-        </div>
-        <div id="ha-comment" class="absolute -left-[290px] -top-[6px] w-[262px] rounded-xl border border-ink/10 bg-white px-3 py-[11px] shadow-[0_22px_44px_-20px_rgba(12,12,14,.35)]">
+        </button>
+        <div data-comment-popup id="ha-comment" class="absolute -left-[290px] -top-[6px] w-[262px] rounded-xl border border-ink/10 bg-white px-3 py-[11px] shadow-[0_22px_44px_-20px_rgba(12,12,14,.35)]">
           <div class="flex items-center gap-1.5 text-[12px] font-semibold leading-none">{COMMENT_AUTHOR}<span class="text-[11px] font-normal leading-none text-ink/45">just now</span></div>
           <div class="mt-1.5 min-h-[35px] text-[13px] font-normal leading-[1.35] tracking-[-0.01em]"><span id="ha-comment-text"></span><span id="ha-comment-caret" class="ml-px inline-block h-[14px] w-[1.5px] align-[-2px] bg-[#FF5B24]"></span></div>
           <div id="ha-reply-block" class="mt-[9px] border-t pt-[9px]" style="border-color: rgba(12,12,14,.1); opacity:0;">
@@ -191,6 +172,26 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         <div class="absolute whitespace-nowrap text-[11px] font-medium leading-none tracking-[-0.01em] text-white shadow-[0_4px_10px_rgba(0,0,0,.12)]" style="left:14px; top:17px; background:#10B37A; padding:5px 7px; border-radius:3px 8px 8px 8px;">{REPLY_AUTHOR}</div>
       </div>
 
+      {TEAM.map((member) => (
+        <>
+          <div id={`ha-${member.id}-cursor`} aria-hidden="true" class="pointer-events-none absolute z-30 opacity-0 will-change-transform">
+            <svg width="20" height="22" viewBox="0 0 20 22" class="absolute -left-0.5 -top-0.5 drop-shadow-[0_2px_3px_rgba(0,0,0,.2)]">
+              <path d="M2.5 2.5 L2.5 18 L7 13.8 L10.2 20.4 L13 19.1 L9.9 12.6 L16 12.3 Z" fill={member.color} stroke="#fff" stroke-width="1.4" stroke-linejoin="round"></path>
+            </svg>
+            <div data-team-label class="absolute left-[14px] top-[17px] rounded-[3px_8px_8px_8px] px-[7px] py-[5px] text-[11px] font-medium leading-none tracking-[-0.01em] whitespace-nowrap shadow-[0_4px_10px_rgba(0,0,0,.12)]" style={{ backgroundColor: member.color, color: member.labelColor }}>{member.name}</div>
+          </div>
+          {member.message && (
+            <div id={`ha-${member.id}-thread`} aria-hidden="true" class="pointer-events-none absolute z-[28] opacity-0">
+              <button type="button" data-team-avatar data-comment-toggle={member.id} aria-label={`Toggle ${member.name} comment`} aria-controls={`ha-${member.id}-bubble`} aria-expanded="false" disabled tabindex="-1" class="pointer-events-none cursor-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent absolute -right-[12px] -top-7 flex size-7 items-center justify-center rounded-[50%_50%_50%_4px] border-2 border-white text-[12px] font-semibold leading-none text-white shadow-md" style={{ backgroundColor: member.color }}>{member.name[0]}</button>
+              <div id={`ha-${member.id}-bubble`} data-comment-popup data-team-bubble class="relative w-[260px] origin-top-right rounded-xl border border-ink/10 bg-white px-3 py-[11px] shadow-[0_22px_44px_-20px_rgba(12,12,14,.35)]">
+                <div class="text-[12px] font-semibold leading-none" style={{ color: member.color }}>{member.name}</div>
+                <div class="mt-1.5 text-[13px] leading-[1.35] tracking-[-0.01em]">{member.message}</div>
+              </div>
+            </div>
+          )}
+        </>
+      ))}
+
       <div id="ha-pen-cursor" class="absolute pointer-events-none" style="opacity:0; z-index:30; will-change: transform;">
         <svg width="22" height="22" viewBox="0 0 22 22" style="position:absolute; left:-3px; top:-3px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.18));">
           <path d="M3 3 L9 17 L11.5 11.5 L17 9 Z" fill="#fff" stroke={ACCENT} stroke-width="1.6" stroke-linejoin="round"></path>
@@ -199,7 +200,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         <div id="ha-pen-cursor-label" class="absolute whitespace-nowrap text-[11px] font-medium leading-none tracking-[-0.01em] text-white shadow-[0_4px_10px_rgba(0,0,0,.12)]" style={`left:14px; top:17px; background:${ACCENT}; padding:5px 7px; border-radius:3px 8px 8px 8px;`}></div>
       </div>
 
-      <div id="ha-you-cursor" class="pointer-events-none absolute z-30 hidden" style="will-change: transform;">
+      <div id="ha-you-cursor" class="pointer-events-none absolute z-30 hidden origin-top-left" style="will-change: transform;">
         <svg width="20" height="22" viewBox="0 0 20 22" style="position: absolute; left: -2px; top: -2px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.2));">
           <path d="M2.5 2.5 L2.5 18 L7 13.8 L10.2 20.4 L13 19.1 L9.9 12.6 L16 12.3 Z" fill={ACCENT} stroke="#fff" stroke-width="1.4" stroke-linejoin="round"></path>
         </svg>
@@ -210,7 +211,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
            the reference (left:36/top:590 and left:1168/top:548, desktop-only),
            not CSS bottom/right screen anchoring — so they pan/scale with the
            rest of the canvas instead of sticking to the viewport edge. -->
-      <div id="ha-layers" class:list={[CHROME, "left-[36px] top-[590px] h-[262px] w-[236px] overflow-hidden text-[12px] leading-none"]}>
+      <div id="ha-layers" data-floating-component="layers" class:list={[CHROME, "left-[36px] top-[590px] h-[262px] w-[236px] overflow-hidden text-[12px] leading-none will-change-transform transition-[border-color] duration-200 [@media(hover:hover)]:hover:border-accent/40 motion-reduce:transition-none"]}>
         <div class="flex gap-3.5 border-b border-ink/10 px-3.5 pt-3 pb-2.5 font-semibold">
           <span>Layers</span><span class="font-medium text-ink/40">Assets</span>
           <span class="ml-auto font-mono text-[10px] font-medium text-ink/40">Home</span>
@@ -218,7 +219,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         <div id="ha-layers-list" class="p-1.5"></div>
       </div>
 
-      <div id="ha-inspect" class:list={[CHROME, "left-[1168px] top-[548px] h-[304px] w-[236px] overflow-hidden"]}>
+      <div id="ha-inspect" data-floating-component="inspect" class:list={[CHROME, "left-[1168px] top-[548px] h-[304px] w-[236px] overflow-hidden will-change-transform transition-[border-color] duration-200 [@media(hover:hover)]:hover:border-accent/40 motion-reduce:transition-none"]}>
         <div class="flex gap-3.5 border-b border-ink/10 px-3.5 pt-3 pb-2.5 text-[12px] font-semibold leading-none"><span>Design</span><span class="font-medium text-ink/40">Prototype</span><span class="font-medium text-ink/40">Inspect</span></div>
         <div class="grid gap-3.5 px-3.5 py-3">
           <div>
@@ -298,7 +299,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
   }
 </style>
 
-<script define:vars={{ glyphData, CANVAS_W, CANVAS_H, MOBILE_CANVAS_W, MOBILE_CANVAS_H, TOTAL_DURATION, ACCENT, GUIDE_COLOR, COMMENT_TEXT }}>
+<script define:vars={{ glyphData, editorUrl, CANVAS_W, CANVAS_H, MOBILE_CANVAS_W, MOBILE_CANVAS_H, ORIGINAL_DURATION, TOTAL_DURATION, TEAM, ACCENT, GUIDE_COLOR, COMMENT_TEXT }}>
   const EASE = {
     out: (e) => 1 - (1 - e) ** 4,
     expo: (e) => (e >= 1 ? 1 : 1 - 2 ** (-10 * e)),
@@ -310,6 +311,10 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
   const lerp = (a, b, t) => a + (b - a) * t;
   const round = (n) => Math.round(n);
   const NS = "http://www.w3.org/2000/svg";
+  function setText(node, value) {
+    const text = String(value);
+    if (node.textContent !== text) node.textContent = text;
+  }
 
   // Secondary-story beats are hardcoded absolute seconds in the reference,
   // calibrated for "Noor Castell" (11 glyphs, L_ref=3.15s). Expressed here as
@@ -332,16 +337,16 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     secondArcStart: off(9.7), secondArcEnd: off(11.5),
     secondFinalStart: off(11.5), secondFinalEnd: off(12.4),
     collapseStart: off(10.4), collapseEnd: off(10.9),
-    spotlightStart: off(9.45), spotlightEnd: off(11.9),
   };
 
-  function init() {
+  async function init() {
     const container = document.getElementById("ha-container");
     const canvas = document.getElementById("ha-canvas");
     if (!container || !canvas || container.dataset.haInitialized) return;
     container.dataset.haInitialized = "true";
     const artboard = document.getElementById("ha-artboard");
     const abort = new AbortController();
+    const { createWordmarkEditor, paintActionCursor } = await import(editorUrl);
 
     const svg = document.getElementById("ha-name-svg");
     const hoverSvg = document.getElementById("ha-hover-svg");
@@ -349,19 +354,6 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     const glyphFillG = document.getElementById("ha-glyph-fill");
     const glyphOutlineG = document.getElementById("ha-glyph-outline");
     const anchorsG = document.getElementById("ha-anchors");
-    const glyphClipPath = document.getElementById("ha-glyph-clip");
-    const spotMaskCircle = document.getElementById("ha-spot-mask-circle");
-    const spotRing = document.getElementById("ha-spot-ring");
-    const spotOverlay = document.getElementById("ha-spot-overlay");
-    const spotImages = [0, 1, 2, 3].map((i) => document.getElementById(`ha-spot-img-${i}`));
-    const CAROUSEL_PHOTOS = [
-      { src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1600&q=80&auto=format&fit=crop", alt: "Orrin" },
-      { src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=80&auto=format&fit=crop", alt: "Quayside" },
-      { src: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1600&q=80&auto=format&fit=crop", alt: "Holm & Hearth" },
-      { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80&auto=format&fit=crop", alt: "Vale" },
-    ];
-    spotImages.forEach((img, i) => img.setAttribute("href", CAROUSEL_PHOTOS[i].src));
-    spotOverlay.setAttribute("fill", "#0C0C0E");
     const selRect = document.getElementById("ha-selrect");
     const selBoxG = document.getElementById("ha-selbox");
     const handlesG = document.getElementById("ha-handles");
@@ -376,9 +368,9 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     const badgeRole = document.getElementById("ha-badge-role");
     const badgeAvail = document.getElementById("ha-badge-avail");
     const statement = document.getElementById("ha-statement");
+    const contentLayout = { key: null, height: 0, ctaHeight: 48, ctaWidth: 194, cardHeight: 198 };
     const cta = document.getElementById("ha-cta");
     const ctaPrimary = document.getElementById("ha-cta-primary");
-    const ctaSecondary = document.getElementById("ha-cta-secondary");
     const photo = document.getElementById("ha-photo");
     const card = document.getElementById("ha-card");
     const maraCursor = document.getElementById("ha-mara-cursor");
@@ -457,17 +449,22 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       }
     }
     let hCrosshair = null, vCrosshair = null;
+    let lastCrosshairKey = null;
     let lastRulerKey = null; // only rebuild the ~140-node tick/label DOM when geometry actually changes, not every RAF frame
-    const spotState = { r: 0, x: 720, y: 300 };
-    const parallax = { x: 0, y: 0 }; // smoothed spotlight circle (canvas-space), persists across frames
+    const parallax = { x: 0, y: 0 }; // photo/card parallax, independent of the wordmark editor
     function updateRulerCrosshair(mouse) {
-      if (hCrosshair) { hCrosshair.remove(); hCrosshair = null; }
-      if (vCrosshair) { vCrosshair.remove(); vCrosshair = null; }
+      const key = mouse ? `${mouse.x}|${mouse.y}` : 'none';
+      if (key === lastCrosshairKey && (!mouse || hCrosshair?.isConnected)) return;
+      lastCrosshairKey = key;
+      if (!hCrosshair?.isConnected) {
+        hCrosshair = svgEl('line', { y1: 0, y2: 20, stroke: ACCENT, 'stroke-width': 1.5 });
+        vCrosshair = svgEl('line', { x1: 0, x2: 20, stroke: ACCENT, 'stroke-width': 1.5 });
+        hRulerSvg.append(hCrosshair); vRulerSvg.append(vCrosshair);
+      }
+      hCrosshair.style.display = vCrosshair.style.display = mouse ? '' : 'none';
       if (!mouse) return;
-      hCrosshair = svgEl("line", { x1: mouse.x, x2: mouse.x, y1: 0, y2: 20, stroke: ACCENT, "stroke-width": 1.5 });
-      hRulerSvg.appendChild(hCrosshair);
-      vCrosshair = svgEl("line", { y1: mouse.y - 56 - 20, y2: mouse.y - 56 - 20, x1: 0, x2: 20, stroke: ACCENT, "stroke-width": 1.5 });
-      vRulerSvg.appendChild(vCrosshair);
+      hCrosshair.setAttribute('x1', mouse.x); hCrosshair.setAttribute('x2', mouse.x);
+      vCrosshair.setAttribute('y1', mouse.y - 76); vCrosshair.setAttribute('y2', mouse.y - 76);
     }
     const layersList = document.getElementById("ha-layers-list");
     const layersPanel = document.getElementById("ha-layers");
@@ -487,6 +484,21 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     const toolScale = document.getElementById("ha-tool-scale");
     const toolButtons = { move: toolMove, frame: toolFrame, pen: toolPen, text: toolText, comment: toolComment, scale: toolScale };
     const toolbar = document.getElementById("ha-toolbar");
+    const floating = Object.fromEntries([["photo", photo, 10], ["card", card, 16], ["layers", layersPanel, 5], ["inspect", inspectPanel, 5]].map(([id, node, depth], index) => {
+      const state = { node, depth, index, hovered: false, lift: 0, x: 0, y: 0 };
+      node.addEventListener('pointerenter', event => { if (event.pointerType !== 'touch') state.hovered = true; }, { signal: abort.signal });
+      node.addEventListener('pointerleave', () => { state.hovered = false; }, { signal: abort.signal });
+      return [id, state];
+    }));
+    let lastMotionTick = performance.now();
+    let lastPanelState = null;
+    let lastTool = null;
+    const layerRowIcons = {};
+    const teamNodes = TEAM.map((member) => ({
+      ...member,
+      cursor: document.getElementById(`ha-${member.id}-cursor`),
+      thread: document.getElementById(`ha-${member.id}-thread`),
+    }));
 
     // --- Build glyph DOM once (fill path + dashed outline path + anchor markers per glyph) ---
     const glyphNodes = glyphData.glyphs.map((g) => {
@@ -518,10 +530,6 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         return r;
       });
 
-      const clipPathNode = document.createElementNS(NS, "path");
-      clipPathNode.setAttribute("d", g.d);
-      glyphClipPath.appendChild(clipPathNode);
-
       const controls = g.pts.filter((p) => p[2] === 1).map((p) => {
         const nodes = [svgEl("line", { stroke: ACCENT, "stroke-width": .8, opacity: .7 }), svgEl("line", { stroke: ACCENT, "stroke-width": .8, opacity: .7 }), svgEl("circle", { r: 2.6, fill: "#fff", stroke: ACCENT, "stroke-width": 1 })];
         const group = svgEl("g", {});
@@ -529,7 +537,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         glyphAnchorG.insertBefore(group, anchorNodes[0] || null);
         return { p, nodes, group };
       });
-      return { glyph: g, fillPath, outlinePath, onCurve, anchorNodes, clipPathNode, controls };
+      return { glyph: g, fillPath, outlinePath, onCurve, anchorNodes, controls };
     });
 
     const HANDLE_POS = [
@@ -570,6 +578,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       row.innerHTML = `<svg class="shrink-0" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor">${layerIcons[def.id]}</svg><span class="overflow-hidden text-ellipsis">${def.label}</span>`;
       layersList.appendChild(row);
       layerRows[def.id] = row;
+      layerRowIcons[def.id] = row.querySelector('svg');
     });
 
     // --- State ---
@@ -578,17 +587,61 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     let mouseScreen = null; // {x,y} in container-local screen px
     let debugScroll = null;
     let debugTime = null; // set via window.__ilmantaraHero.render() for deterministic snapshots
+    let lastGlyphLayoutKey = null;
+    let lastGuideKey = null;
+    const guidePool = []; // Reuse at most20 SVG nodes, including animated hover guides.
+    let lastSvgSizeKey = null;
     // Match the reference: offset the clock reference itself (rather than
     // special-casing a "skip to end" branch) so a reduced-motion visitor's
     // very first frame already reads D≈TOTAL_DURATION (settled) and the
     // normal RAF loop just continues from there.
-    const prefersReducedMotion = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let prefersReducedMotion = motionQuery.matches;
     let startTime = performance.now() - (prefersReducedMotion ? TOTAL_DURATION * 1000 : 0);
     let rafId = 0;
     let lastTime = prefersReducedMotion ? TOTAL_DURATION : 0;
     let visible = true;
-    const visibility = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
+    const visibility = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; render(lastTime); requestFrame(); });
     visibility.observe(container);
+    const editor = createWordmarkEditor({
+      container, svg, surface: document.getElementById("ha-move-surface"),
+      hitGroup: document.getElementById("ha-editor-hitareas"), youCursor,
+      onChange: () => { render(lastTime); requestFrame(); }, signal: abort.signal,
+    });
+    let openThread = null;
+    const commentControls = [
+      { id: 'mara', button: avatar, popup: comment },
+      ...teamNodes.filter(member => member.thread).map(member => ({ id: member.id, button: member.thread.querySelector('[data-team-avatar]'), popup: member.thread.querySelector('[data-team-bubble]') })),
+    ];
+    for (const control of commentControls) {
+      control.popup.setAttribute('role', 'region');
+      control.popup.setAttribute('aria-label', `${control.id} comment`);
+      control.button.addEventListener('click', () => {
+        if (lastTime < TOTAL_DURATION) return;
+        openThread = openThread === control.id ? null : control.id;
+        render(lastTime);
+      }, { signal: abort.signal });
+    }
+    document.addEventListener('pointerdown', event => {
+      if (openThread && !commentControls.some(control => control.button.contains(event.target) || control.popup.contains(event.target))) {
+        openThread = null; render(lastTime);
+      }
+    }, { signal: abort.signal });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && openThread) {
+        const control = commentControls.find(control => control.id === openThread);
+        openThread = null; render(lastTime); control.button.focus();
+      }
+    }, { signal: abort.signal });
+
+    motionQuery.addEventListener("change", () => {
+      prefersReducedMotion = motionQuery.matches;
+      if (prefersReducedMotion && lastTime < TOTAL_DURATION) {
+        startTime = performance.now() - TOTAL_DURATION * 1000;
+        lastTime = TOTAL_DURATION;
+      }
+      render(lastTime); requestFrame();
+    }, { signal: abort.signal });
 
     function canvasToScreen(x, y, origin, s) {
       return { x: origin.x + x * s, y: origin.y + y * s };
@@ -597,7 +650,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     function render(D) {
       lastTime = D;
       const bounds = container.getBoundingClientRect();
-      const scroll = debugScroll === null ? clamp(-bounds.top / Math.max(1, bounds.height)) : debugScroll;
+      const scroll = prefersReducedMotion ? 0 : debugScroll === null ? clamp(-bounds.top / Math.max(1, bounds.height)) : debugScroll;
       const q = EASE.out(scroll);
       const nameOffset = -scroll * 50;
       artboard.style.transform = `translateY(${-scroll * 30}px) scale(${1 - q * .1})`;
@@ -620,10 +673,14 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       canvas.style.height = `${A}px`;
       canvas.style.left = `${originX}px`;
       canvas.style.top = `${originY}px`;
-      svg.setAttribute("width", k);
-      svg.setAttribute("height", A);
-      svg.setAttribute("viewBox", `0 0 ${k} ${A}`);
-      hoverSvg.setAttribute("width", k); hoverSvg.setAttribute("height", A);
+      const svgSizeKey = `${k}|${A}`;
+      if (svgSizeKey !== lastSvgSizeKey) {
+        svg.setAttribute("width", k);
+        svg.setAttribute("height", A);
+        svg.setAttribute("viewBox", `0 0 ${k} ${A}`);
+        hoverSvg.setAttribute("width", k); hoverSvg.setAttribute("height", A);
+        lastSvgSizeKey = svgSizeKey;
+      }
 
       const rulerKey = `${w}x${h}x${Math.round(originX * 100)}x${Math.round(originY * 100)}x${Math.round(s * 10000)}`;
       if (rulerKey !== lastRulerKey) {
@@ -632,8 +689,8 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       }
       updateRulerCrosshair(mouseScreen);
 
-      modeLabel.textContent = mobile ? "Phone" : "Desktop";
-      dimsLabel.textContent = mobile ? "390 × 844" : "1440 × 900";
+      setText(modeLabel, mobile ? "Phone" : "Desktop");
+      setText(dimsLabel, mobile ? "390 × 844" : "1440 × 900");
       breadcrumb.style.left = `${mobile ? 20 : 44}px`;
       breadcrumb.style.top = "84px";
       const breadcrumbOpacity = EASE.out(norm(D, 0, 0.5));
@@ -686,8 +743,12 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       const totalTextHeight = glyphData.cap * j + (numRows - 1) * rowHeight;
       const box = { x: blockX - padX, y: topY - 26, w: blockWidth + padX * 2, h: totalTextHeight + 26 + 22 };
       const boxCx = box.x + box.w / 2, boxCy = box.y + box.h / 2;
-      const F = { x: boxCx - (box.w * M) / 2, y: boxCy - (box.h * M) / 2, w: box.w * M, h: box.h * M };
-      glyphScaleG.setAttribute("transform", `translate(${boxCx} ${boxCy}) scale(${M}) translate(${-boxCx} ${-boxCy})`);
+      const selectionMatrix = svg.getScreenCTM();
+      const baselineF = { x: boxCx - (box.w * M) / 2, y: boxCy - (box.h * M) / 2, w: box.w * M, h: box.h * M };
+      const F = editor.resolve(baselineF, { time: D, duration: TOTAL_DURATION, width: k, height: A, screenWidth: w, screenHeight: h, visible, matrix: selectionMatrix, canvasScale: s });
+      const editX = F.w / baselineF.w, editY = F.h / baselineF.h;
+      const glyphAffine = `matrix(${editX} 0 0 ${editY} ${F.x - editX * baselineF.x} ${F.y - editY * baselineF.y}) translate(${boxCx} ${boxCy}) scale(${M}) translate(${-boxCx} ${-boxCy})`;
+      if (glyphScaleG.getAttribute("transform") !== glyphAffine) glyphScaleG.setAttribute("transform", glyphAffine);
 
       // --- Pen-trace + fill per glyph ---
       let penCursorPos = null;
@@ -696,12 +757,15 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       anchorsG.style.display = anchorFade > 0 ? "inline" : "none";
       let activeTraceIndex = -1;
       glyphs.forEach((_, i) => { const p = norm(D, startDelay + i * stagger, startDelay + i * stagger + drawDuration); if (p > 0 && p < 1) activeTraceIndex = i; });
-      glyphNodes.forEach(({ glyph: g, fillPath, outlinePath, onCurve, anchorNodes, clipPathNode, controls }, i) => {
+      const glyphLayoutKey = [mobile, k, j, blockX, baselineY].join("|");
+      const glyphsSettled = D >= L + .5;
+      // Manual edits transform the outer group. Settled paths/hidden pen
+      // controls change only with responsive layout or a debug time rewind.
+      if (!glyphsSettled || lastGlyphLayoutKey !== glyphLayoutKey) glyphNodes.forEach(({ glyph: g, fillPath, outlinePath, onCurve, anchorNodes, controls }, i) => {
         const tx = glyphX(i), ty = glyphY(i);
         const tf = `translate(${tx} ${ty}) scale(${j})`;
         fillPath.setAttribute("transform", tf);
         outlinePath.setAttribute("transform", tf);
-        clipPathNode.setAttribute("transform", tf);
 
         const t0 = startDelay + i * stagger;
         const traceProgress = norm(D, t0, t0 + drawDuration);
@@ -752,6 +816,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
           penCursorPos = { x: tx + p[0] * j, y: ty + p[1] * j };
         }
       });
+      lastGlyphLayoutKey = glyphsSettled ? glyphLayoutKey : null;
       if (penCursorPos) {
         penCursor.style.opacity = 1;
         positionAbs(penCursor, penCursorPos.x, penCursorPos.y + nameOffset);
@@ -766,8 +831,10 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       ruler.style.opacity = breadcrumbOpacity;
       vRulerSvg.style.display = mobile ? "none" : "block";
       for (const el of [hSelection, vSelection]) el.style.display = D > L ? "block" : "none";
-      hSelection.setAttribute("x", originX + F.x * s); hSelection.setAttribute("width", F.w * s);
-      vSelection.setAttribute("y", originY + (F.y + nameOffset) * s - 76); vSelection.setAttribute("height", F.h * s);
+      const selectionStart = new DOMPoint(F.x, F.y).matrixTransform(selectionMatrix);
+      const selectionEnd = new DOMPoint(F.x + F.w, F.y + F.h).matrixTransform(selectionMatrix);
+      hSelection.setAttribute("x", selectionStart.x - bounds.left); hSelection.setAttribute("width", selectionEnd.x - selectionStart.x);
+      vSelection.setAttribute("y", selectionStart.y - bounds.top - 76); vSelection.setAttribute("height", selectionEnd.y - selectionStart.y);
       container.firstElementChild.style.backgroundSize = `${24 * s * (1 - q * .12)}px ${24 * s * (1 - q * .12)}px`;
       container.firstElementChild.style.backgroundPosition = `${originX}px ${originY - scroll * 40}px`;
       selRect.setAttribute("x", F.x);
@@ -788,7 +855,8 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       dimLabel.style.left = `${F.x + F.w / 2}px`;
       dimLabel.style.top = `${F.y + F.h + 10 + nameOffset}px`;
       dimLabel.style.transform = `translateX(-50%) scale(${0.8 + 0.2 * tt})`;
-      dimLabel.textContent = `${round(F.w)} × ${round(F.h)}`;
+      setText(dimLabel, `${round(F.w)} × ${round(F.h)}`);
+      editor.syncHitAreas();
 
       // --- Badges ---
       const badgeFade = fadeIn(D, L + 0.05);
@@ -799,28 +867,54 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       badgeRole.style.transform += ` translateY(${badgeFade.dy + nameOffset}px)`;
       badgeAvail.style.transform += ` translateY(${badgeFade.dy + nameOffset}px)`;
 
-      // --- Staggered reveal: statement / cta / photo / card ---
-      const statementY = mobile ? box.y + box.h + 44 + 118 - 118 : 462; // Bt
-      const ctaY = mobile ? statementY + 118 : 578; // J
+      // Measure responsive text only when its layout changes, never every RAF.
+      const contentKey = `${mobile}|${k}`;
+      if (contentLayout.key !== contentKey) {
+        statement.style.width = `${mobile ? 380 : 840}px`;
+        statement.style.left = `${mobile ? 20 : 300}px`;
+        cta.style.width = `${k}px`;
+        contentLayout.height = statement.offsetHeight;
+        contentLayout.ctaHeight = cta.offsetHeight;
+        contentLayout.ctaWidth = ctaPrimary.offsetWidth;
+        contentLayout.cardHeight = card.offsetHeight;
+        contentLayout.key = contentKey;
+      }
+      const statementY = mobile ? box.y + box.h + 44 : 454;
+      const ctaY = statementY + contentLayout.height + (mobile ? 24 : 22);
+      // One composite floating pose owns parallax, idle and hover lift.
+      const now = performance.now(), motionDt = Math.min(64, Math.max(0, now - lastMotionTick));
+      lastMotionTick = now;
+      const blend = 1 - Math.exp(-motionDt / 120);
+      const pointer = mouseScreen && !editor.isTouch() ? { x: (mouseScreen.x - originX) / s, y: (mouseScreen.y - originY) / s } : null;
+      const mouseNorm = pointer ? { x: clamp((pointer.x - k / 2) / (k / 2), -1, 1), y: clamp((pointer.y - A / 2) / (A / 2), -1, 1) } : { x: 0, y: 0 };
+      parallax.x += (mouseNorm.x - parallax.x) * blend;
+      parallax.y += (mouseNorm.y - parallax.y) * blend;
+      const idleTime = Math.max(0, D - TOTAL_DURATION);
+      const idleGain = prefersReducedMotion ? 0 : EASE.inOut(norm(idleTime, 0, 1.2));
+      for (const state of Object.values(floating)) {
+        state.lift = prefersReducedMotion ? 0 : lerp(state.lift, state.hovered ? 3 : 0, blend);
+        state.x = prefersReducedMotion ? 0 : Math.sin(idleTime * (.55 + state.index * .07) + state.index * 1.4) * 3 * idleGain - parallax.x * state.depth;
+        state.y = prefersReducedMotion ? 0 : Math.cos(idleTime * (.42 + state.index * .09) + state.index * 1.1) * 4 * idleGain - parallax.y * state.depth - state.lift;
+      }
+      const floatTransform = id => `translate(${floating[id].x}px, ${floating[id].y}px)`;
       const photoBox = mobile
         ? { x: 24, y: ctaY + 128, w: 172, h: 124 }
-        : { x: 304, y: 664, w: 208, h: 148 };
+        : { x: 304, y: Math.max(664, ctaY + contentLayout.ctaHeight + 48), w: 208, h: 148 };
       const cardBox = mobile
         ? { x: 218, y: ctaY + 120, sc: 0.86 }
-        : { x: 930, y: 648, sc: 1 };
+        : { x: 930, y: Math.max(648, ctaY + contentLayout.ctaHeight + 32), sc: 1 };
 
       const en = fadeIn(D, L + 0.2);
-      statement.style.width = `${mobile ? 380 : 840}px`;
-      statement.style.left = `${mobile ? 20 : 300}px`;
       statement.style.top = `${statementY + en.dy}px`;
-      statement.style.font = `500 ${mobile ? 22 : 33}px/1.16 HeroGeist, sans-serif`;
-      statement.style.letterSpacing = "-0.032em";
       statement.style.opacity = en.o;
       statement.style.filter = `blur(${en.blur}px)`;
 
       const tn = fadeIn(D, L + 0.35);
       cta.style.width = `${k}px`;
-      cta.style.top = `${ctaY + tn.dy}px`;
+      // Naya nudges the CTA group, then restores the exact resting layout.
+      const nayaWorking = D >= 17 && D < 20;
+      const ctaNudge = -4 * Math.sin(Math.PI * EASE.inOut(norm(D, 17.6, 19.4)));
+      cta.style.top = `${ctaY + tn.dy + ctaNudge}px`;
       cta.style.opacity = tn.o;
 
       const nn = fadeIn(D, L + 0.5);
@@ -833,22 +927,28 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       const rn = fadeIn(D, L + 0.62);
       card.style.left = `${cardBox.x + q * 300}px`;
       card.style.top = `${cardBox.y - q * 120 + rn.dy}px`;
-      card.style.transform = `scale(${cardBox.sc})`;
+      card.style.transform = `${floatTransform('card')} scale(${cardBox.sc})`;
+      photo.style.transform = floatTransform('photo');
       card.style.transformOrigin = "0 0";
       card.style.opacity = rn.o;
       chartBars.forEach((bar, i) => { bar.style.height = `${Number(bar.dataset.chartRatio) * 100 * EASE.out(norm(D, L + .7 + i * .05, L + 1.3 + i * .05))}%`; });
 
       // --- Mara story: cursor arrival, comment bubble, typed text ---
-      const Dt = { x: box.x + box.w - (mobile ? 40 : 150), y: box.y + 30 };
+      // Apply only the manual affine to the original avatar anchor. Identity
+      // must preserve its intro position exactly, including at the 25s unlock.
+      const Dt = {
+        x: F.x + (box.x + box.w - (mobile ? 40 : 150) - baselineF.x) * editX,
+        y: F.y + (box.y + 30 - baselineF.y) * editY,
+      };
       const arriveT = EASE.inOut(norm(D, L + BEATS.maraArriveStart, L + BEATS.maraArriveEnd));
       let maraPos = { x: lerp(mobile ? 470 : 1520, Dt.x + 6, arriveT), y: lerp(mobile ? 420 : 520, Dt.y + 4, arriveT) };
       if (D > L + BEATS.maraDepartStart) {
         const e = EASE.inOut(norm(D, L + BEATS.maraDepartStart, L + BEATS.maraDepartEnd));
         const kt = Math.max(0, D - (L + BEATS.wobbleBase));
-        const mI = mobile ? { x: 318, y: box.y + box.h + 230 } : { x: 1296, y: 470 };
+        const mI = mobile ? { x: 318, y: ctaY + contentLayout.ctaHeight + 38 } : { x: 1296, y: 470 };
         maraPos = {
-          x: lerp(Dt.x + 6, mI.x, e) + Math.sin(kt * 0.9) * 10 * e,
-          y: lerp(Dt.y + 4, mI.y, e) + Math.cos(kt * 0.7) * 8 * e,
+          x: lerp(Dt.x + 6, mI.x, e) + Math.sin(kt * 0.9) * (prefersReducedMotion ? 0 : 10) * e,
+          y: lerp(Dt.y + 4, mI.y, e) + Math.cos(kt * 0.7) * (prefersReducedMotion ? 0 : 8) * e,
         };
       }
       const maraVisible = D > L + BEATS.maraArriveStart;
@@ -870,12 +970,18 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       avatar.style.transformOrigin = "0 100%";
       threadBadge.style.opacity = K > 0 ? 1 : 0;
       threadBadge.style.transform = `scale(${K})`;
-      comment.style.opacity = clamp(1 - K);
-      comment.style.transform = `scale(${W * (1 - K)})`;
+      const maraOpen = D >= TOTAL_DURATION && openThread === 'mara';
+      comment.style.opacity = maraOpen ? 1 : clamp(1 - K);
+      comment.style.transform = `scale(${maraOpen ? 1 : W * (1 - K)})`;
+      if (D >= TOTAL_DURATION) {
+        const anchorX = Dt.x, anchorY = Dt.y + nameOffset;
+        comment.style.left = `${clamp(anchorX - 290, 12, k - 274) - anchorX}px`;
+        comment.style.top = `${clamp(anchorY - 6, 84, A - comment.offsetHeight - 16) - anchorY}px`;
+      } else { comment.style.left = ''; comment.style.top = ''; }
       comment.style.transformOrigin = "100% 0";
 
       const typeProgress = Math.floor(clamp(norm(D, L + BEATS.typeStart, L + BEATS.typeEnd)) * COMMENT_TEXT.length);
-      commentText.textContent = COMMENT_TEXT.slice(0, typeProgress);
+      setText(commentText, COMMENT_TEXT.slice(0, typeProgress));
       commentCaret.style.display = typeProgress < COMMENT_TEXT.length ? "inline-block" : "none";
       replyBlock.style.display = GatedReply(D, L) ? "block" : "none";
 
@@ -899,13 +1005,13 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         const e = EASE.inOut(norm(D, L + BEATS.secondArcStart, L + BEATS.secondArcEnd));
         theoPos = { x: lerp(Ft.x, It.x, e), y: Ft.y + (It.y - Ft.y) * e + Math.sin(e * Math.PI) * -28 };
       }
-      const tI = mobile ? { x: 70, y: box.y + box.h + 250 } : { x: 1060, y: 560 };
+      const tI = mobile ? { x: 70, y: ctaY + contentLayout.ctaHeight + 58 } : { x: 1060, y: 560 };
       if (D > L + BEATS.secondArcEnd) {
         const e = EASE.inOut(norm(D, L + BEATS.secondFinalStart, L + BEATS.secondFinalEnd));
         const t = Math.max(0, D - (L + BEATS.secondFinalEnd));
         theoPos = {
-          x: lerp(It.x, tI.x, e) + Math.sin(t * 0.8 + 1) * 9 * e,
-          y: lerp(It.y, tI.y, e) + Math.cos(t * 0.6) * 7 * e,
+          x: lerp(It.x, tI.x, e) + Math.sin(t * 0.8 + 1) * (prefersReducedMotion ? 0 : 9) * e,
+          y: lerp(It.y, tI.y, e) + Math.cos(t * 0.6) * (prefersReducedMotion ? 0 : 7) * e,
         };
       }
       const theoVisible = D > L + BEATS.secondApproachStart;
@@ -913,7 +1019,9 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       theoCursor.style.opacity = theoVisible ? 1 : 0;
 
       // --- Toolbar / active-tool for layer highlighting ---
-      const tool = D < traceEnd ? "pen" : D > L + BEATS.toolCommentStart && D < L + BEATS.toolCommentEnd ? "comment" : D > L + BEATS.toolScaleStart && D < L + BEATS.toolScaleEnd ? "scale" : "move";
+      const rakaWorking = D >= 13 && D < 16.5;
+      const dimasWorking = D >= 20.5 && D < 24.5;
+      const tool = editor.snapshot().phase === "restoring" ? "scale" : editor.isDragging() ? (editor.cursorMode() === "grabbing" ? "move" : "scale") : rakaWorking || dimasWorking ? "comment" : D < traceEnd ? "pen" : D > L + BEATS.toolCommentStart && D < L + BEATS.toolCommentEnd ? "comment" : D > L + BEATS.toolScaleStart && D < L + BEATS.toolScaleEnd ? "scale" : "move";
 
       // --- Hover hit-testing (canvas-space) ---
       let hovered = null;
@@ -921,77 +1029,96 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       let cursorCanvasPos = null;
       const boxes = [
         { id: "name", x: F.x, y: F.y + nameOffset, w: F.w, h: F.h, label: "Name / vector" },
-        { id: "statement", x: mobile ? 20 : 300, y: statementY - 12, w: mobile ? 380 : 840, h: 90, label: "Statement" },
-        { id: "cta", x: mobile ? 20 : 506, y: ctaY - 4, w: mobile ? 380 : 428, h: 48, label: "Buttons" },
-        { id: "photo", x: photoBox.x - q * 260, y: photoBox.y - q * 60, w: photoBox.w, h: photoBox.h, label: "at-the-desk.jpg" },
-        { id: "card", x: cardBox.x + q * 300, y: cardBox.y - q * 120, w: 206 * cardBox.sc, h: 176 * cardBox.sc, label: "Now: Orrin" },
+        { id: "statement", x: mobile ? 20 : 300, y: statementY, w: mobile ? 380 : 840, h: contentLayout.height, label: "Statement" },
+        { id: "cta", x: (k - contentLayout.ctaWidth) / 2, y: ctaY + ctaNudge, w: contentLayout.ctaWidth, h: contentLayout.ctaHeight, label: "Buttons" },
+        { id: "photo", x: photoBox.x - q * 260 + floating.photo.x, y: photoBox.y - q * 60 + floating.photo.y, w: photoBox.w, h: photoBox.h, label: "at-the-desk.jpg" },
+        { id: "card", x: cardBox.x + q * 300 + floating.card.x, y: cardBox.y - q * 120 + floating.card.y, w: 206 * cardBox.sc, h: contentLayout.cardHeight * cardBox.sc, label: "Now: Orrin" },
       ];
+      const scriptedBox = nayaWorking ? boxes.find((b) => b.id === "cta") : dimasWorking ? boxes.find((b) => b.id === "card") : null;
       if (mouseScreen) {
         const cx = (mouseScreen.x - originX) / s, cy = (mouseScreen.y - originY) / s;
         cursorCanvasPos = { x: cx, y: cy };
-        hoverBox = D > TOTAL_DURATION - 1 ? boxes.find((b) => cx >= b.x && cx <= b.x + b.w && cy >= b.y && cy <= b.y + b.h) : null;
+        const hitPoint = new DOMPoint(bounds.left + mouseScreen.x, bounds.top + mouseScreen.y).matrixTransform(selectionMatrix.inverse());
+        hitPoint.y += nameOffset;
+        hoverBox = D > ORIGINAL_DURATION - 1 ? boxes.find((b) => hitPoint.x >= b.x && hitPoint.x <= b.x + b.w && hitPoint.y >= b.y && hitPoint.y <= b.y + b.h) : null;
         hovered = hoverBox?.id || null;
-        youCursor.classList.remove("hidden");
+        youCursor.classList.toggle("hidden", editor.isTouch());
         positionAbs(youCursor, cx, cy);
+        const youLabel = youCursor.lastElementChild;
+        youLabel.style.left = `${Math.min(14, bounds.width - mouseScreen.x - youLabel.offsetWidth - 8)}px`;
+        youLabel.style.top = `${Math.min(17, bounds.height - mouseScreen.y - youLabel.offsetHeight - 8)}px`;
       } else youCursor.classList.add("hidden");
-      dimLabel.style.opacity = tt * (hovered === "name" ? 0 : 1);
-      const mouseNorm = cursorCanvasPos ? { x: (cursorCanvasPos.x - 720) / 720, y: (cursorCanvasPos.y - 450) / 450 } : { x: 0, y: 0 };
-      parallax.x += (mouseNorm.x - parallax.x) * .08;
-      parallax.y += (mouseNorm.y - parallax.y) * .08;
-      const pan = (depth) => `translate(${-parallax.x * depth}px, ${-parallax.y * depth}px)`;
-      photo.style.transform = pan(10);
-      card.style.transform = `${pan(16)} scale(${cardBox.sc})`;
+      // Real pointer feedback takes priority over the collaborators' simulated selection.
+      const editorWorking = editor.isDragging() || editor.snapshot().phase === "restoring";
+      hoverBox = openThread && !editorWorking ? null : editorWorking || editor.cursorMode().includes("resize") ? boxes[0] : hoverBox || scriptedBox;
+      hovered = hoverBox?.id || null;
 
-      // --- Spotlight: carousel photo peeking through the glyphs ---
-      {
-        const spotEnvelope = D > L + BEATS.spotlightStart && D < L + BEATS.spotlightEnd
-          ? Math.min(EASE.out(norm(D, L + BEATS.spotlightStart, L + BEATS.spotlightStart + 0.5)), 1 - EASE.inOut(norm(D, L + BEATS.spotlightEnd - 0.6, L + BEATS.spotlightEnd)))
-          : 0;
-        const hoveringName = hoverBox && hoverBox.id === "name" && cursorCanvasPos;
-        let target;
-        if (hoveringName) {
-          target = { r: 150, x: cursorCanvasPos.x, y: cursorCanvasPos.y };
-        } else if (spotEnvelope > 0) {
-          target = { r: 150 * spotEnvelope, x: theoPos.x, y: theoPos.y + nameOffset - 8 };
-        } else {
-          target = { r: 0, x: spotState.x, y: spotState.y };
+      // New collaborators act one at a time after the original Mara/Theo story.
+      const actions = [
+        { start: 13, end: 16.5, target: { x: F.x + F.w - (mobile ? 100 : 220), y: F.y + 10 }, rest: { x: mobile ? 230 : 350, y: mobile ? 94 : 130 } },
+        { start: 17, end: 20, target: { x: mobile ? 200 : 716, y: ctaY + 14 + ctaNudge }, rest: { x: mobile ? 24 : 730, y: mobile ? photoBox.y + photoBox.h + 24 : ctaY + 76 } },
+        { start: 20.5, end: 24.5, target: { x: mobile ? 320 : cardBox.x + 165, y: cardBox.y + 38 }, rest: { x: mobile ? 220 : 980, y: cardBox.y + (mobile ? 180 : 188) } },
+      ];
+      teamNodes.forEach((member, i) => {
+        const action = actions[i];
+        const arrive = EASE.inOut(norm(D, action.start, action.start + .8));
+        const depart = EASE.inOut(norm(D, action.end - .8, action.end));
+        const enter = { x: mobile ? (i === 1 ? -30 : 450) : 1500, y: action.target.y + 100 };
+        const idleTime = Math.max(0, D - action.end);
+        const idleGain = prefersReducedMotion ? 0 : EASE.inOut(norm(idleTime, 0, .8));
+        const idleX = Math.sin(idleTime * (.72 + i * .13) + i * 1.7) * (i === 1 ? 8 : 10) * idleGain;
+        const idleY = Math.cos(idleTime * (.57 + i * .11) + i * 1.3) * 7 * idleGain;
+        const x = lerp(lerp(enter.x, action.target.x, arrive), action.rest.x, depart) + idleX;
+        const y = lerp(lerp(enter.y, action.target.y, arrive), action.rest.y, depart) + idleY;
+        // Repair blends from/to the current drifting rest point; its grip remains exact.
+        const restScreen = { x: bounds.left + originX + (action.rest.x + idleX) * s, y: bounds.top + originY + (action.rest.y + idleY) * s };
+        const repairingCursor = i === 1 ? editor.repairCursor(restScreen) : null;
+        if (i === 1) paintActionCursor(member.cursor, repairingCursor?.mode || 'default', member.color);
+        const cursorX = repairingCursor ? (repairingCursor.x - bounds.left - originX) / s : x;
+        const cursorY = repairingCursor ? (repairingCursor.y - bounds.top - originY) / s : y;
+        positionAbs(member.cursor, cursorX, cursorY);
+        member.cursor.style.opacity = EASE.out(norm(D, action.start, action.start + .3));
+        const label = member.cursor.querySelector("[data-team-label]");
+        setText(label, `${member.name}`);
+        // Keep the label inside the artboard even while its pointer is near the edge.
+        label.style.left = `${Math.min(14, k - cursorX - label.offsetWidth - 16)}px`;
+        if (member.thread) {
+          const pop = EASE.back(norm(D, action.start + .85, action.start + 1.2));
+          const collapse = EASE.inOut(norm(D, action.end - .75, action.end - .15));
+          const threadRight = clamp(i === 2 ? cardBox.x + 206 * cardBox.sc + 12 : action.target.x, 284, k - 20);
+          const threadY = i === 2 ? cardBox.y + 20 : action.target.y + 26;
+          positionAbs(member.thread, threadRight - 260, threadY);
+          member.thread.style.opacity = pop > 0 ? 1 : 0;
+          member.thread.querySelector("[data-team-avatar]").style.transform = `scale(${Math.max(0, pop)})`;
+          const bubble = member.thread.querySelector("[data-team-bubble]");
+          const userOpen = D >= TOTAL_DURATION && openThread === member.id;
+          bubble.style.opacity = userOpen ? 1 : 1 - collapse;
+          bubble.style.transform = `scale(${userOpen ? 1 : Math.max(0, pop) * (1 - collapse)})`;
+          if (D >= TOTAL_DURATION) {
+            member.thread.removeAttribute('aria-hidden');
+            // Keep the avatar anchor fixed; clamp only the reopened card.
+            bubble.style.left = `${clamp(threadRight - 260, 12, k - 272) - (threadRight - 260)}px`;
+            bubble.style.top = `${clamp(threadY, 84, A - bubble.offsetHeight - 16) - threadY}px`;
+          }
         }
-        if (spotEnvelope > 0) {
-          spotState.r = target.r;
-          spotState.x = target.x;
-          spotState.y = target.y;
-        } else {
-          spotState.r += (target.r - spotState.r) * 0.16;
-          spotState.x += (target.x - spotState.x) * 0.3;
-          spotState.y += (target.y - spotState.y) * 0.3;
-        }
-        // The mask circle lives inside #ha-glyph-scale, which is itself
-        // scaled by M about (boxCx,boxCy) — divide back out so the circle's
-        // own coordinates stay correct in that pre-scale space.
-        spotMaskCircle.setAttribute("cx", boxCx + (spotState.x - boxCx) / M);
-        spotMaskCircle.setAttribute("cy", boxCy + (spotState.y - nameOffset - boxCy) / M);
-        spotMaskCircle.setAttribute("r", Math.max(0, spotState.r / M));
-        if (spotState.r > 1) {
-          const photoIndex = Math.floor(D / 1.4) % CAROUSEL_PHOTOS.length;
-          spotImages.forEach((img, i) => {
-            img.setAttribute("x", box.x);
-            img.setAttribute("y", box.y);
-            img.setAttribute("width", box.w);
-            img.setAttribute("height", box.h);
-            img.style.opacity = i === photoIndex ? 1 : 0;
-          });
-          spotOverlay.setAttribute("x", box.x);
-          spotOverlay.setAttribute("y", box.y);
-          spotOverlay.setAttribute("width", box.w);
-          spotOverlay.setAttribute("height", box.h);
-          spotRing.setAttribute("cx", boxCx + (spotState.x - boxCx) / M);
-          spotRing.setAttribute("cy", boxCy + (spotState.y - nameOffset - boxCy) / M);
-          spotRing.setAttribute("r", (spotState.r / M) * 0.86);
-          spotRing.style.opacity = 0.55;
-        } else {
-          spotRing.style.opacity = 0;
-        }
+      });
+      for (const control of commentControls) {
+        const enabled = D >= TOTAL_DURATION;
+        const opened = enabled && openThread === control.id;
+        control.button.disabled = !enabled;
+        control.button.tabIndex = enabled ? 0 : -1;
+        control.button.setAttribute('aria-expanded', String(opened));
+        control.button.classList.toggle('pointer-events-auto', enabled);
+        control.button.classList.toggle('pointer-events-none', !enabled);
+        control.popup.classList.toggle('pointer-events-auto', opened);
+        control.popup.classList.toggle('invisible', enabled && !opened);
+        control.popup.inert = !opened;
+        control.popup.setAttribute('aria-hidden', String(!opened));
       }
+      container.dataset.openComment = openThread || '';
+      container.dataset.teamAction = editor.snapshot().phase === "restoring" ? "naya-restore" : rakaWorking ? "raka" : nayaWorking ? "naya" : dimasWorking ? "dimas" : "idle";
+      dimLabel.style.opacity = tt * (hovered === "name" && !editorWorking ? 0 : 1);
+      const pan = depth => prefersReducedMotion ? 'translate(0px, 0px)' : `translate(${-parallax.x * depth}px, ${-parallax.y * depth}px)`;
 
       // hover box + guides
       if (hoverBox && hoverBox.id !== "name") {
@@ -1003,12 +1130,12 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       } else {
         hoverBoxG.style.opacity = 0;
       }
-      renderGuides(hoverBox, k, A);
+      renderGuides(editorWorking || hoverBox?.id === 'name' ? null : hoverBox, k, A);
       if (hoverBox) {
         hoverLabel.style.opacity = hoverBox.id === "name" ? 0 : 1;
         hoverLabel.setAttribute("x", hoverBox.x);
         hoverLabel.setAttribute("y", hoverBox.y - 8);
-        hoverLabel.textContent = hoverBox.label;
+        setText(hoverLabel, hoverBox.label);
       } else {
         hoverLabel.style.opacity = 0;
       }
@@ -1023,55 +1150,58 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       layersPanel.style.opacity = panelOpacity * (1 - q);
       inspectPanel.style.opacity = panelOpacity * (1 - q);
       toolbar.style.opacity = toolbarOpacity * (1 - q);
-      layersPanel.style.transform = `translateX(${(1 - panelOpacity) * -40 - q * 340}px) ${pan(5)}`;
-      inspectPanel.style.transform = `translateX(${(1 - panelOpacity) * 40 + q * 340}px) ${pan(5)}`;
+      layersPanel.style.transform = `translateX(${(1 - panelOpacity) * -40 - q * 340}px) ${floatTransform('layers')}`;
+      inspectPanel.style.transform = `translateX(${(1 - panelOpacity) * 40 + q * 340}px) ${floatTransform('inspect')}`;
       toolbar.style.top = `${A - 58 + (1 - toolbarOpacity) * 30}px`;
       if (!mobile) {
-        Object.entries(layerRows).forEach(([id, row]) => {
-          const active = id === "frame" ? D < .35 : hovered ? id === hovered : id === "name" ? D >= .35 && D < TOTAL_DURATION : id === "comment" && D > 5 && D < 6.4;
+        const panelState = `${hovered}|${D < .35}|${D >= .35 && D < ORIGINAL_DURATION}|${D > 5 && D < 6.4}`;
+        if (panelState !== lastPanelState) Object.entries(layerRows).forEach(([id, row]) => {
+          const active = id === "frame" ? D < .35 : hovered ? id === hovered : id === "name" ? D >= .35 && D < ORIGINAL_DURATION : id === "comment" && D > 5 && D < 6.4;
           // The served rgb accent + hex-alpha suffix is invalid in the original;
           // match its actual transparent background, not an invented highlight.
           row.style.color = active ? ACCENT : "#0C0C0E";
-          row.querySelector("svg").style.color = active ? ACCENT : "rgba(12,12,14,.55)";
+          layerRowIcons[id].style.color = active ? ACCENT : "rgba(12,12,14,.55)";
         });
-        const activeBox = hoverBox || (D > L ? boxes[0] : null);
+        lastPanelState = panelState;
+        const activeBox = editor.isDragging() || editor.snapshot().phase === "restoring" ? boxes[0] : hoverBox || (D > L ? boxes[0] : null);
         if (activeBox) {
-          inspectName.textContent = activeBox.id === "name" ? "Name / vector" : activeBox.label;
+          setText(inspectName, activeBox.id === "name" ? "Name / vector" : activeBox.label);
           // Inspect panel shows coords relative to the ruler's zero point
           // (past the 20px corner gutter / 56px header), not raw canvas x/y.
-          inspectX.textContent = round(activeBox.x - 20);
-          inspectY.textContent = round(activeBox.y - 56);
-          inspectW.textContent = round(activeBox.w);
-          inspectH.textContent = round(activeBox.h);
+          setText(inspectX, round(activeBox.x - 20));
+          setText(inspectY, round(activeBox.y - 56));
+          setText(inspectW, round(activeBox.w));
+          setText(inspectH, round(activeBox.h));
         } else {
-          inspectName.textContent = "Nothing selected";
-          for (const el of [inspectX, inspectY, inspectW, inspectH]) el.textContent = "–";
+          setText(inspectName, "Nothing selected");
+          for (const el of [inspectX, inspectY, inspectW, inspectH]) setText(el, "–");
         }
-        inspectFontSize.textContent = round(200 * M);
+        setText(inspectFontSize, round(200 * M * editY));
         for (const id of ["ha-field-w", "ha-field-h", "ha-field-font"]) {
           const field = document.getElementById(id);
           field.style.background = resizing ? "rgba(16,179,122,.1)" : "";
           field.style.color = resizing ? "#10B37A" : "";
         }
-        const imageFill = spotState.r > 20;
-        const photoIndex = Math.floor(D / 1.4) % CAROUSEL_PHOTOS.length;
-        document.getElementById("ha-inspect-swatch").style.backgroundImage = imageFill ? `url(${CAROUSEL_PHOTOS[photoIndex].src})` : "none";
-        document.getElementById("ha-inspect-fill").textContent = imageFill ? "Image" : "RGB(12, 12, 14)";
-        document.getElementById("ha-inspect-fill-detail").textContent = imageFill ? CAROUSEL_PHOTOS[photoIndex].alt : "100%";
+        document.getElementById("ha-inspect-swatch").style.backgroundImage = "none";
+        setText(document.getElementById("ha-inspect-fill"), "RGB(12, 12, 14)");
+        setText(document.getElementById("ha-inspect-fill-detail"), "100%");
 
-        Object.entries(toolButtons).forEach(([id, btn]) => {
+        if (tool !== lastTool) Object.entries(toolButtons).forEach(([id, btn]) => {
           btn.classList.add("transition-[background]", "duration-200", "cursor-none");
           const active = id === tool;
           btn.style.background = active ? ACCENT : "transparent";
           btn.querySelectorAll("svg path, svg circle").forEach((p) => p.setAttribute("stroke", active ? "#fff" : "#0C0C0E"));
         });
+        lastTool = tool;
       }
 
       function PHOTO_LABEL() { return "at-the-desk.jpg"; }
 
       function renderGuides(hoverBox, k, A) {
-        guidesG.innerHTML = "";
-        if (!hoverBox) return;
+        const key = hoverBox ? [hoverBox.id, k, A, ...boxes.flatMap(b => [b.id, round(b.x), round(b.y), round(b.w), round(b.h)])].join("|") : "none";
+        if (key === lastGuideKey) return;
+        lastGuideKey = key;
+        if (!hoverBox) { guidesG.replaceChildren(); return; }
         const b = hoverBox;
         let left = 20, right = k, top = 56, bottom = A;
         const overlap = (a, b, c, d) => Math.min(b, d) - Math.max(a, c) > 0;
@@ -1092,32 +1222,21 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
           { v: b.y - top, line: [cx, top, cx, b.y] },
           { v: bottom - b.y - b.h, line: [cx, b.y + b.h, cx, bottom] },
         ];
-        edges.forEach((e) => {
-          if (e.v <= 2) return;
-          const [x1, y1, x2, y2] = e.line;
-          const line = document.createElementNS(NS, "line");
-          line.setAttribute("x1", x1); line.setAttribute("y1", y1);
-          line.setAttribute("x2", x2); line.setAttribute("y2", y2);
-          line.setAttribute("stroke", GUIDE_COLOR);
-          line.setAttribute("stroke-width", 1);
-          guidesG.appendChild(line);
-          const horizontal = y1 === y2;
-          for (const [x, y] of [[x1, y1], [x2, y2]]) guidesG.appendChild(svgEl("line", { x1: x - (horizontal ? 0 : 4), y1: y - (horizontal ? 4 : 0), x2: x + (horizontal ? 0 : 4), y2: y + (horizontal ? 4 : 0), stroke: GUIDE_COLOR }));
+        const setAttrs = (node, attrs) => { for (const [key, value] of Object.entries(attrs)) if (node.getAttribute(key) !== String(value)) node.setAttribute(key, value); };
+        edges.forEach((e, index) => {
+          const nodes = guidePool[index] ||= [
+            ...Array.from({ length: 3 }, () => svgEl('line', { stroke: GUIDE_COLOR, 'stroke-width': 1 })),
+            svgEl('rect', { width: 34, height: 18, rx: 4, fill: GUIDE_COLOR }),
+            svgEl('text', { 'text-anchor': 'middle', fill: '#fff', 'font-size': 10, 'font-family': 'HeroMono, monospace', 'font-weight': 500 }),
+          ];
+          if (e.v <= 2) { nodes.forEach(n => n.remove()); return; }
+          if (!nodes[0].isConnected) guidesG.append(...nodes);
+          const [x1, y1, x2, y2] = e.line, horizontal = y1 === y2;
+          setAttrs(nodes[0], { x1, y1, x2, y2 });
+          [[x1, y1], [x2, y2]].forEach(([x, y], i) => setAttrs(nodes[i + 1], { x1: x - (horizontal ? 0 : 4), y1: y - (horizontal ? 4 : 0), x2: x + (horizontal ? 0 : 4), y2: y + (horizontal ? 4 : 0) }));
           const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
-          const rect = document.createElementNS(NS, "rect");
-          rect.setAttribute("x", mx - 17); rect.setAttribute("y", my - 9);
-          rect.setAttribute("width", 34); rect.setAttribute("height", 18); rect.setAttribute("rx", 4);
-          rect.setAttribute("fill", GUIDE_COLOR);
-          guidesG.appendChild(rect);
-          const text = document.createElementNS(NS, "text");
-          text.setAttribute("x", mx); text.setAttribute("y", my + 4);
-          text.setAttribute("text-anchor", "middle");
-          text.setAttribute("fill", "#fff");
-          text.setAttribute("font-size", "10");
-          text.setAttribute("font-family", "HeroMono, monospace");
-          text.setAttribute("font-weight", "500");
-          text.textContent = round(e.v);
-          guidesG.appendChild(text);
+          setAttrs(nodes[3], { x: mx - 17, y: my - 9 });
+          setAttrs(nodes[4], { x: mx, y: my + 4 }); setText(nodes[4], round(e.v));
         });
       }
 
@@ -1142,12 +1261,16 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       return { o, dy: (1 - o) * 16, blur: (1 - o) * 6 };
     }
 
+    function requestFrame() { if (!rafId && !abort.signal.aborted && !document.hidden) rafId = requestAnimationFrame(frame); }
     function frame() {
-      rafId = requestAnimationFrame(frame);
+      rafId = 0;
       const D = debugTime !== null ? debugTime : (performance.now() - startTime) / 1000;
-      if ((!visible && D > TOTAL_DURATION) || (prefersReducedMotion && D > 13.4 && debugTime === null)) return;
-      render(D);
+      if ((!visible && D > TOTAL_DURATION) || document.hidden) return;
+      const state = editor.snapshot();
+      if (prefersReducedMotion && D > TOTAL_DURATION + 1 && debugTime === null && !state.dirty && !editor.isDragging() && !editor.isLocked()) return;
+      render(D); requestFrame();
     }
+    document.addEventListener('visibilitychange', requestFrame, { signal: abort.signal });
 
     container.addEventListener("pointermove", (e) => {
       const rect = container.getBoundingClientRect();
@@ -1157,9 +1280,12 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     container.addEventListener("pointerleave", () => { mouseScreen = null; if (prefersReducedMotion) render(lastTime); }, { signal: abort.signal });
     const resize = new ResizeObserver(() => render(lastTime));
     resize.observe(container);
+    const contentResize = new ResizeObserver(() => { contentLayout.key = null; render(lastTime); });
+    contentResize.observe(statement); contentResize.observe(cta); contentResize.observe(card);
+    window.addEventListener("scroll", () => render(lastTime), { passive: true, signal: abort.signal });
     window.addEventListener("scroll", () => { if (prefersReducedMotion) render(lastTime); }, { passive: true, signal: abort.signal });
 
-    window.__ilmantaraHero = {
+    const heroApi = {
       ready: Promise.resolve(true),
       render: (t, p = 0, x, y) => {
         debugTime = t; debugScroll = clamp(p);
@@ -1167,17 +1293,20 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         else if (x !== undefined) mouseScreen = null;
         render(t);
       },
-      resume: () => { debugTime = null; debugScroll = null; },
+      resume: () => { debugTime = null; debugScroll = null; requestFrame(); },
       state: () => ({ time: lastTime, reducedMotion: prefersReducedMotion, visible }),
+      editor: () => editor.snapshot(),
     };
+    window.__ilmantaraHero = heroApi;
     function dispose() {
-      cancelAnimationFrame(rafId); abort.abort(); resize.disconnect(); visibility.disconnect();
+      if (window.__ilmantaraHero === heroApi) delete window.__ilmantaraHero;
+      editor.dispose(); cancelAnimationFrame(rafId); abort.abort(); resize.disconnect(); contentResize.disconnect(); visibility.disconnect();
       delete container.dataset.haInitialized;
     }
     window.addEventListener("pagehide", dispose, { once: true, signal: abort.signal });
     document.addEventListener("astro:before-swap", dispose, { once: true, signal: abort.signal });
     render(lastTime);
-    rafId = requestAnimationFrame(frame);
+    requestFrame();
   }
 
   if (document.readyState === "loading") {
