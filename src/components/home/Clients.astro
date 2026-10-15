@@ -3,21 +3,21 @@
 // Edge fade (mask-image) keeps pills from looking hard-cut at the sides.
 const clients = [
   { name: "Wellness Store", industry: "ECOMMERCE" },
-  { name: "Mise Art", industry: "ART & COMMISSION" },
+  { name: "Mise Art", industry: "SENI & KOMISI" },
   { name: "Coffee Subscription", industry: "F&B" },
-  { name: "Berlin Retail", industry: "RETAIL" },
+  { name: "Berlin Retail", industry: "RITEL" },
   { name: "Jakarta Boutique", industry: "FASHION" },
-  { name: "Startup Ops", industry: "WEB APP" },
+  { name: "Startup Ops", industry: "APLIKASI WEB" },
 ];
 const skills = [
-  { label: "Shopify Development" },
-  { label: "Custom Shopify Apps" },
-  { label: "Theme Development" },
-  { label: "Laravel Backends" },
+  { label: "Pengembangan Shopify" },
+  { label: "Aplikasi Shopify Custom" },
+  { label: "Pengembangan Theme" },
+  { label: "Backend Laravel" },
   { label: "API & Database" },
-  { label: "Speed Optimization" },
-  { label: "Design QA" },
-  { label: "Maintenance & Support" },
+  { label: "Optimasi Kecepatan" },
+  { label: "QA Desain" },
+  { label: "Pemeliharaan & Dukungan" },
 ];
 const SHOW = clients.length > 0 || skills.length > 0;
 ---
@@ -38,11 +38,11 @@ const SHOW = clients.length > 0 || skills.length > 0;
   <div class="flex items-center gap-4">
     <span class="flex shrink-0 items-center gap-1.5 whitespace-nowrap font-mono text-[11px] uppercase tracking-wide text-ink/50">
       <span class="text-accent" aria-hidden="true">◇</span>
-      Shipped with
+      Klien kami
     </span>
     <div class="h-px flex-1 bg-ink/10"></div>
     <span class="shrink-0 whitespace-nowrap font-mono text-[11px] uppercase tracking-wide text-ink/50">
-      {clients.length} Clients · {skills.length} Skills
+      {clients.length} Klien · {skills.length} Keahlian
     </span>
   </div>
 

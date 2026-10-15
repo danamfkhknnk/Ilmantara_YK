@@ -106,7 +106,7 @@ export function* runFlow(nodes: FlowNode[], edges: FlowEdge[], world: MazeWorld)
       yield { type: "move", nodeId: node.id, pos };
       const e = outEdge(node.id, "out", edges);
       if (!e) {
-        yield { type: "error", message: '"Move forward" has no block connected after it.' };
+        yield { type: "error", message: '"Maju" belum disambung ke blok berikutnya.' };
         return;
       }
       current = byId.get(e.target);
@@ -115,7 +115,7 @@ export function* runFlow(nodes: FlowNode[], edges: FlowEdge[], world: MazeWorld)
       yield { type: "turn", nodeId: node.id, dir };
       const e = outEdge(node.id, "out", edges);
       if (!e) {
-        yield { type: "error", message: '"Turn" has no block connected after it.' };
+        yield { type: "error", message: '"Belok" belum disambung ke blok berikutnya.' };
         return;
       }
       current = byId.get(e.target);
@@ -126,7 +126,7 @@ export function* runFlow(nodes: FlowNode[], edges: FlowEdge[], world: MazeWorld)
       yield { type: "branch", nodeId: node.id, handle };
       const e = outEdge(node.id, handle, edges);
       if (!e) {
-        yield { type: "error", message: `"Path Ahead?" is missing its ${open ? "Yes" : "No"} connection.` };
+        yield { type: "error", message: `"Jika ada jalan?" belum punya sambungan ${open ? "Ya" : "Tidak"}.` };
         return;
       }
       current = byId.get(e.target);
@@ -137,7 +137,7 @@ export function* runFlow(nodes: FlowNode[], edges: FlowEdge[], world: MazeWorld)
       const e = outEdge(node.id, handle, edges);
       if (!e) {
         if (notDone) {
-          yield { type: "error", message: '"Repeat" has no loop body connected.' };
+          yield { type: "error", message: '"Perulangan" belum punya isi pengulangan.' };
           return;
         }
         current = undefined; // done with nothing after it: fall through to the stop check below

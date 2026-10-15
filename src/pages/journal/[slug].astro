@@ -1,6 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import JournalCard from "../../components/journal/JournalCard.astro";
+import ArrowLink from "../../components/ArrowLink.astro";
+import ArrowMark from "../../components/ArrowMark.astro";
 import { POSTS, AUTHOR } from "../../data/journal";
 
 export function getStaticPaths() {
@@ -9,9 +11,27 @@ export function getStaticPaths() {
 
 const { post } = Astro.props;
 const more = POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
+const path = `/journal/${post.slug}/`;
+
+function rich(text: string) {
+  return text.split(/(\[[^\]]+\]\([^)]+\))/g).map((part) => {
+    const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    return m ? { link: m[2], text: m[1] } : { text: part };
+  });
+}
 ---
 
-<Layout title={`${post.title} · Ilmantara`}>
+<Layout
+  path={path}
+  lang="id"
+  title={`${post.title} · Ilmantara`}
+  description={post.excerpt}
+  image={post.cover}
+  alternates={[
+    { hreflang: "id", href: path },
+    { hreflang: "x-default", href: path },
+  ]}
+>
   <div class="bg-paper text-ink">
     <article class="mx-auto max-w-[1312px] px-5 pb-24 pt-[120px] sm:px-8 md:pt-[150px] lg:px-16">
       <!-- 01 Post header -->
@@ -38,7 +58,15 @@ const more = POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
       <div class="mx-auto mt-10 max-w-[720px] md:mt-14">
         {post.body.map((para) => (
           <p class="mb-6 text-[18px] leading-[1.65] tracking-[-0.01em] text-ink/80 last:mb-0">
-            {para}
+            {rich(para).map((seg) =>
+              "link" in seg && seg.link ? (
+                <a href={seg.link} class="font-medium text-accent underline underline-offset-2 hover:text-ink">
+                  {seg.text}
+                </a>
+              ) : (
+                seg.text
+              ),
+            )}
           </p>
         ))}
       </div>
@@ -49,31 +77,31 @@ const more = POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
           {AUTHOR.initials}
         </span>
         <div class="min-w-0">
-          <p class="text-[15px] font-semibold text-ink">Written by {AUTHOR.name}</p>
-          <p class="mt-1 text-sm leading-relaxed text-ink/60">{AUTHOR.bio}</p>
+          <p class="text-[15px] font-semibold text-ink">
+            {`Ditulis oleh ${AUTHOR.name}`}
+          </p>
+          <p class="mt-1 text-sm leading-relaxed text-ink/60">{AUTHOR.bioId}</p>
         </div>
         <a
           href={`mailto:${AUTHOR.email}`}
-          class="inline-flex shrink-0 items-center gap-2 text-sm font-medium text-ink underline underline-offset-4 hover:text-accent sm:ml-auto"
+          class="group inline-flex shrink-0 items-center gap-2 text-sm font-medium text-ink underline underline-offset-4 hover:text-accent sm:ml-auto"
         >
-          Say hello →
+          {"Sapa kami "}<ArrowMark />
         </a>
       </aside>
 
-      <!-- 05 More essays -->
-      <section aria-label="More essays" class="mt-16 md:mt-24">
+      <!-- 05 Esai lain -->
+      <section aria-label="Tulisan lain" class="mt-16 md:mt-24">
         <div class="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p class="flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.05em] text-ink/55">
-              <span class="text-accent">[05]</span> Keep reading
+              <span class="text-accent">[05]</span> {"Lanjut baca"}
             </p>
             <h2 class="mt-4 text-[36px] font-semibold leading-[1.02] tracking-[-0.03em] md:text-[48px]">
-              More essays
+              {"Tulisan lain"}
             </h2>
           </div>
-          <a href="/journal" class="pb-1 text-sm font-medium text-ink underline underline-offset-4 hover:text-accent">
-            All essays →
-          </a>
+          <ArrowLink href="/journal/" label="Semua tulisan" tone="ink" size="text-sm" class="pb-1" />
         </div>
         <div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {more.map((p) => (

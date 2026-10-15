@@ -3,6 +3,7 @@
 // Specification: research/hero-reference-20261012T095713Z/README.md.
 import glyphData from "../data/hero-glyphs.json";
 import editorUrl from "../lib/hero-wordmark-editor.js?url";
+import { WHATSAPP_LINK } from "../lib/site";
 
 const CANVAS_W = 1440;
 const CANVAS_H = 900;
@@ -11,31 +12,29 @@ const MOBILE_CANVAS_H = 860;
 const ORIGINAL_DURATION = 12.4;
 const TOTAL_DURATION = 25;
 const TEAM = [
-  { id: "tegar", name: "Tegar", role: "Creative Director", shortRole: "CD", color: "#E5484D", labelColor: "#fff", message: "Keep it bold." },
+  { id: "tegar", name: "Tegar", role: "Creative Director", shortRole: "CD", color: "#E5484D", labelColor: "#fff", message: "Buat Hitam, jangan abu-abu." },
   { id: "nafis", name: "Nafis", role: "UI Designer", shortRole: "UI", color: "#F5C542", labelColor: "#0C0C0E", message: "" },
-  { id: "natan", name: "Natan", role: "Developer", shortRole: "Dev", color: "#8B5E3C", labelColor: "#fff", message: "Spacing checked. Ready to build." },
+  { id: "natan", name: "Natan", role: "Developer", shortRole: "Dev", color: "#8B5E3C", labelColor: "#fff", message: "Jarak dan responsif aman." },
 ];
 
 const ACCENT = "#4B3BFF";
 const INK = "#0C0C0E";
-const PAPER = "#ECECE8";
 const MARA_COLOR = "#FF5B24";
 const GUIDE_COLOR = "#FF3D6E";
 
-const HEADLINE = "We're a top-notch digital agency.";
-const DESCRIPTION = "Our team helps businesses craft meaningful and interactive product experiences.";
-const CURRENT_ROLE = "Design lead at Orrin";
-const AVAILABILITY = "Booking projects from November";
-const PRIMARY_LABEL = "See Selected Work";
-const PRIMARY_LINK = "/#selected-work";
-const PHOTO_SRC = "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=900&q=80&auto=format&fit=crop";
-const PHOTO_NAME = "at-the-desk.jpg";
+const HEADLINE = "Software House Jogja untuk Website, Toko Online Shopify & Aplikasi Web";
+const DESCRIPTION = "Kami membantu UMKM dan brand membuat website, landing page, dan toko online Shopify yang cepat, mudah dikelola, dan siap mendatangkan pelanggan. Berbasis di Yogyakarta, melayani klien di seluruh Indonesia dan luar negeri.";
+const TRUST_LINE = "Dipercaya pemilik brand, ilustrator, dan startup dari Jogja hingga Berlin · Shopify · Laravel · React";
+const CURRENT_ROLE = "Software House Jogja";
+const AVAILABILITY = "Menerima proyek baru";
+const PRIMARY_LABEL = "Konsultasi Gratis via WhatsApp";
+const PRIMARY_LINK = WHATSAPP_LINK;
+const SECONDARY_LABEL = "Lihat Portofolio";
+const SECONDARY_LINK = "/#selected-work";
 const COMMENT_AUTHOR = "Dimas";
-const COMMENT_TEXT = "Can the name go bigger? It's the first thing a client reads.";
+const COMMENT_TEXT = "Tulisannya bisa lebih besar? Ini yang pertama dibaca klien.";
 const REPLY_AUTHOR = "Dana";
-const REPLY_TEXT = "Bumped it to 208. Shipping.";
-const PROJECT_NAME = "Orrin";
-const PROJECT_AMOUNT = "€12,480.00";
+const REPLY_TEXT = "Sudah 208. Minta Tolong Di cek.";
 const CHROME = "absolute rounded-xl border border-ink/10 bg-white/[.82] backdrop-blur-[14px] backdrop-saturate-[1.4] shadow-[inset_0_1px_0_rgba(255,255,255,.8),0_18px_40px_-18px_rgba(12,12,14,.28),0_2px_6px_rgba(12,12,14,.05)]";
 const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mono text-[12px] font-medium leading-none transition-[background,color] duration-200";
 ---
@@ -57,7 +56,11 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
 
     <div id="ha-canvas" class="absolute left-0 top-0 origin-top-left">
       <div id="ha-artboard" class="absolute inset-0 origin-[50%_40%]">
-      <h1 class="sr-only">{glyphData.text}</h1>
+      <div id="ha-statement" class="absolute text-center">
+        <h1 id="ha-headline" class="m-0 mt-3 text-[26px] font-semibold leading-[1.16] tracking-[-0.032em] text-balance min-[900px]:text-[36px]">{HEADLINE}</h1>
+        <p id="ha-description" class="mx-auto mb-0 mt-3 max-w-3xl text-[18px] font-normal leading-[1.45] tracking-[-0.015em] text-balance text-ink/60 min-[900px]:text-[20px]">{DESCRIPTION}</p>
+        <p class="mx-auto mb-0 mt-3 max-w-3xl font-mono text-[11px] font-medium leading-[1.5] tracking-[0.02em] text-ink/45">{TRUST_LINE}</p>
+      </div>
       <div
         id="ha-breadcrumb"
         class="absolute flex items-center gap-2.5 font-mono text-[11px] font-medium leading-none tracking-[0.02em]"
@@ -68,16 +71,27 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         <span class="opacity-60" id="ha-dims-label">1440 × 900</span>
       </div>
 
-      <div id="ha-badge-role" class="absolute flex items-center gap-[7px] font-mono text-[11px] font-medium leading-[11px] tracking-[0.04em] uppercase whitespace-nowrap" style={`color:${ACCENT}`}>
-        <svg width="10" height="10" viewBox="0 0 10 10">
-          <path d="M5 0.8 L9.2 5 L5 9.2 L0.8 5 Z" fill="none" stroke={ACCENT} stroke-width="1.3"></path>
-          <path d="M5 3 L7 5 L5 7 L3 5 Z" fill={ACCENT}></path>
-        </svg>
-        <span>{CURRENT_ROLE}</span>
+      <div id="ha-role" data-floating-component="role" class="absolute w-[172px] will-change-transform transition-shadow duration-200 [@media(hover:hover)]:hover:shadow-[0_0_0_2px_#4B3BFF40] motion-reduce:transition-none min-[900px]:w-[208px]">
+        <div class="absolute left-0 -top-[18px] flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none whitespace-nowrap text-accent">
+          <span>◇</span><span>Role</span>
+        </div>
+        <div class="rounded-[14px] border border-ink/10 bg-white p-[14px] shadow-[0_24px_44px_-22px_rgba(12,12,14,.42)]">
+          <div class="flex items-center gap-[7px] font-mono text-[11px] font-medium uppercase tracking-[0.04em] whitespace-nowrap" style={`color:${ACCENT}`}>
+            <span aria-hidden="true" class="text-[10px] leading-none">◇</span>
+            <span>{CURRENT_ROLE}</span>
+          </div>
+        </div>
       </div>
-      <div id="ha-badge-avail" class="absolute flex items-center gap-[7px] font-mono text-[11px] font-medium leading-[11px] tracking-[0.04em] uppercase whitespace-nowrap" style="color: rgba(12,12,14,.62);">
-        <span style="width:7px;height:7px;border-radius:9px;background:#19C37D;box-shadow:0 0 0 3px rgba(25,195,125,.18);"></span>
-        <span>{AVAILABILITY}</span>
+      <div id="ha-avail" data-floating-component="avail" class="absolute w-[206px] will-change-transform transition-shadow duration-200 [@media(hover:hover)]:hover:shadow-[0_0_0_2px_#4B3BFF40] motion-reduce:transition-none">
+        <div class="absolute left-0 -top-[18px] flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none whitespace-nowrap text-accent">
+          <span>◇</span><span>Availability</span>
+        </div>
+        <div class="rounded-[14px] border border-ink/10 bg-white p-[14px] shadow-[0_24px_44px_-22px_rgba(12,12,14,.42)]">
+          <div class="flex items-center gap-[7px] font-mono text-[11px] font-medium uppercase tracking-[0.04em] whitespace-nowrap" style="color: rgba(12,12,14,.62);">
+            <span style="width:7px;height:7px;border-radius:9px;background:#19C37D;box-shadow:0 0 0 3px rgba(25,195,125,.18);"></span>
+            <span>{AVAILABILITY}</span>
+          </div>
+        </div>
       </div>
 
       <svg id="ha-name-svg" class="pointer-events-none absolute left-0 top-0 overflow-visible" role="group" aria-label="Ilmantara move and resize controls">
@@ -100,43 +114,14 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       </svg>
       <div id="ha-dimlabel" class="pointer-events-none absolute origin-center rounded-[4px] bg-accent px-[7px] py-[5px] font-mono text-[11px] font-medium leading-none whitespace-nowrap text-white transition-[background] duration-200"></div>
 
-      <div id="ha-statement" class="absolute text-center">
-        <h2 id="ha-headline" class="m-0 text-[26px] font-semibold leading-[1.16] tracking-[-0.032em] text-balance min-[900px]:text-[36px]">{HEADLINE}</h2>
-        <p id="ha-description" class="mx-auto mb-0 mt-3 max-w-[650px] text-[18px] font-normal leading-[1.45] tracking-[-0.015em] text-balance text-ink/60 min-[900px]:text-[20px]">{DESCRIPTION}</p>
-      </div>
-
       <div id="ha-cta" class="absolute left-0 flex flex-wrap justify-center gap-[10px]">
-        <a href={PRIMARY_LINK} id="ha-cta-primary" class="group box-border inline-flex h-12 cursor-none items-center gap-[10px] rounded-[10px] px-5 text-[15px] font-medium transition-[transform,box-shadow,background] duration-[350ms] ease-[cubic-bezier(.22,1,.36,1)] motion-safe:[@media(hover:hover)]:hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,.55)] active:translate-y-0 motion-safe:active:scale-[.98] motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent" style={`background:${INK}; color:#fff; line-height:15px; letter-spacing:-0.015em;`}>
+        <a href={PRIMARY_LINK} id="ha-cta-primary" target="_blank" rel="noopener" class="group box-border inline-flex h-12 cursor-none items-center gap-[10px] rounded-[10px] px-5 text-[15px] font-medium transition-[transform,box-shadow,background] duration-[350ms] ease-[cubic-bezier(.22,1,.36,1)] motion-safe:[@media(hover:hover)]:hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,.55)] active:translate-y-0 motion-safe:active:scale-[.98] motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent" style={`background:${INK}; color:#fff; line-height:15px; letter-spacing:-0.015em;`}>
           {PRIMARY_LABEL}
           <svg class="transition-transform duration-[350ms] ease-[cubic-bezier(.22,1,.36,1)] motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:translate-y-0.5 motion-reduce:transition-none" width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 4.5 L11 11 L4.5 11" stroke="currentColor" stroke-width="1.6" fill="none"></path></svg>
         </a>
-      </div>
-
-      <div id="ha-photo" data-floating-component="photo" class="absolute will-change-transform transition-shadow duration-200 [@media(hover:hover)]:hover:shadow-[0_0_0_2px_#4B3BFF40] motion-reduce:transition-none">
-        <div class="absolute left-0 -top-[18px] flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none text-ink/55">
-          <span>▣</span><span>{PHOTO_NAME}</span>
-        </div>
-        <img src={PHOTO_SRC} alt="Noor sketching interface ideas on a tablet" draggable="false" class="block h-full w-full rounded-[2px] object-cover" style="box-shadow: 0 20px 40px -20px rgba(12,12,14,.45);" />
-      </div>
-
-      <div id="ha-card" data-floating-component="card" class="absolute w-[206px] will-change-transform transition-shadow duration-200 [@media(hover:hover)]:hover:shadow-[0_0_0_2px_#4B3BFF40] motion-reduce:transition-none">
-        <div class="absolute left-0 -top-[18px] flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none whitespace-nowrap text-accent">
-          <span>◇</span><span>Now: {PROJECT_NAME} app</span>
-        </div>
-        <div class="rounded-[14px] border border-ink/10 bg-white p-[14px] shadow-[0_24px_44px_-22px_rgba(12,12,14,.42)]">
-          <div class="flex items-center justify-between text-[11px] font-medium leading-none text-ink/55">
-            <span class="flex items-center gap-1.5"><span class="inline-block size-4 rounded-[5px] bg-ink"></span>Pay run · Oct</span>
-            <span class="text-[#10B37A]">● Ready</span>
-          </div>
-          <div class="mt-[14px] text-[25px] font-semibold leading-none tracking-[-0.04em]">{PROJECT_AMOUNT}</div>
-          <div class="mt-[5px] text-[11px] font-normal leading-[1.3] text-ink/50">14 freelancers · paid Friday</div>
-          <div id="ha-chart" class="mt-3 flex h-[38px] items-end gap-1">
-            {[.42, .6, .5, .78, .66, .92, .7, 1].map((ratio, i) => (
-              <div data-chart-ratio={ratio} class:list={["min-w-0 flex-1 rounded-[3px]", i === 7 ? "bg-accent" : "bg-ink/[.12]"]}></div>
-            ))}
-          </div>
-          <div class="mt-3 flex h-8 items-center justify-center rounded-lg bg-accent text-[12px] font-medium leading-none text-white">Approve pay run</div>
-        </div>
+        <a href={SECONDARY_LINK} id="ha-cta-secondary" class="group box-border inline-flex h-12 cursor-none items-center gap-[10px] rounded-[10px] border border-ink/15 bg-white/[.7] px-5 text-[15px] font-medium text-ink backdrop-blur-[8px] transition-[transform,box-shadow,background] duration-[350ms] ease-[cubic-bezier(.22,1,.36,1)] motion-safe:[@media(hover:hover)]:hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,.35)] active:translate-y-0 motion-safe:active:scale-[.98] motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent" style="line-height:15px; letter-spacing:-0.015em;">
+          {SECONDARY_LABEL}
+        </a>
       </div>
 
       </div>
@@ -151,7 +136,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
            out of this same anchor point as it collapses (K window). -->
       <div id="ha-comment-pulse" class="absolute size-8 rounded-full border-2 border-[#FF5B24] opacity-0" aria-hidden="true"></div>
       <div id="ha-thread-anchor" class="pointer-events-none absolute z-20" style="opacity:0;">
-        <button type="button" id="ha-avatar" data-comment-toggle="mara" aria-label="Toggle Mara comment" aria-controls="ha-comment" aria-expanded="false" disabled tabindex="-1" class="pointer-events-none cursor-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent absolute -left-[14px] -top-[30px] flex size-7 items-center justify-center rounded-[50%_50%_50%_4px] border-2 border-white bg-[#FF5B24] text-[12px] font-semibold leading-none text-white shadow-[0_6px_14px_rgba(255,91,36,.35)]">
+        <button type="button" id="ha-avatar" data-comment-toggle="mara" aria-label="Toggle Dimas comment" aria-controls="ha-comment" aria-expanded="false" disabled tabindex="-1" class="pointer-events-none cursor-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent absolute -left-[14px] -top-[30px] flex size-7 items-center justify-center rounded-[50%_50%_50%_4px] border-2 border-white bg-[#FF5B24] text-[12px] font-semibold leading-none text-white shadow-[0_6px_14px_rgba(255,91,36,.35)]">
           {COMMENT_AUTHOR[0]}
           <span id="ha-thread-badge" class="absolute -right-[9px] -top-[7px] h-4 min-w-[16px] rounded-[9px] text-center text-[9px] font-semibold leading-4 text-white" style={`background:${INK};`}>2</span>
         </button>
@@ -317,7 +302,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
   }
 
   // Secondary-story beats are hardcoded absolute seconds in the reference,
-  // calibrated for "Noor Castell" (11 glyphs, L_ref=3.15s). Expressed here as
+  // calibrated for "Ilmantara" (9 glyphs, L_ref=3.15s). Expressed here as
   // offsets from L_ref so the rhythm scales with however many glyphs our text has.
   const L_REF = 3.15;
   const off = (abs) => abs - L_REF;
@@ -365,16 +350,13 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     const breadcrumb = document.getElementById("ha-breadcrumb");
     const modeLabel = document.getElementById("ha-mode-label");
     const dimsLabel = document.getElementById("ha-dims-label");
-    const badgeRole = document.getElementById("ha-badge-role");
-    const badgeAvail = document.getElementById("ha-badge-avail");
+    const roleEl = document.getElementById("ha-role");
+    const availEl = document.getElementById("ha-avail");
     const statement = document.getElementById("ha-statement");
-    const contentLayout = { key: null, height: 0, ctaHeight: 48, ctaWidth: 194, cardHeight: 198 };
+    const contentLayout = { key: null, height: 0, ctaHeight: 48, ctaWidth: 194, roleHeight: 0, availHeight: 0 };
     const cta = document.getElementById("ha-cta");
     const ctaPrimary = document.getElementById("ha-cta-primary");
-    const photo = document.getElementById("ha-photo");
-    const card = document.getElementById("ha-card");
     const maraCursor = document.getElementById("ha-mara-cursor");
-    const chartBars = [...document.querySelectorAll("#ha-chart [data-chart-ratio]")];
     const commentCaret = document.getElementById("ha-comment-caret");
     const commentPulse = document.getElementById("ha-comment-pulse");
     const threadAnchor = document.getElementById("ha-thread-anchor");
@@ -451,7 +433,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     let hCrosshair = null, vCrosshair = null;
     let lastCrosshairKey = null;
     let lastRulerKey = null; // only rebuild the ~140-node tick/label DOM when geometry actually changes, not every RAF frame
-    const parallax = { x: 0, y: 0 }; // photo/card parallax, independent of the wordmark editor
+    const parallax = { x: 0, y: 0 }; // panel parallax, independent of the wordmark editor
     function updateRulerCrosshair(mouse) {
       const key = mouse ? `${mouse.x}|${mouse.y}` : 'none';
       if (key === lastCrosshairKey && (!mouse || hCrosshair?.isConnected)) return;
@@ -484,7 +466,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     const toolScale = document.getElementById("ha-tool-scale");
     const toolButtons = { move: toolMove, frame: toolFrame, pen: toolPen, text: toolText, comment: toolComment, scale: toolScale };
     const toolbar = document.getElementById("ha-toolbar");
-    const floating = Object.fromEntries([["photo", photo, 10], ["card", card, 16], ["layers", layersPanel, 5], ["inspect", inspectPanel, 5]].map(([id, node, depth], index) => {
+    const floating = Object.fromEntries([["role", roleEl, 10], ["avail", availEl, 16], ["layers", layersPanel, 5], ["inspect", inspectPanel, 5]].map(([id, node, depth], index) => {
       const state = { node, depth, index, hovered: false, lift: 0, x: 0, y: 0 };
       node.addEventListener('pointerenter', event => { if (event.pointerType !== 'touch') state.hovered = true; }, { signal: abort.signal });
       node.addEventListener('pointerleave', () => { state.hovered = false; }, { signal: abort.signal });
@@ -557,8 +539,8 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       name: '<path d="M2 10 C3 4 9 8 10 2" stroke-width="1.2"/><rect x=".8" y="8.8" width="2.4" height="2.4" fill="currentColor" stroke="none"/><rect x="8.8" y=".8" width="2.4" height="2.4" fill="currentColor" stroke="none"/>',
       statement: '<path d="M2 2.5h8M6 2.5v8" stroke-width="1.3"/>',
       cta: '<path d="M6 .8 L11.2 6 L6 11.2 L.8 6 Z" stroke-width="1.2"/>',
-      photo: '<rect x="1" y="1.5" width="10" height="9" rx="1.5" stroke-width="1.2"/><path d="M1.5 9 L4.5 6 L7 8.2 L8.5 7 L10.5 9" stroke-width="1.1"/>',
-      card: '<path d="M6 .8 L11.2 6 L6 11.2 L.8 6 Z" stroke-width="1.2"/>',
+      role: '<path d="M6 .8 L11.2 6 L6 11.2 L.8 6 Z" stroke-width="1.2"/>',
+      avail: '<circle cx="6" cy="6" r="3" stroke-width="1.2"/>',
       comment: '<path d="M2 2h8v6H5l-3 2.5z" stroke-width="1.2" stroke-linejoin="round"/>',
     };
     const LAYER_DEFS = [
@@ -566,9 +548,9 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       { id: "name", label: glyphData.text, depth: 1 },
       { id: "statement", label: "Statement", depth: 1 },
       { id: "cta", label: "Buttons", depth: 1 },
-      { id: "photo", label: "at-the-desk.jpg", depth: 1 },
-      { id: "card", label: "Now: Orrin", depth: 1 },
-      { id: "comment", label: "Comment · Mara", depth: 1 },
+      { id: "role", label: "Role", depth: 1 },
+      { id: "avail", label: "Availability", depth: 1 },
+      { id: "comment", label: "Comment · Dimas", depth: 1 },
     ];
     const layerRows = {};
     LAYER_DEFS.forEach((def) => {
@@ -858,15 +840,6 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       setText(dimLabel, `${round(F.w)} × ${round(F.h)}`);
       editor.syncHitAreas();
 
-      // --- Badges ---
-      const badgeFade = fadeIn(D, L + 0.05);
-      positionAbs(badgeRole, box.x + 2, box.y - (mobile ? 56 : 34));
-      positionAbs(badgeAvail, mobile ? box.x + 2 : box.x + box.w - 2, box.y - 34, !mobile);
-      badgeRole.style.opacity = badgeFade.o;
-      badgeAvail.style.opacity = badgeFade.o;
-      badgeRole.style.transform += ` translateY(${badgeFade.dy + nameOffset}px)`;
-      badgeAvail.style.transform += ` translateY(${badgeFade.dy + nameOffset}px)`;
-
       // Measure responsive text only when its layout changes, never every RAF.
       const contentKey = `${mobile}|${k}`;
       if (contentLayout.key !== contentKey) {
@@ -875,8 +848,10 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         cta.style.width = `${k}px`;
         contentLayout.height = statement.offsetHeight;
         contentLayout.ctaHeight = cta.offsetHeight;
-        contentLayout.ctaWidth = ctaPrimary.offsetWidth;
-        contentLayout.cardHeight = card.offsetHeight;
+        const ctaSecondary = document.getElementById("ha-cta-secondary");
+        contentLayout.ctaWidth = ctaPrimary.offsetWidth + (ctaSecondary ? ctaSecondary.offsetWidth + 10 : 0);
+        contentLayout.roleHeight = roleEl.offsetHeight;
+        contentLayout.availHeight = availEl.offsetHeight;
         contentLayout.key = contentKey;
       }
       const statementY = mobile ? box.y + box.h + 44 : 454;
@@ -897,10 +872,10 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         state.y = prefersReducedMotion ? 0 : Math.cos(idleTime * (.42 + state.index * .09) + state.index * 1.1) * 4 * idleGain - parallax.y * state.depth - state.lift;
       }
       const floatTransform = id => `translate(${floating[id].x}px, ${floating[id].y}px)`;
-      const photoBox = mobile
-        ? { x: 24, y: ctaY + 128, w: 172, h: 124 }
-        : { x: 304, y: Math.max(664, ctaY + contentLayout.ctaHeight + 48), w: 208, h: 148 };
-      const cardBox = mobile
+      const roleBox = mobile
+        ? { x: 24, y: ctaY + 128, w: 172 }
+        : { x: 304, y: Math.max(664, ctaY + contentLayout.ctaHeight + 48), w: 208 };
+      const availBox = mobile
         ? { x: 218, y: ctaY + 120, sc: 0.86 }
         : { x: 930, y: Math.max(648, ctaY + contentLayout.ctaHeight + 32), sc: 1 };
 
@@ -918,22 +893,19 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       cta.style.opacity = tn.o;
 
       const nn = fadeIn(D, L + 0.5);
-      photo.style.left = `${photoBox.x - q * 260}px`;
-      photo.style.top = `${photoBox.y - q * 60 + nn.dy}px`;
-      photo.style.width = `${photoBox.w}px`;
-      photo.style.height = `${photoBox.h}px`;
-      photo.style.opacity = nn.o;
+      roleEl.style.left = `${roleBox.x - q * 260}px`;
+      roleEl.style.top = `${roleBox.y - q * 60 + nn.dy}px`;
+      roleEl.style.transform = floatTransform('role');
+      roleEl.style.opacity = nn.o;
 
       const rn = fadeIn(D, L + 0.62);
-      card.style.left = `${cardBox.x + q * 300}px`;
-      card.style.top = `${cardBox.y - q * 120 + rn.dy}px`;
-      card.style.transform = `${floatTransform('card')} scale(${cardBox.sc})`;
-      photo.style.transform = floatTransform('photo');
-      card.style.transformOrigin = "0 0";
-      card.style.opacity = rn.o;
-      chartBars.forEach((bar, i) => { bar.style.height = `${Number(bar.dataset.chartRatio) * 100 * EASE.out(norm(D, L + .7 + i * .05, L + 1.3 + i * .05))}%`; });
+      availEl.style.left = `${availBox.x + q * 300}px`;
+      availEl.style.top = `${availBox.y - q * 120 + rn.dy}px`;
+      availEl.style.transform = `${floatTransform('avail')} scale(${availBox.sc})`;
+      availEl.style.transformOrigin = "0 0";
+      availEl.style.opacity = rn.o;
 
-      // --- Mara story: cursor arrival, comment bubble, typed text ---
+      // --- Dimas story: cursor arrival, comment bubble, typed text ---
       // Apply only the manual affine to the original avatar anchor. Identity
       // must preserve its intro position exactly, including at the 25s unlock.
       const Dt = {
@@ -1031,10 +1003,8 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         { id: "name", x: F.x, y: F.y + nameOffset, w: F.w, h: F.h, label: "Name / vector" },
         { id: "statement", x: mobile ? 20 : 300, y: statementY, w: mobile ? 380 : 840, h: contentLayout.height, label: "Statement" },
         { id: "cta", x: (k - contentLayout.ctaWidth) / 2, y: ctaY + ctaNudge, w: contentLayout.ctaWidth, h: contentLayout.ctaHeight, label: "Buttons" },
-        { id: "photo", x: photoBox.x - q * 260 + floating.photo.x, y: photoBox.y - q * 60 + floating.photo.y, w: photoBox.w, h: photoBox.h, label: "at-the-desk.jpg" },
-        { id: "card", x: cardBox.x + q * 300 + floating.card.x, y: cardBox.y - q * 120 + floating.card.y, w: 206 * cardBox.sc, h: contentLayout.cardHeight * cardBox.sc, label: "Now: Orrin" },
       ];
-      const scriptedBox = nayaWorking ? boxes.find((b) => b.id === "cta") : dimasWorking ? boxes.find((b) => b.id === "card") : null;
+      const scriptedBox = nayaWorking ? boxes.find((b) => b.id === "cta") : null;
       if (mouseScreen) {
         const cx = (mouseScreen.x - originX) / s, cy = (mouseScreen.y - originY) / s;
         cursorCanvasPos = { x: cx, y: cy };
@@ -1056,8 +1026,8 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       // New collaborators act one at a time after the original Mara/Theo story.
       const actions = [
         { start: 13, end: 16.5, target: { x: F.x + F.w - (mobile ? 100 : 220), y: F.y + 10 }, rest: { x: mobile ? 230 : 350, y: mobile ? 94 : 130 } },
-        { start: 17, end: 20, target: { x: mobile ? 200 : 716, y: ctaY + 14 + ctaNudge }, rest: { x: mobile ? 24 : 730, y: mobile ? photoBox.y + photoBox.h + 24 : ctaY + 76 } },
-        { start: 20.5, end: 24.5, target: { x: mobile ? 320 : cardBox.x + 165, y: cardBox.y + 38 }, rest: { x: mobile ? 220 : 980, y: cardBox.y + (mobile ? 180 : 188) } },
+        { start: 17, end: 20, target: { x: mobile ? 200 : 716, y: ctaY + 14 + ctaNudge }, rest: { x: mobile ? 24 : 730, y: mobile ? ctaY + 276 : ctaY + 76 } },
+        { start: 20.5, end: 24.5, target: { x: mobile ? 210 : 720, y: ctaY + 24 }, rest: { x: mobile ? 220 : 980, y: ctaY + 150 } },
       ];
       teamNodes.forEach((member, i) => {
         const action = actions[i];
@@ -1085,8 +1055,8 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         if (member.thread) {
           const pop = EASE.back(norm(D, action.start + .85, action.start + 1.2));
           const collapse = EASE.inOut(norm(D, action.end - .75, action.end - .15));
-          const threadRight = clamp(i === 2 ? cardBox.x + 206 * cardBox.sc + 12 : action.target.x, 284, k - 20);
-          const threadY = i === 2 ? cardBox.y + 20 : action.target.y + 26;
+          const threadRight = clamp(action.target.x, 284, k - 20);
+          const threadY = action.target.y + 26;
           positionAbs(member.thread, threadRight - 260, threadY);
           member.thread.style.opacity = pop > 0 ? 1 : 0;
           member.thread.querySelector("[data-team-avatar]").style.transform = `scale(${Math.max(0, pop)})`;
@@ -1195,8 +1165,6 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         lastTool = tool;
       }
 
-      function PHOTO_LABEL() { return "at-the-desk.jpg"; }
-
       function renderGuides(hoverBox, k, A) {
         const key = hoverBox ? [hoverBox.id, k, A, ...boxes.flatMap(b => [b.id, round(b.x), round(b.y), round(b.w), round(b.h)])].join("|") : "none";
         if (key === lastGuideKey) return;
@@ -1281,7 +1249,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     const resize = new ResizeObserver(() => render(lastTime));
     resize.observe(container);
     const contentResize = new ResizeObserver(() => { contentLayout.key = null; render(lastTime); });
-    contentResize.observe(statement); contentResize.observe(cta); contentResize.observe(card);
+    contentResize.observe(statement); contentResize.observe(cta);
     window.addEventListener("scroll", () => render(lastTime), { passive: true, signal: abort.signal });
     window.addEventListener("scroll", () => { if (prefersReducedMotion) render(lastTime); }, { passive: true, signal: abort.signal });
 

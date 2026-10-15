@@ -3,12 +3,61 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import YouCursor from "../components/YouCursor.astro";
+import {
+  SITE_URL,
+  SITE_NAME,
+  EMAIL,
+  WHATSAPP_NUMBER,
+  ADDRESS,
+  MAPS_LINK,
+  DEFAULT_TITLE,
+  DEFAULT_DESCRIPTION,
+  absoluteUrl,
+} from "../lib/site";
 
-const { title = "Ilmantara" } = Astro.props;
+type Alternate = { hreflang: string; href: string };
+
+const {
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
+  path = Astro.url.pathname,
+  lang = "id",
+  image = "/logo.png",
+  ogType = "website",
+  // hreflang: [{ hreflang: "id", href: "/"}, { hreflang: "x-default", href: "/"}]
+  alternates = [] as Alternate[],
+  jsonLd = [] as Record<string, unknown>[],
+} = Astro.props;
+
+const canonical = absoluteUrl(path);
+const ogImage = image.startsWith("http") ? image : absoluteUrl(image);
+const locale = "id_ID";
+
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: SITE_NAME,
+  url: SITE_URL,
+  email: EMAIL,
+  telephone: `+${WHATSAPP_NUMBER}`,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: ADDRESS.locality,
+    addressRegion: ADDRESS.region,
+    addressCountry: "ID",
+  },
+  areaServed: [ADDRESS.locality, "Indonesia"],
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: ADDRESS.geo.latitude,
+    longitude: ADDRESS.geo.longitude,
+  },
+  hasMap: MAPS_LINK,
+};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -17,6 +66,26 @@ const { title = "Ilmantara" } = Astro.props;
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href.startsWith("http") ? alt.href : absoluteUrl(alt.href)} />
+    ))}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={`${SITE_NAME} – Software House Jogja`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    {jsonLd.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
   </head>
   <body id="top" class="min-h-screen bg-paper text-ink">
     <Header />

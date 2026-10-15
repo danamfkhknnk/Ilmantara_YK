@@ -1,32 +1,31 @@
 ---
 import { POSTS } from "../../data/journal";
+import ArrowLink from "../ArrowLink.astro";
 
 const TEASER = POSTS.slice(0, 3);
 ---
 
 <section data-framer-name="10 Journal" class="px-6 py-24 md:px-10 md:pb-32">
   <p class="font-mono text-xs font-medium tracking-wide text-ink/40">
-    <span class="text-accent">[10]</span> JOURNAL
+    <span class="text-accent">[10]</span> JURNAL
   </p>
 
   <div class="mt-4 grid gap-10 lg:grid-cols-[1fr_320px]">
     <h2 class="text-[56px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
-      Notes from the file
+      Catatan dari lapangan
     </h2>
     <div>
       <p class="text-ink/70">
-        Short essays on research, systems and the business of design. One a month, no newsletter
-        pop-ups.
+        Esai pendek soal riset, sistem, dan bisnis desain. Satu tulisan sebulan, tanpa
+        pop-up newsletter.
       </p>
-      <a href="/journal" class="mt-3 inline-block text-sm font-medium text-ink underline">
-        Read the journal <span aria-hidden="true">→</span>
-      </a>
+      <ArrowLink href="/journal/" label="Baca jurnal" tone="ink" size="text-sm" class="mt-3 inline-block" />
     </div>
   </div>
 
   <div class="mt-10 grid gap-6 lg:grid-cols-3">
     {TEASER.map((post) => (
-      <a href={`/journal/${post.slug}`} class="group block overflow-hidden rounded-2xl bg-white">
+      <a href={`/journal/${post.slug}/`} class="group block overflow-hidden rounded-2xl bg-white">
         <div class="overflow-hidden">
           <img src={post.cover} alt={post.coverAlt} loading="lazy" class="h-[280px] w-full rounded-t-2xl object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
         </div>

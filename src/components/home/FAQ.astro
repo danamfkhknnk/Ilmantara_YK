@@ -1,51 +1,27 @@
 ---
-const QUESTIONS = [
-  {
-    question: "What kind of projects do you take on?",
-    answer:
-      "I build websites, e-commerce stores, custom web applications, and AI-powered tools that solve real business problems. Every project is tailored to its goals and workflow.",
-  },
-  {
-    question: "Do you work alone or with a team?",
-    answer:
-      "I work independently and collaborate with designers, developers, and other specialists when a project requires additional expertise.",
-  },
-  {
-    question: "How do you price projects?",
-    answer:
-      "Pricing depends on the scope, complexity, and timeline. After understanding your requirements, I provide a clear estimate before development begins.",
-  },
-  {
-    question: "How soon can you start?",
-    answer:
-      "Availability depends on my current workload and your project scope. Share your timeline, and we can discuss a suitable starting date.",
-  },
-  {
-    question: "Can you work on an existing website?",
-    answer:
-      "Absolutely. I can improve an existing website, fix bugs, add features, integrate APIs, and optimize performance without rebuilding everything from scratch.",
-  },
-];
+import { FAQS } from "../../data/faq";
+import ArrowLink from "../ArrowLink.astro";
+
+const QUESTIONS = FAQS;
 ---
 
 <section data-framer-name="11 FAQ" class="w-full overflow-x-clip bg-paper text-ink">
   <div class="mx-auto grid max-w-[1312px] items-start gap-9 px-5 py-20 min-[641px]:px-8 min-[641px]:py-[100px] min-[1001px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[1001px]:gap-16 min-[1001px]:px-16 min-[1001px]:py-[130px]">
     <div>
       <p class="flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase leading-none tracking-[0.05em] text-ink/55">
-        <b class="font-medium text-accent">[11]</b>Questions
+        <b class="font-medium text-accent">[11]</b>Pertanyaan
       </p>
       <h2 class="mt-[18px] text-[64px] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
-        Before you ask
+        Ada yang ingin Anda ketahui?
       </h2>
       <p class="mt-[18px] max-w-[420px] text-[18px] font-normal leading-[1.5] text-ink/72">
-        The questions I get in almost every first call. If yours isn't here, ask it in the form; I
-        answer every one.
+        Mulai dari estimasi biaya hingga proses pengerjaan, kami menjawab pertanyaan yang perlu Anda ketahui sebelum memulai proyek. Jika masih ada yang belum jelas, mari diskusikan melalui WhatsApp.
       </p>
       <a
-        href="/contact"
+        href="/contact/"
         class="mt-[22px] inline-flex items-center gap-2.5 border-b-[1.5px] border-current pb-1.5 text-[15px] font-medium tracking-[-0.01em] text-ink transition-[gap,color] duration-200 hover:gap-4 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px]"
       >
-        Ask something else
+        Tanya hal lain
         <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
           <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" fill="none"></path>
         </svg>
@@ -82,6 +58,12 @@ const QUESTIONS = [
               <div class="overflow-hidden">
                 <p class="mb-[18px] ml-11 mr-4 max-w-[620px] border-l-[1.5px] border-accent/[0.33] pl-4 text-[16px] font-normal leading-[1.55] text-ink/72">
                   {item.answer}
+                  {item.link && (
+                    <>
+                      {" "}
+                      <ArrowLink href={item.link.href} label={item.link.label} tone="accent" />
+                    </>
+                  )}
                 </p>
               </div>
             </div>

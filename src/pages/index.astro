@@ -9,9 +9,28 @@ import Process from "../components/home/Process.astro";
 import Testimonials from "../components/home/Testimonials.astro";
 import PlaygroundTeaser from "../components/home/PlaygroundTeaser.astro";
 import FAQ from "../components/home/FAQ.astro";
+import { FAQS } from "../data/faq";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
 ---
 
-<Layout title="Ilmantara">
+<Layout
+  path="/"
+  lang="id"
+  alternates={[
+    { hreflang: "id", href: "/" },
+    { hreflang: "x-default", href: "/" },
+  ]}
+  jsonLd={[faqSchema]}
+>
   <Hero />
   <Clients />
   <AboutTeaser />

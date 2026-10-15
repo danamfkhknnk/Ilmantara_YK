@@ -2,29 +2,29 @@
 // Static project list — CMS integration removed, edit directly here.
 const projects = [
   {
-    title: "Premium Shopify Website & E-commerce Store for Wellness Brands",
+    title: "Toko Shopify Premium untuk Brand Wellness",
     name: "myart",
     slug: "myart",
     description:
-      "With hands-on experience building custom third-party Shopify apps using Laravel, I help store owners solve problems that native Shopify features and existing apps simply can't cover.",
-    category: "Shopify Template",
+      "Yang tidak bisa dikerjakan fitur bawaan Shopify maupun aplikasi yang ada, kami bangun khusus dengan Laravel. Hasilnya: toko yang cepat, mudah dikelola sendiri, dan pas dengan cara kerja pemiliknya.",
+    category: "Template Shopify",
     year: "2025",
     url: "https://test-ihmol6aj.myshopify.com/",
     imageUrl: "/images/work/project-wellness.png",
-    imageAlt: "Wellness brands Shopify store",
+    imageAlt: "Toko Shopify brand wellness",
     priority: true,
   },
   {
-    title: "Interactive Shopify Art Commission with Real-Time VRM Face Tracking",
+    title: "Komisi Seni Interaktif di Shopify",
     name: "miseart",
     slug: "miseart",
     description:
-      "With a strong focus on creative, interactive Shopify experiences, I help brands stand out in a crowded eCommerce space by combining clean, conversion-focused design with cutting-edge interactivity that visitors actually remember.",
-    category: "Shopify Template",
+      "Biar tidak tenggelam di antara ribuan toko online, brand ini tampil beda: pre-order karya seni yang bisa dicoba langsung lewat pelacakan wajah VRM. Desain bersih, fokus konversi, dan sulit dilupakan pengunjung.",
+    category: "Template Shopify",
     year: "2025",
     url: "https://mise-u5ukp4yf.myshopify.com",
     imageUrl: "/images/work/project-vrm.png",
-    imageAlt: "Art commission site with real-time VRM face tracking",
+    imageAlt: "Situs komisi seni interaktif dengan pelacakan wajah",
     priority: true,
   },
 ];
@@ -34,9 +34,9 @@ const CASES = projects.map((p) => {
   return {
     name: brand,
     title: p.title,
-    href: p.url ?? `/work/${p.slug}`,
+    href: p.url ?? `/work/${p.slug}/`,
     external: !!p.url,
-    tag: p.category ?? "Project",
+    tag: p.category ?? "Proyek",
     year: p.year ?? "",
     summary: p.description ?? "",
     img: p.imageUrl ?? "/images/work/project-wellness.png",

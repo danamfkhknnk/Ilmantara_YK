@@ -1,4 +1,5 @@
 ---
+import ArrowRow from "../ArrowRow.astro";
 
 const { index = "08" } = Astro.props;
 
@@ -8,58 +9,58 @@ const FALLBACK_DOTS = ["#3B6FF5", "#FF5B24", "#10B37A", "#4B3BFF", "#1FB8A6", "#
 const testimonials = [
   {
     quote:
-      "We needed more than a visual refresh. The new store feels faster, the checkout experience is smoother, and managing products is finally straightforward.",
+      "Kami butuh lebih dari sekadar tampilan baru. Toko barunya terasa lebih cepat, checkout-nya lebih mulus, dan kelola produk akhirnya jadi gampang.",
     name: "Ayu Lestari",
-    role: "Owner, Wellness Store",
+    role: "Pemilik, Toko Wellness",
     tag: "Shopify",
     color: "#FF5B24",
   },
   {
     quote:
-      "I had an idea but wasn't sure how to turn it into a working product. The process was clear from day one, and the final result was exactly what I needed.",
+      "Awalnya saya cuma punya ide, bingung cara mewujudkannya jadi produk yang jalan. Prosesnya jelas sejak hari pertama, dan hasil akhirnya persis seperti yang saya butuhkan.",
     name: "Misa K.",
-    role: "Independent Illustrator",
-    tag: "Web App",
+    role: "Ilustrator Lepas",
+    tag: "Aplikasi Web",
     color: "#10B37A",
   },
   {
     quote:
-      "Our subscription rules were getting complicated to manage manually. Now everything runs through one dashboard, saving us time and reducing mistakes.",
+      "Aturan langganan kami makin rumit dikelola manual. Sekarang semuanya jalan lewat satu dashboard — hemat waktu dan minim kesalahan.",
     name: "Dimas Prasetyo",
-    role: "Founder, Coffee Subscription",
+    role: "Pendiri, Kopi Langganan",
     tag: "Laravel",
     color: "#A8562E",
   },
   {
     quote:
-      "Working remotely was easier than expected. I always knew what was happening, got regular updates, and could review progress before each major milestone.",
+      "Kerja remote ternyata lebih mudah dari dugaan. Saya selalu tahu progresnya, dapat update rutin, dan bisa mereview sebelum tiap milestone besar.",
     name: "Jonas Weber",
-    role: "Online Retailer, Berlin",
+    role: "Retail Online, Berlin",
     tag: "Shopify",
     color: "#4B3BFF",
   },
   {
     quote:
-      "The best part was having one developer who understood both the interface and the backend. We spent less time explaining things and more time getting them done.",
+      "Enaknya punya satu developer yang paham tampilan sekaligus backend. Kami lebih sedikit menjelaskan, lebih banyak beres.",
     name: "Ratna Dewi",
-    role: "Boutique Owner, Jakarta",
+    role: "Pemilik Butik, Jakarta",
     tag: "Full-stack",
     color: "#D4A72C",
   },
   {
     quote:
-      "We needed an internal tool that fit our workflow, not another spreadsheet. The custom dashboard brought everything together and made daily operations much easier.",
+      "Kami butuh alat internal yang sesuai alur kerja, bukan spreadsheet lagi. Dashboard custom-nya menyatukan semuanya dan operasional harian jadi jauh lebih mudah.",
     name: "Andre Wijaya",
-    role: "Startup Founder",
-    tag: "Web App",
+    role: "Pendiri Startup",
+    tag: "Aplikasi Web",
     color: "#1FB8A6",
   },
 ];
 
 const section = {
-  heading: "Good work. Good people.",
-  supportingText: "A few words about the process, the collaboration, and what we built together.",
-  ctaLabel: "Have a project in mind?",
+  heading: "Apa Kata Klien Kami",
+  supportingText: "Cerita tentang proses, kolaborasi, dan apa yang kami bangun bersama.",
+  ctaLabel: "Punya proyek?",
 };
 
 function initialsOf(name) {
@@ -70,7 +71,7 @@ function initialsOf(name) {
 
 <section data-framer-name="08 Testimonials" class="px-6 py-24 md:px-10 md:pb-48">
   <p class="font-mono text-xs font-medium tracking-wide">
-    <span class="text-accent">[{index}]</span> <span class="text-ink/40">TESTIMONIALS</span>
+    <span class="text-accent">[{index}]</span> <span class="text-ink/40">TESTIMONI</span>
   </p>
 
   <div class="mt-4 grid gap-6 lg:grid-cols-[1fr_320px]">
@@ -79,15 +80,7 @@ function initialsOf(name) {
     </h2>
     <div>
       <p class="text-ink/70">{section.supportingText}</p>
-      <a
-        href="/contact"
-        class="inline-flex items-center gap-2.5 border-b-[1.5px] border-current pb-1.5 text-[15px] font-medium tracking-[-0.01em] text-ink transition-[gap,color] duration-200 hover:gap-4 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px]"
-      >
-        {section.ctaLabel}
-        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" fill="none"></path>
-        </svg>
-      </a>
+      <ArrowRow href="/contact/" line="bottom" label={section.ctaLabel} />
     </div>
   </div>
 

@@ -1,17 +1,18 @@
 ---
+import { EMAIL, WHATSAPP_LINK, WHATSAPP_NUMBER, MAPS_LINK } from "../lib/site";
 // Static content — CMS integration removed, edit directly here.
 const navigation = [
-  { label: "Home", href: "/" },
-  { label: "Work", href: "/work" },
-  { label: "About", href: "/#about" },
-  { label: "Services", href: "/#services" },
-  { label: "Journal", href: "/journal" },
-  { label: "Playground", href: "/#playground" },
+  { label: "Beranda", href: "/" },
+  { label: "Portofolio", href: "/work/" },
+  { label: "Tentang", href: "/#about" },
+  { label: "Layanan", href: "/#services" },
+  { label: "Jurnal", href: "/journal/" },
+  { label: "Permainan", href: "/#playground" },
 ];
 const socialLinks = [
   { label: "LinkedIn", href: "#" },
   { label: "Upwork", href: "#" },
-  { label: "hello@ilmantara.com", href: "mailto:hello@ilmantara.com", muted: true },
+  { label: EMAIL, href: `mailto:${EMAIL}`, muted: true },
 ];
 const siteSettings = { name: "Ilmantara", location: "Yogyakarta, Indonesia" };
 
@@ -41,13 +42,13 @@ const HANDLES = [
 
 <footer data-framer-name="Footer" class="bg-paper [container-type:inline-size]">
   <div class="mx-auto max-w-[1312px] px-5 pb-6 pt-[88px] sm:px-8 sm:pb-7 sm:pt-[110px] lg:px-16 lg:pb-8 lg:pt-[140px]">
-  <p class="font-mono text-xs font-medium tracking-wide text-accent">[12] NEXT STEP</p>
+  <p class="font-mono text-xs font-medium tracking-wide text-accent">[12] LANGKAH BERIKUTNYA</p>
 
   <div class="mt-4 grid gap-10 sm:grid-cols-2 xl:grid-cols-[1fr_280px_280px]">
     <div class="sm:col-span-2 xl:col-span-1">
       <h2 class="text-[56px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
-        Got a messy workflow? Let's
-        <span class="relative inline-block px-[0.06em] -mx-[0.02em]">untangle
+        Siap Punya Website yang
+        <span class="relative inline-block px-[0.06em] -mx-[0.02em]">Mendatangkan
           <div class="pointer-events-none absolute inset-0" style="border: 1.5px solid rgb(var(--color-accent-rgb)); opacity: 1;">
             {HANDLES.map((handle) => (
               <span
@@ -57,19 +58,27 @@ const HANDLES = [
             ))}
           </div>
         </span>
-        it.
+        pelanggan?
       </h2>
       <p class="mt-4 text-ink/70">
-        Tell me what's slow, confusing or costing you support tickets. I reply within one working
-        day with a first idea and a fixed price.
+        Ceritakan kebutuhan bisnis Anda. Kami balas dalam 1 hari kerja dengan ide
+        awal dan estimasi harga.
       </p>
       <div class="mt-5 flex flex-wrap gap-3">
+        <a
+          href={WHATSAPP_LINK}
+          target="_blank"
+          rel="noopener"
+          class="flex items-center gap-1.5 rounded-xl bg-ink px-4 py-3 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,0.55)]"
+        >
+          Chat WhatsApp
+        </a>
         <button
           type="button"
           data-copy-email={copyEmail}
           class="flex items-center gap-1.5 rounded-xl bg-white px-4 py-3 text-sm font-medium text-ink transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,0.55)]"
         >
-          Copy email
+          Salin email
         </button>
       </div>
     </div>
@@ -77,7 +86,7 @@ const HANDLES = [
     <div class="grid gap-10 sm:col-span-2 sm:grid-cols-2 xl:contents">
     <div class="rounded-2xl bg-white p-6">
       <div class="flex items-center justify-between text-sm">
-        <span class="font-medium text-ink">Pages</span>
+        <span class="font-medium text-ink">Halaman</span>
         <span class="text-ink/40">{PAGES.length}</span>
       </div>
       <ul class="mt-4 space-y-3">
@@ -94,7 +103,7 @@ const HANDLES = [
 
     <div class="rounded-2xl bg-white p-6">
       <div class="flex items-center justify-between text-sm">
-        <span class="font-medium text-ink">Elsewhere</span>
+        <span class="font-medium text-ink">Lainnya</span>
         <span class="text-ink/40" aria-hidden="true">↗</span>
       </div>
       <ul class="mt-4 space-y-3">
@@ -130,9 +139,9 @@ const HANDLES = [
   </div>
 
   <div class="mt-6 flex flex-row flex-wrap items-center gap-x-4 gap-y-1 border-t border-ink/10 pt-6 text-xs text-ink/50 sm:justify-between">
-    <span>© 2026 {siteSettings.name}. All rights reserved.</span>
-    <span>{siteSettings.location}</span>
-    <a href="#top" class="ml-auto hover:text-ink sm:ml-0">Back to top</a>
+    <span>© 2026 {siteSettings.name} · Software House Jogja</span>
+    <span>Yogyakarta, Indonesia · WhatsApp {WHATSAPP_NUMBER} · {EMAIL} · <a href={MAPS_LINK} target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-ink">Lihat peta</a></span>
+    <a href="#top" class="ml-auto hover:text-ink sm:ml-0">Kembali ke atas</a>
   </div>
   </div>
 </footer>
@@ -144,9 +153,9 @@ const HANDLES = [
     const originalLabel = button.textContent;
     try {
       await navigator.clipboard.writeText(email);
-      button.textContent = "Copied!";
+      button.textContent = "Tersalin!";
     } catch {
-      button.textContent = "Couldn't copy";
+      button.textContent = "Gagal menyalin";
     }
     setTimeout(() => {
       button.textContent = originalLabel;

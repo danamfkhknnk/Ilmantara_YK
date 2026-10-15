@@ -1,14 +1,14 @@
 ---
 import Logo from "./Logo.astro";
+import { WHATSAPP_LINK } from "../lib/site";
 
-// Static nav — CMS integration removed, edit the list directly here.
 const NAV_LINKS = [
-  { label: "Home", to: "/" },
-  { label: "Work", to: "/work" },
-  { label: "About", to: "/#about" },
-  { label: "Services", to: "/#services" },
-  { label: "Journal", to: "/journal" },
-  { label: "Playground", to: "/#playground" },
+  { label: "Beranda", to: "/" },
+  { label: "Portofolio", to: "/work/" },
+  { label: "Tentang", to: "/#about" },
+  { label: "Layanan", to: "/#services" },
+  { label: "Jurnal", to: "/journal/" },
+  { label: "Permainan", to: "/#playground" },
 ];
 
 const VIEWERS = [
@@ -20,6 +20,8 @@ const VIEWERS = [
 ];
 
 const currentPath = new URL(Astro.request.url).pathname;
+
+const LINKS = NAV_LINKS;
 ---
 
 <nav
@@ -31,7 +33,7 @@ const currentPath = new URL(Astro.request.url).pathname;
     <Logo />
 
     <div class="hidden items-center gap-0.5 rounded-[10px] bg-ink/5 p-[3px] lg:flex">
-      {NAV_LINKS.map((link) => {
+      {LINKS.map((link) => {
         const isActive = link.to === "/" ? currentPath === "/" : currentPath.startsWith(link.to);
         return (
           <a
@@ -65,10 +67,12 @@ const currentPath = new URL(Astro.request.url).pathname;
         ))}
       </div>
       <a
-        href="/contact"
+        href={WHATSAPP_LINK}
+        target="_blank"
+        rel="noopener"
         class="hidden h-[34px] items-center rounded-[9px] bg-ink px-3.5 text-[13px] font-medium text-white lg:flex"
       >
-        Hire me
+        Konsultasi Gratis
       </a>
       <button
         type="button"
@@ -77,7 +81,7 @@ const currentPath = new URL(Astro.request.url).pathname;
         aria-controls="mobile-nav-drawer"
         class="relative flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[10px] bg-ink lg:hidden"
       >
-        <span class="sr-only">Toggle menu</span>
+        <span class="sr-only">Buka menu</span>
         <span class="relative h-4 w-4">
           <span
             data-nav-bar1
@@ -102,7 +106,7 @@ const currentPath = new URL(Astro.request.url).pathname;
     class="max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-500 ease-out lg:hidden"
   >
     <div class="flex flex-col gap-1 px-4 pb-2 pt-3">
-      {NAV_LINKS.map((link, i) => {
+      {LINKS.map((link, i) => {
         const isActive = link.to === "/" ? currentPath === "/" : currentPath.startsWith(link.to);
         return (
           <a
@@ -119,10 +123,12 @@ const currentPath = new URL(Astro.request.url).pathname;
     </div>
     <div class="px-4 pb-5">
       <a
-        href="/contact"
+        href={WHATSAPP_LINK}
+        target="_blank"
+        rel="noopener"
         class="flex h-[50px] w-full items-center justify-center rounded-[10px] bg-accent text-[14px] font-medium text-white"
       >
-        Hire me
+        Konsultasi Gratis
       </a>
     </div>
   </div>

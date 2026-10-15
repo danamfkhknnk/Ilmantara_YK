@@ -7,35 +7,35 @@ const { index = "07", active = "01" } = Astro.props;
 const STEPS = [
   {
     index: "01",
-    week: "WEEK 1",
-    title: "Discover",
-    shortBody: "Understand the problem",
+    week: "MINGGU 1",
+    title: "Konsultasi",
+    shortBody: "Memahami kebutuhan Anda",
     fullBody:
-      "I learn about your business, users, and challenges to understand what needs to be built. No assumptions, just the right questions.",
+      "Kami mempelajari bisnis, pelanggan, dan kendala Anda untuk memahami apa yang perlu dibangun. Tanpa asumsi — cukup pertanyaan yang tepat.",
   },
   {
     index: "02",
-    week: "WEEK 1-2",
-    title: "Define",
-    shortBody: "Plan the right solution",
+    week: "MINGGU 1-2",
+    title: "Perencanaan & Estimasi",
+    shortBody: "Lingkup dan harga yang jelas",
     fullBody:
-      "We define the scope, features, and technical approach, turning your ideas into a clear plan with measurable goals.",
+      "Kami menetapkan lingkup, fitur, dan pendekatan teknis, mengubah ide Anda menjadi rencana yang jelas dengan estimasi harga tetap.",
   },
   {
     index: "03",
-    week: "WEEKS 2-6",
-    title: "Develop",
-    shortBody: "Build frontend and backend",
+    week: "MINGGU 2-6",
+    title: "Desain & Pengembangan",
+    shortBody: "Membangun frontend dan backend",
     fullBody:
-      "I design and build the frontend, backend, APIs, and database, testing each part to make sure everything works together.",
+      "Kami mendesain dan membangun frontend, backend, API, dan database, menguji setiap bagian agar semuanya berjalan bersama.",
   },
   {
     index: "04",
-    week: "WEEK 6+",
-    title: "Deliver",
-    shortBody: "Launch, test, and optimize",
+    week: "MINGGU 6+",
+    title: "Peluncuran & Dukungan",
+    shortBody: "Rilis dan pendampingan",
     fullBody:
-      "I deploy your product, test it in production, fix issues, and optimize performance to keep everything running smoothly.",
+      "Kami meluncurkan produk Anda, mengujinya di produksi, memperbaiki masalah, dan mengoptimasi performa agar tetap berjalan lancar.",
   },
 ];
 
@@ -66,21 +66,21 @@ const BODY_COLOR = {
 
 <section data-framer-name="07 Process" class="mx-auto max-w-[1312px] px-5 py-24 sm:px-8 md:pb-44 lg:px-16">
   <p class="font-mono text-xs font-medium tracking-wide">
-    <span class="text-accent">[{index}]</span> <span class="text-ink/50">PROCESS</span>
+    <span class="text-accent">[{index}]</span> <span class="text-ink/50">PROSES</span>
   </p>
 
   <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
     <div>
       <h2 class="text-[40px] font-bold leading-[1.05] tracking-[-0.02em] text-ink md:text-[48px]">
-        How a project runs
+        Cara Kami Bekerja
       </h2>
 
       <p class="mt-4 max-w-[640px] text-ink/70">
-        No guesswork, no unnecessary complexity. Just a clear process from understanding your needs to
-        delivering the right solution.
+        Tanpa tebak-tebakan, tanpa kerumitan yang tidak perlu. Proses yang jelas
+        dari memahami kebutuhan Anda sampai meluncurkan solusi yang tepat.
       </p>
     </div>
-    <span data-process-count class="shrink-0 rounded-full bg-ink/5 px-3 py-1 font-mono text-xs text-ink/50">Step {Number(active)} / {STEPS.length}</span>
+    <span data-process-count class="shrink-0 rounded-full bg-ink/5 px-3 py-1 font-mono text-xs text-ink/50">Langkah {Number(active)} / {STEPS.length}</span>
   </div>
 
   <div
@@ -201,7 +201,7 @@ const BODY_COLOR = {
       steps.forEach((s, i) => paint(s, i === active));
       if (counter) {
         const step = steps[active];
-        if (step) counter.textContent = `Step ${Number(step.getAttribute("data-process-step"))} / ${steps.length}`;
+        if (step) counter.textContent = `Langkah ${Number(step.getAttribute("data-process-step"))} / ${steps.length}`;
       }
     }
 
