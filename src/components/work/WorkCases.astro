@@ -21,6 +21,7 @@ const CASES = WORK.map((p) => ({
     {CASES.map((c) => (
       <a
         href={c.href}
+        title={c.title}
         class="group block text-ink"
       >
         <!-- canvas label -->
@@ -35,6 +36,7 @@ const CASES = WORK.map((p) => ({
             <img
               src={c.img}
               alt={c.imgAlt}
+              title={c.imgAlt}
               loading="lazy"
               class="absolute inset-0 h-full w-full scale-[1.06] object-cover object-top transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:blur-[2px]"
             />

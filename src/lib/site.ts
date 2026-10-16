@@ -62,6 +62,16 @@ export const DEFAULT_TITLE =
   "Software House Jogja – Jasa Pembuatan Website & Shopify | Ilmantara";
 export const DEFAULT_DESCRIPTION =
   "Software house di Yogyakarta. Jasa pembuatan website, landing page, toko online Shopify & aplikasi web Laravel. Konsultasi gratis via WhatsApp sekarang.";
+export const DEFAULT_KEYWORDS = [
+  "software house jogja",
+  "jasa pembuatan website jogja",
+  "jasa website shopify",
+  "jasa aplikasi web laravel",
+  "landing page jogja",
+  "toko online shopify",
+] as const;
+export const AUTHOR = SITE_NAME;
+export const PUBLISHER = SITE_NAME;
 
 export function absoluteUrl(path: string): string {
   const clean = path.startsWith("/") ? path : `/${path}`;

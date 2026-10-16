@@ -65,6 +65,7 @@ const HANDLES = [
           href={WHATSAPP_LINK}
           target="_blank"
           rel="noopener"
+          title="Chat WhatsApp"
           class="flex items-center gap-1.5 rounded-xl bg-ink px-4 py-3 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgba(12,12,14,0.55)]"
         >
           Chat WhatsApp
@@ -88,7 +89,7 @@ const HANDLES = [
       <ul class="mt-4 space-y-3">
         {PAGES.map((page, i) => (
           <li class="flex items-center justify-between text-sm">
-            <a href={page.to} class="rounded-[7px] font-medium text-ink transition-colors duration-200 hover:text-accent">
+            <a href={page.to} title={page.label} class="rounded-[7px] font-medium text-ink transition-colors duration-200 hover:text-accent">
               {page.label}
             </a>
             <span class="font-mono text-xs text-ink/40">{String(i + 1).padStart(2, "0")}</span>
@@ -109,6 +110,7 @@ const HANDLES = [
               href={item.href}
               target={item.external ? "_blank" : undefined}
               rel={item.external ? "noopener noreferrer" : undefined}
+              title={item.label}
               class={item.muted ? "rounded-[7px] text-ink/50 transition-colors duration-200 hover:text-accent" : "rounded-[7px] font-medium text-ink transition-colors duration-200 hover:text-accent"}
             >
               {item.label}
@@ -141,8 +143,8 @@ const HANDLES = [
 
   <div class="mt-6 flex flex-row flex-wrap items-center gap-x-4 gap-y-1 border-t border-ink/10 pt-6 text-xs text-ink/50 sm:justify-between">
     <span>© 2026 {siteSettings.name} · Software House Jogja</span>
-    <span>Jalan Nangka, Wedomartani, Sleman, DI Yogyakarta 55584 · WhatsApp {PHONE_DISPLAY} · {EMAIL} · <a href={MAPS_LINK} target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-ink">Lihat peta</a></span>
-    <a href="#top" class="ml-auto hover:text-ink sm:ml-0">Kembali ke atas</a>
+    <span>Jalan Nangka, Wedomartani, Sleman, DI Yogyakarta 55584 · WhatsApp {PHONE_DISPLAY} · {EMAIL} · <a href={MAPS_LINK} target="_blank" rel="noopener" title="Lihat peta Ilmantara" class="underline underline-offset-2 hover:text-ink">Lihat peta</a></span>
+    <a href="#top" title="Kembali ke atas" class="ml-auto hover:text-ink sm:ml-0">Kembali ke atas</a>
   </div>
   </div>
 </footer>

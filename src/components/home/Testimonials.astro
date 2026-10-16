@@ -108,6 +108,7 @@ function initialsOf(name: string) {
               <img
                 src={t.photo}
                 alt={`Foto ${t.name}`}
+                title={`Foto ${t.name}`}
                 loading="lazy"
                 class="h-8 w-8 shrink-0 rounded-full object-cover"
               />
@@ -126,7 +127,7 @@ function initialsOf(name: string) {
                 <p class="text-xs text-ink/50">
                   {t.role}{t.role && t.company ? ", " : ""}
                   {t.company && (t.companyUrl ? (
-                    <a href={t.companyUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-accent">{t.company}</a>
+                    <a href={t.companyUrl} target="_blank" rel="noopener noreferrer" title={t.company} class="underline underline-offset-2 hover:text-accent">{t.company}</a>
                   ) : (
                     t.company
                   ))}
@@ -149,6 +150,7 @@ function initialsOf(name: string) {
             href={t.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
+            title="Sumber ulasan"
             class="mt-3 inline-flex items-center gap-1 text-xs text-ink/45 underline underline-offset-2 transition-colors hover:text-accent"
           >
             {"Sumber ulasan"}<span aria-hidden="true">↗</span>

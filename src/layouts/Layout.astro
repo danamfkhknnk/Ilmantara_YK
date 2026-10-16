@@ -15,6 +15,9 @@ import {
   PRICE_RANGE,
   DEFAULT_TITLE,
   DEFAULT_DESCRIPTION,
+  DEFAULT_KEYWORDS,
+  AUTHOR,
+  PUBLISHER,
   absoluteUrl,
 } from "../lib/site";
 
@@ -27,6 +30,8 @@ const {
   lang = "id",
   image = "/ilmantara.webp",
   ogType = "website",
+  keywords = DEFAULT_KEYWORDS as readonly string[],
+  robots = "index, follow",
   // hreflang: [{ hreflang: "id", href: "/"}, { hreflang: "x-default", href: "/"}]
   alternates = [] as Alternate[],
   jsonLd = [] as Record<string, unknown>[],
@@ -80,6 +85,10 @@ const orgSchema = {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords.join(", ")} />
+    <meta name="robots" content={robots} />
+    <meta name="author" content={AUTHOR} />
+    <meta name="publisher" content={PUBLISHER} />
     <link rel="canonical" href={canonical} />
     {alternates.map((alt) => (
       <link rel="alternate" hreflang={alt.hreflang} href={alt.href.startsWith("http") ? alt.href : absoluteUrl(alt.href)} />
