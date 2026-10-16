@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -10,6 +11,8 @@ import {
   WHATSAPP_NUMBER,
   ADDRESS,
   MAPS_LINK,
+  OPENING_HOURS,
+  PRICE_RANGE,
   DEFAULT_TITLE,
   DEFAULT_DESCRIPTION,
   absoluteUrl,
@@ -22,7 +25,7 @@ const {
   description = DEFAULT_DESCRIPTION,
   path = Astro.url.pathname,
   lang = "id",
-  image = "/logo.png",
+  image = "/ilmantara.webp",
   ogType = "website",
   // hreflang: [{ hreflang: "id", href: "/"}, { hreflang: "x-default", href: "/"}]
   alternates = [] as Alternate[],
@@ -38,19 +41,29 @@ const orgSchema = {
   "@type": "ProfessionalService",
   name: SITE_NAME,
   url: SITE_URL,
+  image: ogImage,
   email: EMAIL,
   telephone: `+${WHATSAPP_NUMBER}`,
+  priceRange: PRICE_RANGE,
   address: {
     "@type": "PostalAddress",
+    streetAddress: ADDRESS.streetAddress,
     addressLocality: ADDRESS.locality,
     addressRegion: ADDRESS.region,
+    postalCode: ADDRESS.postalCode,
     addressCountry: "ID",
   },
-  areaServed: [ADDRESS.locality, "Indonesia"],
+  areaServed: ["Yogyakarta", "Indonesia"],
   geo: {
     "@type": "GeoCoordinates",
     latitude: ADDRESS.geo.latitude,
     longitude: ADDRESS.geo.longitude,
+  },
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: [...OPENING_HOURS.days],
+    opens: OPENING_HOURS.opens,
+    closes: OPENING_HOURS.closes,
   },
   hasMap: MAPS_LINK,
 };
@@ -86,10 +99,11 @@ const orgSchema = {
     {jsonLd.map((schema) => (
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
+    <ClientRouter />
   </head>
   <body id="top" class="min-h-screen bg-paper text-ink">
     <Header />
-    <main class="pt-14">
+    <main class="pt-14" transition:name="page-content" transition:animate="none">
       <slot />
     </main>
     <Footer />

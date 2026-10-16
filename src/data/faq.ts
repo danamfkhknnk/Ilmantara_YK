@@ -20,25 +20,25 @@ export const FAQS: FaqItem[] = [
   {
     question: "Berapa lama proses pembuatan website atau landing page?",
     answer:
-      "Landing page biasanya selesai dalam 1–2 minggu, sedangkan website atau company profile membutuhkan 3–6 minggu tergantung kesiapan materi seperti logo, foto, dan teks. Proses pembuatan website kami bagi per minggu — konsultasi, perencanaan, desain dan pengembangan, lalu peluncuran — sehingga Anda selalu tahu progresnya.",
+      "Landing page biasanya selesai dalam 1–2 minggu, sedangkan website atau company profile membutuhkan 3–6 minggu tergantung kesiapan materi seperti logo, foto, dan teks. Proses pembuatan website kami bagi per minggu: konsultasi, perencanaan, desain dan pengembangan, lalu peluncuran, sehingga Anda selalu tahu progresnya.",
     link: { label: "Lihat layanan landing page", href: "/jasa-landing-page/" },
   },
   {
     question: "Apakah Ilmantara bisa membuat toko online Shopify?",
     answer:
-      "Bisa. Kami menangani setup toko Shopify, custom theme, dan aplikasi Shopify khusus berbasis Laravel untuk kebutuhan yang tidak bisa dipenuhi aplikasi bawaan — misalnya aturan langganan atau integrasi sistem internal. Toko yang kami serahkan cepat, mudah dikelola sendiri, dan siap menerima pembayaran.",
+      "Bisa. Kami menangani setup toko Shopify, custom theme, dan aplikasi Shopify khusus berbasis Laravel untuk kebutuhan yang tidak bisa dipenuhi aplikasi bawaan, misalnya aturan langganan atau integrasi sistem internal. Toko yang kami serahkan cepat, mudah dikelola sendiri, dan siap menerima pembayaran.",
     link: { label: "Lihat jasa Shopify", href: "/jasa-shopify/" },
   },
   {
     question: "Apakah melayani klien di luar Jogja?",
     answer:
-      "Ya. Walaupun berbasis di Yogyakarta, kami melayani klien di seluruh Indonesia dan luar negeri — dari Jakarta hingga Berlin. Komunikasi berjalan lewat WhatsApp dan panggilan video terjadwal, dengan demo progres sebelum setiap tahap penting.",
+      "Ya. Walaupun berbasis di Yogyakarta, kami melayani klien di seluruh Indonesia dan luar negeri, dari Jakarta hingga Berlin. Komunikasi berjalan lewat WhatsApp dan panggilan video terjadwal, dengan demo progres sebelum setiap tahap penting.",
     link: { label: "Hubungi kami", href: "/contact/" },
   },
   {
     question: "Jasa IT Jogja apa saja yang dikerjakan Ilmantara?",
     answer:
-      "Ilmantara mengerjakan website company profile, landing page, toko online Shopify, aplikasi web Laravel, dan automasi AI — semua dari studio kami di Yogyakarta. Satu tim dari desain sampai backend, jadi Anda tidak perlu koordinasi banyak vendor.",
+      "Ilmantara mengerjakan website company profile, landing page, toko online Shopify, aplikasi web Laravel, dan automasi AI, semua dari studio kami di Yogyakarta. Satu tim dari desain sampai backend, jadi Anda tidak perlu koordinasi banyak vendor.",
     link: { label: "Lihat layanan kami", href: "/#services" },
   },
   {

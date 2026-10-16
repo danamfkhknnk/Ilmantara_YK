@@ -6,7 +6,24 @@ const { index = "08" } = Astro.props;
 const FALLBACK_DOTS = ["#3B6FF5", "#FF5B24", "#10B37A", "#4B3BFF", "#1FB8A6", "#D4A72C"];
 
 // Static content — CMS integration removed, edit directly here.
-const testimonials = [
+// Optional identity fields (photo, role, company, companyUrl, sourceUrl) render
+// only when present; entries without verified data fall back to an initials
+// avatar. Fabricate nothing — add real data as it becomes available.
+type Testimonial = {
+  quote: string;
+  name: string;
+  role?: string;
+  company?: string;
+  companyUrl?: string;
+  /** Authorized client photo. When omitted, initials are shown instead. */
+  photo?: string;
+  /** Verified source of the review (e.g. a Google Business review link). */
+  sourceUrl?: string;
+  tag?: string;
+  color?: string;
+};
+
+const testimonials: Testimonial[] = [
   {
     quote:
       "Kami butuh lebih dari sekadar tampilan baru. Toko barunya terasa lebih cepat, checkout-nya lebih mulus, dan kelola produk akhirnya jadi gampang.",
@@ -25,7 +42,7 @@ const testimonials = [
   },
   {
     quote:
-      "Aturan langganan kami makin rumit dikelola manual. Sekarang semuanya jalan lewat satu dashboard — hemat waktu dan minim kesalahan.",
+      "Aturan langganan kami makin rumit dikelola manual. Sekarang semuanya jalan lewat satu dashboard, hemat waktu dan minim kesalahan.",
     name: "Dimas Prasetyo",
     role: "Pendiri, Kopi Langganan",
     tag: "Laravel",
@@ -63,7 +80,7 @@ const section = {
   ctaLabel: "Punya proyek?",
 };
 
-function initialsOf(name) {
+function initialsOf(name: string) {
   const parts = name.trim().split(/\s+/);
   return ((parts[0]?.[0] ?? "") + (parts[1]?.[0] ?? "")).toUpperCase() || "?";
 }
@@ -89,15 +106,34 @@ function initialsOf(name) {
       <div data-quote-reveal class="rounded-2xl border border-ink/[0.09] bg-white p-5 shadow-[0_22px_44px_-34px_rgba(12,12,14,0.5)] transition-all duration-500 hover:-translate-y-1 hover:border-ink/[0.16] hover:shadow-[0_34px_60px_-38px_rgba(12,12,14,0.6)]">
         <div class="flex items-start justify-between gap-2">
           <div class="flex items-center gap-3">
-            <div
-              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white"
-              style={`background-color: ${t.color || FALLBACK_DOTS[i % FALLBACK_DOTS.length]};`}
-            >
-              {initialsOf(t.name)}
-            </div>
+            {t.photo ? (
+              <img
+                src={t.photo}
+                alt={`Foto ${t.name}`}
+                loading="lazy"
+                class="h-8 w-8 shrink-0 rounded-full object-cover"
+              />
+            ) : (
+              <div
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white"
+                style={`background-color: ${t.color || FALLBACK_DOTS[i % FALLBACK_DOTS.length]};`}
+                aria-hidden="true"
+              >
+                {initialsOf(t.name)}
+              </div>
+            )}
             <div>
               <p class="text-sm font-semibold text-ink">{t.name}</p>
-              {t.role && <p class="text-xs text-ink/50">{t.role}</p>}
+              {(t.role || t.company) && (
+                <p class="text-xs text-ink/50">
+                  {t.role}{t.role && t.company ? ", " : ""}
+                  {t.company && (t.companyUrl ? (
+                    <a href={t.companyUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-accent">{t.company}</a>
+                  ) : (
+                    t.company
+                  ))}
+                </p>
+              )}
             </div>
           </div>
           {t.tag && (
@@ -109,6 +145,17 @@ function initialsOf(name) {
         </div>
 
         <p class="mt-4 text-[15px] leading-snug text-ink/80">&ldquo;{t.quote}&rdquo;</p>
+
+        {t.sourceUrl && (
+          <a
+            href={t.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-3 inline-flex items-center gap-1 text-xs text-ink/45 underline underline-offset-2 transition-colors hover:text-accent"
+          >
+            {"Sumber ulasan"}<span aria-hidden="true">↗</span>
+          </a>
+        )}
       </div>
     ))}
   </div>

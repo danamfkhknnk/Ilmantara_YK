@@ -2,39 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import WorkHeader from "../components/work/WorkHeader.astro";
 import WorkCases from "../components/work/WorkCases.astro";
-import Clients from "../components/home/Clients.astro";
 import Process from "../components/home/Process.astro";
 import Testimonials from "../components/home/Testimonials.astro";
+import { WORK } from "../data/work";
 
-// Static project list — CMS integration removed, edit directly here.
-const projects = [
-  {
-    title: "Toko Shopify Premium untuk Brand Wellness",
-    name: "myart",
-    slug: "myart",
-    description:
-      "Yang tidak bisa dikerjakan fitur bawaan Shopify maupun aplikasi yang ada, kami bangun khusus dengan Laravel. Hasilnya: toko yang cepat, mudah dikelola sendiri, dan pas dengan cara kerja pemiliknya.",
-    category: "Template Shopify",
-    year: "2025",
-    url: "https://test-ihmol6aj.myshopify.com/",
-    imageUrl: "/images/work/project-wellness.png",
-    imageAlt: "Toko Shopify brand wellness",
-    priority: true,
-  },
-  {
-    title: "Komisi Seni Interaktif di Shopify",
-    name: "miseart",
-    slug: "miseart",
-    description:
-      "Biar tidak tenggelam di antara ribuan toko online, brand ini tampil beda: pre-order karya seni yang bisa dicoba langsung lewat pelacakan wajah VRM. Desain bersih, fokus konversi, dan sulit dilupakan pengunjung.",
-    category: "Template Shopify",
-    year: "2025",
-    url: "https://mise-u5ukp4yf.myshopify.com",
-    imageUrl: "/images/work/project-vrm.png",
-    imageAlt: "Situs komisi seni interaktif dengan pelacakan wajah",
-    priority: true,
-  },
-];
+const projects = WORK;
 const years = projects.map((p) => p.year).filter(Boolean).sort();
 const range =
   years.length === 0

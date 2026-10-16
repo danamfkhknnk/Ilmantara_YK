@@ -1,5 +1,5 @@
 ---
-import { EMAIL, WHATSAPP_LINK, WHATSAPP_NUMBER, MAPS_LINK } from "../lib/site";
+import { EMAIL, WHATSAPP_LINK, PHONE_DISPLAY, MAPS_LINK, SOCIAL_LINKS } from "../lib/site";
 // Static content — CMS integration removed, edit directly here.
 const navigation = [
   { label: "Beranda", href: "/" },
@@ -10,20 +10,16 @@ const navigation = [
   { label: "Permainan", href: "/#playground" },
 ];
 const socialLinks = [
-  { label: "LinkedIn", href: "#" },
-  { label: "Upwork", href: "#" },
-  { label: EMAIL, href: `mailto:${EMAIL}`, muted: true },
+  ...SOCIAL_LINKS.map((item) => ({ label: item.label, href: item.href, external: true, muted: false })),
+  { label: EMAIL, href: `mailto:${EMAIL}`, external: false, muted: true },
 ];
-const siteSettings = { name: "Ilmantara", location: "Yogyakarta, Indonesia" };
+const siteSettings = { name: "Ilmantara", location: "Jalan Nangka, Wedomartani, Sleman, DI Yogyakarta" };
 
 const PAGES = navigation.map((item) => ({ label: item.label, to: item.href }));
 const ELSEWHERE = socialLinks;
 
-// The "Copy email" button copies whichever social link looks like an email
-// (an `mailto:` href), so editing the address in the list above updates the
-// button too instead of needing a separate field for it.
-const emailLink = socialLinks.find((item) => item.href.startsWith("mailto:"));
-const copyEmail = emailLink ? emailLink.href.replace(/^mailto:/, "") : "hello@ilmantara.com";
+// The "Copy email" button copies the site email address.
+const copyEmail = EMAIL;
 
 // Position of each of the 8 Figma/Framer-style selection handles around the
 // footer mark, ported 1:1 from the reference's `.lff-mark` overlay (corners
@@ -46,7 +42,7 @@ const HANDLES = [
 
   <div class="mt-4 grid gap-10 sm:grid-cols-2 xl:grid-cols-[1fr_280px_280px]">
     <div class="sm:col-span-2 xl:col-span-1">
-      <h2 class="text-[56px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
+      <h2 class="text-[38px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[56px] md:text-[64px]">
         Siap Punya Website yang
         <span class="relative inline-block px-[0.06em] -mx-[0.02em]">Mendatangkan
           <div class="pointer-events-none absolute inset-0" style="border: 1.5px solid rgb(var(--color-accent-rgb)); opacity: 1;">
@@ -109,7 +105,12 @@ const HANDLES = [
       <ul class="mt-4 space-y-3">
         {ELSEWHERE.map((item) => (
           <li class="flex items-center justify-between text-sm">
-            <a href={item.href} class={item.muted ? "rounded-[7px] text-ink/50 transition-colors duration-200 hover:text-accent" : "rounded-[7px] font-medium text-ink transition-colors duration-200 hover:text-accent"}>
+            <a
+              href={item.href}
+              target={item.external ? "_blank" : undefined}
+              rel={item.external ? "noopener noreferrer" : undefined}
+              class={item.muted ? "rounded-[7px] text-ink/50 transition-colors duration-200 hover:text-accent" : "rounded-[7px] font-medium text-ink transition-colors duration-200 hover:text-accent"}
+            >
               {item.label}
             </a>
             <span class="text-ink/30" aria-hidden="true">
@@ -140,7 +141,7 @@ const HANDLES = [
 
   <div class="mt-6 flex flex-row flex-wrap items-center gap-x-4 gap-y-1 border-t border-ink/10 pt-6 text-xs text-ink/50 sm:justify-between">
     <span>© 2026 {siteSettings.name} · Software House Jogja</span>
-    <span>Yogyakarta, Indonesia · WhatsApp {WHATSAPP_NUMBER} · {EMAIL} · <a href={MAPS_LINK} target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-ink">Lihat peta</a></span>
+    <span>Jalan Nangka, Wedomartani, Sleman, DI Yogyakarta 55584 · WhatsApp {PHONE_DISPLAY} · {EMAIL} · <a href={MAPS_LINK} target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-ink">Lihat peta</a></span>
     <a href="#top" class="ml-auto hover:text-ink sm:ml-0">Kembali ke atas</a>
   </div>
   </div>

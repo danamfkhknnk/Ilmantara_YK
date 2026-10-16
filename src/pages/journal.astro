@@ -18,19 +18,23 @@ const [featured, ...archive] = POSTS;
     { hreflang: "x-default", href: "/journal/" },
   ]}
 >
-  <div class="bg-paper text-ink">
-    <!-- 01 Page header — same pattern as the work page header -->
-    <header data-framer-name="01 Page header" class="relative w-full overflow-hidden">
-      <div
-        aria-hidden="true"
-        class="absolute inset-0"
-        style="background-image: radial-gradient(circle at 1px 1px, rgba(12,12,14,0.16) 1px, transparent 1.2px); background-size: 24px 24px;"
-      ></div>
+  <div class="relative overflow-hidden bg-paper text-ink">
+    <!-- Figma canvas: dotted grid over the paper background -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 opacity-[.55]"
+      style="background-image: radial-gradient(circle at 1px 1px, rgba(12,12,14,0.16) 1px, transparent 1.2px); background-size: 24px 24px;"
+    >
+    </div>
+
+    <!-- 01 Page header -->
+    <header class="relative w-full">
       <div
         aria-hidden="true"
         class="absolute inset-0"
         style="background: radial-gradient(1100px 500px at 30% 40%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%);"
-      ></div>
+      >
+      </div>
       <div class="relative mx-auto max-w-[1312px] px-5 pb-14 pt-[120px] sm:px-8 sm:pb-[72px] sm:pt-[140px] lg:px-16 lg:pb-24 lg:pt-[168px]">
         <!-- breadcrumb -->
         <div class="flex items-center gap-2.5 font-mono text-xs font-medium text-ink/55">
@@ -58,7 +62,7 @@ const [featured, ...archive] = POSTS;
             <span class="absolute left-0 top-1/2 h-[11px] w-[11px] -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-accent bg-white"></span>
             <!-- label -->
             <span class="absolute left-1/2 top-full w-max -translate-x-1/2 translate-y-[6px] whitespace-nowrap rounded bg-accent px-[7px] py-[5px] font-mono text-[11px] font-medium leading-none tracking-normal text-white">
-              Text · Geist Semibold
+              Teks · Geist Semibold
             </span>
             <!-- collaborator cursor -->
             <span class="absolute -right-2 -top-[6px]">
@@ -86,19 +90,25 @@ const [featured, ...archive] = POSTS;
       </div>
     </header>
 
-    <div class="mx-auto max-w-[1312px] px-5 pb-24 sm:px-8 lg:px-16">
-
+    <div class="relative mx-auto max-w-[1312px] px-5 pb-24 sm:px-8 lg:px-16">
       <!-- 02 Latest -->
       <section aria-label="Esai terbaru" class="mt-14 md:mt-20">
-        <JournalCard post={featured} titleClass="text-[32px] md:text-[44px]" />
+        <div class="mb-4 flex items-center gap-2 font-mono text-[11px] font-medium leading-none">
+          <span class="text-accent" aria-hidden="true">#</span>
+          <span class="text-ink/70">Terbaru</span>
+          <span class="ml-auto text-ink/40">Pilihan editor</span>
+        </div>
+        <JournalCard post={featured} selected titleClass="text-[32px] md:text-[44px]" />
       </section>
 
       <!-- 03 Archive -->
       <section aria-label="Semua esai" class="mt-20 md:mt-28">
-        <p class="flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.05em] text-ink/55">
-          <span class="text-accent">[03]</span> Arsip
-        </p>
-        <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
+        <div class="mb-4 flex items-center gap-2 font-mono text-[11px] font-medium leading-none">
+          <span class="text-accent" aria-hidden="true">#</span>
+          <span class="text-ink/70">Arsip</span>
+          <span class="ml-auto text-ink/40">{archive.length} esai</span>
+        </div>
+        <div class="flex flex-wrap items-end justify-between gap-4">
           <h2 class="text-[44px] font-semibold leading-[1.02] tracking-[-0.035em] md:text-[56px]">
             Semua tulisan
           </h2>

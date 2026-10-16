@@ -1,34 +1,8 @@
 ---
 import ArrowRow from "../ArrowRow.astro";
+import { WORK } from "../../data/work";
 
-const projects = [
-  {
-    title: "Toko Shopify Premium untuk Brand Wellness",
-    name: "myart",
-    slug: "myart",
-    description:
-      "Toko online yang dirancang mengikuti kebutuhan brand, bukan sekadar mengandalkan fitur bawaan. Dengan pengembangan khusus menggunakan Laravel, toko menjadi lebih fleksibel, mudah dikelola, dan siap mendukung pertumbuhan bisnis.",
-    category: "Template Shopify",
-    year: "2025",
-    url: "https://test-ihmol6aj.myshopify.com/",
-    imageUrl: "/images/work/project-wellness.png",
-    imageAlt: "Tampilan toko Shopify untuk brand wellness",
-    priority: true,
-  },
-  {
-    title: "Pengalaman Komisi Seni Interaktif di Shopify",
-    name: "miseart",
-    slug: "miseart",
-    description:
-      "Menghadirkan pengalaman belanja seni yang lebih personal melalui pratinjau interaktif berbasis pelacakan wajah VRM. Dipadukan dengan desain yang bersih dan alur pemesanan pre-order yang jelas, pengunjung dapat menjelajahi karya dengan cara yang lebih menarik.",
-    category: "Template Shopify",
-    year: "2025",
-    url: "https://mise-u5ukp4yf.myshopify.com",
-    imageUrl: "/images/work/project-vrm.png",
-    imageAlt: "Situs komisi seni Shopify dengan fitur pelacakan wajah interaktif",
-    priority: true,
-  },
-];
+const projects = WORK;
 
 const ACCENTS = ["#4B3BFF", "#FF5B24", "#10B37A", "#9AE62B"];
 
@@ -39,13 +13,12 @@ const CASES = projects.map((p, i) => {
     eyebrow: [p.category, p.year].filter(Boolean).join(" · "),
     title: p.title,
     shortTitle: brand,
-    summary: p.description ?? "",
+    summary: p.summary ?? "",
     tag: p.category ?? "Proyek",
     year: p.year ?? "",
-    href: p.url ?? `/work/${p.slug}/`,
-    external: !!p.url,
-    img: p.imageUrl ?? "/images/work/project-wellness.png",
-    imgAlt: p.imageAlt ?? p.title,
+    href: `/work/${p.slug}/`,
+    img: p.cover ?? "/images/work/project-wellness.webp",
+    imgAlt: p.coverAlt ?? p.title,
     accent: ACCENTS[i % ACCENTS.length],
   };
 });
@@ -115,8 +88,6 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
 
               <a
                 href={c.href}
-                target={c.external ? "_blank" : undefined}
-                rel={c.external ? "noopener noreferrer" : undefined}
                 class="group mt-6 block lg:hidden"
               >
                 <div class="relative aspect-[8/5] overflow-hidden rounded-2xl">
@@ -130,7 +101,7 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
                 <p class="mt-3 text-[20px] font-semibold tracking-[-0.01em] text-ink">{c.title}</p>
               </a>
 
-              <ArrowRow href={c.href} external={c.external} line="bottom" label="Lihat detail proyek" class="mt-7" />
+              <ArrowRow href={c.href} line="bottom" label="Lihat detail proyek" class="mt-7" />
             </article>
           ))}
         </div>
