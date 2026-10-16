@@ -1,5 +1,5 @@
 ---
-import { EMAIL, WHATSAPP_LINK, PHONE_DISPLAY, MAPS_LINK, SOCIAL_LINKS } from "../lib/site";
+import { EMAIL, WHATSAPP_LINK, PHONE_DISPLAY, MAPS_LINK } from "../lib/site";
 // Static content — CMS integration removed, edit directly here.
 const navigation = [
   { label: "Beranda", href: "/" },
@@ -9,14 +9,16 @@ const navigation = [
   { label: "Jurnal", href: "/journal/" },
   { label: "Permainan", href: "/#playground" },
 ];
-const socialLinks = [
-  ...SOCIAL_LINKS.map((item) => ({ label: item.label, href: item.href, external: true, muted: false })),
-  { label: EMAIL, href: `mailto:${EMAIL}`, external: false, muted: true },
+// "Lainnya": the ways to actually reach us — WhatsApp, email, map — not
+// third-party profile links.
+const ELSEWHERE = [
+  { label: PHONE_DISPLAY, href: WHATSAPP_LINK, external: true, muted: false },
+  { label: EMAIL, href: `mailto:${EMAIL}`, external: true, muted: false },
+  { label: "Lokasi Kantor", href: MAPS_LINK, external: true, muted: false },
 ];
 const siteSettings = { name: "Ilmantara", location: "Jalan Nangka, Wedomartani, Sleman, DI Yogyakarta" };
 
 const PAGES = navigation.map((item) => ({ label: item.label, to: item.href }));
-const ELSEWHERE = socialLinks;
 
 // The "Copy email" button copies the site email address.
 const copyEmail = EMAIL;
@@ -88,11 +90,11 @@ const HANDLES = [
       </div>
       <ul class="mt-4 space-y-3">
         {PAGES.map((page, i) => (
-          <li class="flex items-center justify-between text-sm">
-            <a href={page.to} title={page.label} class="rounded-[7px] font-medium text-ink transition-colors duration-200 hover:text-accent">
+          <li class="w-full text-sm">
+            <a href={page.to} title={page.label} class="rounded-[7px] flex items-center justify-between text-sm font-medium text-ink transition-colors duration-200 hover:text-accent">
               {page.label}
+            <span class="font-mono text-ink/40">↗</span>
             </a>
-            <span class="font-mono text-xs text-ink/40">{String(i + 1).padStart(2, "0")}</span>
           </li>
         ))}
       </ul>
@@ -101,7 +103,7 @@ const HANDLES = [
     <div class="rounded-2xl bg-white p-6">
       <div class="flex items-center justify-between text-sm">
         <span class="font-medium text-ink">Lainnya</span>
-        <span class="text-ink/40" aria-hidden="true">↗</span>
+        <span class="text-ink/40" aria-hidden="true">{ELSEWHERE.length}</span>
       </div>
       <ul class="mt-4 space-y-3">
         {ELSEWHERE.map((item) => (
@@ -141,15 +143,22 @@ const HANDLES = [
     </div>
   </div>
 
-  <div class="mt-6 flex flex-row flex-wrap items-center gap-x-4 gap-y-1 border-t border-ink/10 pt-6 text-xs text-ink/50 sm:justify-between">
+  <div class="relative z-10 mt-6 flex flex-row flex-wrap items-center gap-x-4 gap-y-1 border-t border-ink/10 pt-6 text-xs text-ink/50 sm:justify-between">
     <span>© 2026 {siteSettings.name} · Software House Jogja</span>
-    <span>Jalan Nangka, Wedomartani, Sleman, DI Yogyakarta 55584 · WhatsApp {PHONE_DISPLAY} · {EMAIL} · <a href={MAPS_LINK} target="_blank" rel="noopener" title="Lihat peta Ilmantara" class="underline underline-offset-2 hover:text-ink">Lihat peta</a></span>
-    <a href="#top" title="Kembali ke atas" class="ml-auto hover:text-ink sm:ml-0">Kembali ke atas</a>
+    <span>Jalan Nangka, Wedomartani, Sleman, DI Yogyakarta 55584</span>
+    <button type="button" data-back-to-top title="Kembali ke atas" class="cursor-pointer hover:text-ink sm:ml-auto">Kembali ke atas</button>
   </div>
   </div>
 </footer>
 
 <script>
+  // A plain button, not an <a href="#top">: Astro's ClientRouter (view
+  // transitions) intercepts same-page hash link clicks and swallows the
+  // scroll, so a real anchor jump never fires — this scrolls manually instead.
+  document.querySelector("[data-back-to-top]")?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
   const button = document.querySelector("[data-copy-email]");
   button?.addEventListener("click", async () => {
     const email = button.getAttribute("data-copy-email") ?? "";

@@ -83,17 +83,12 @@ function rich(text: string) {
         <span class="text-accent" aria-hidden="true">#</span>
         <a href="/journal/" class="hover:text-accent">Jurnal</a>
         <span class="opacity-50">/</span>
-        <span class="truncate text-ink">{post.tag}</span>
+        <span class="truncate text-ink capitalize">{post.slug}</span>
         <span class="ml-auto hidden text-ink/40 sm:inline">{post.readTime}</span>
       </div>
 
       <!-- 01 Post header -->
       <header class="mx-auto mt-10 max-w-[900px] text-center">
-        <p class="flex items-center justify-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.05em]">
-          <span class="text-accent">{post.tag}</span>
-          <span class="text-ink/45">{post.date}</span>
-          <span class="text-ink/45">{post.readTime}</span>
-        </p>
         <h1 class="mt-5 text-balance text-[clamp(44px,7vw,88px)] font-semibold leading-[0.98] tracking-[-0.04em]">
           {post.title}
         </h1>
@@ -119,29 +114,19 @@ function rich(text: string) {
 
       <!-- 03 Body -->
       <div class="mx-auto mt-10 max-w-[720px] md:mt-14">
-        {BLOCKS.map((block, i) =>
-          block.kind === "h2" ? (
-            <h2 class={`max-w-[720px] text-[28px] font-semibold leading-[1.15] tracking-[-0.025em] text-ink md:text-[32px] ${i === 0 ? "mt-0" : "mt-12"}`}>
-              {block.text}
-            </h2>
-          ) : block.kind === "h3" ? (
-            <h3 class="mt-8 text-[20px] font-semibold leading-[1.25] tracking-[-0.015em] text-ink md:text-[22px]">
-              {block.text}
-            </h3>
-          ) : (
-            <p class={`text-[18px] leading-[1.65] tracking-[-0.01em] text-ink/80 ${i === 0 ? "mt-0" : "mt-6"}`}>
-              {rich(block.text).map((seg) =>
-                "link" in seg && seg.link ? (
-                  <a href={seg.link} class="font-medium text-accent underline underline-offset-2 hover:text-ink">
-                    {seg.text}
-                  </a>
-                ) : (
-                  seg.text
-                ),
-              )}
-            </p>
-          ),
-        )}
+        {post.body.map((para) => (
+          <p class="mb-6 text-[18px] leading-[1.65] tracking-[-0.01em] text-ink/80 last:mb-0">
+            {rich(para).map((seg) =>
+              "link" in seg && seg.link ? (
+                <a href={seg.link} class="font-medium text-accent underline underline-offset-2 hover:text-ink">
+                  {seg.text}
+                </a>
+              ) : (
+                seg.text
+              ),
+            )}
+          </p>
+        ))}
       </div>
 
       <!-- 04 Author: chrome panel -->

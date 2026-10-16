@@ -174,5 +174,5 @@ export const AUTHOR = {
   name: "Ilmantara",
   bioId:
     "Software house di Yogyakarta. Setiap email tentang tulisan ini dibalas.",
-  email: "mail.dimasrizal@gmail.com",
+  email: "hello@ilmantara.com",
 };

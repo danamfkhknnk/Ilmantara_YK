@@ -1,7 +1,7 @@
 export const SITE_URL =
   "https://ilmantara-yk.danamifkhakunnurkhasan.workers.dev";
 export const SITE_NAME = "Ilmantara";
-export const EMAIL = "mail.dimasrizal@gmail.com";
+export const EMAIL = "hello@ilmantara.com";
 
 export const WHATSAPP_NUMBER = "628995577609";
 export const PHONE_DISPLAY = "+62 899-5577-609";
@@ -38,25 +38,6 @@ export const PRICE_RANGE = "Rp2,9 juta–Rp15 juta";
 
 export const MAPS_LINK =
   "https://www.google.com/maps/place/Lokaraya/@-7.7329471,110.422891,19z/data=!4m6!3m5!1s0x2e708b4123b57637:0x7617bf822aff38b0!8m2!3d-7.7329469!4d110.4233715!16s%2Fg%2F11ypctc1ny?entry=ttu";
-
-// Social profiles shown in the footer. Instagram is intentionally left blank
-// until a real URL exists — the empty entry is filtered out below so it never
-// renders as a dead link. Add the URL here to make it appear again.
-const SOCIAL = [
-  {
-    label: "Upwork",
-    href: "https://www.upwork.com/freelancers/~01e44c82ae41443475?mp_source=share",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/indimasia/?isSelfProfile=false&locale=in",
-  },
-  { label: "Instagram", href: "" },
-];
-
-export const SOCIAL_LINKS: { label: string; href: string }[] = SOCIAL.filter(
-  (item) => item.href.trim().length > 0,
-);
 
 export const DEFAULT_TITLE =
   "Software House Jogja – Jasa Pembuatan Website & Shopify | Ilmantara";

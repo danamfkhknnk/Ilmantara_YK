@@ -234,13 +234,16 @@ const SECTIONS = [
                     <span>#{p.year}</span>
                     <span>{p.category}</span>
                   </div>
-                  <div class="relative overflow-hidden rounded-md border border-ink/10">
-                    <img
-                      src={p.cover}
-                      alt={p.coverAlt}
-                      loading="lazy"
-                      class="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                    />
+                  <div class="relative">
+                    <div class="overflow-hidden rounded-md border border-ink/10">
+                      <img
+                        src={p.cover}
+                        alt={p.coverAlt}
+                        loading="lazy"
+                        class="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      />
+                    </div>
+                    <SelectionFrame class="opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   </div>
                   <h3 class="mt-4 text-[20px] font-semibold tracking-[-0.01em] text-ink transition-colors duration-300 group-hover:text-accent">
                     {p.title}
