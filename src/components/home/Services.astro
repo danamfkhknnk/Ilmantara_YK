@@ -96,8 +96,8 @@ const COUNT_LABEL = "Lima";
       class="grid items-end gap-12 transition duration-700 data-[seen=false]:translate-y-[18px] data-[seen=false]:opacity-0 data-[seen=false]:blur-[4px] lg:grid-cols-[1fr_420px]"
     >
       <div>
-        <p class="flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.05em] text-ink/55">
-          <b class="font-medium text-accent">[06]</b> Layanan
+        <p class="flex items-center gap-2.5 font-mono text-[11px] font-medium capitalize tracking-[0.05em] text-ink/55">
+          <b class="font-medium text-accent"># Ilmantara /</b> Layanan
         </p>
         <h2 class="mt-[18px] max-w-[720px] text-balance text-[64px] font-semibold leading-[0.96] tracking-[-0.055em]">
           Layanan Software House Kami
@@ -146,7 +146,7 @@ const COUNT_LABEL = "Lima";
 </section>
 
 <script>
-  (() => {
+  function initServices() {
     const ACCENT = "#4B3BFF";
     const NS = "http://www.w3.org/2000/svg";
     const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -268,5 +268,12 @@ const COUNT_LABEL = "Lima";
       layout();
       measure();
     });
-  })();
+  }
+
+  // `astro:page-load` fires on the initial load and on every client-side
+  // transition navigation — this section isn't `transition:persist`-ed, so
+  // its DOM is fresh each time, but a plain IIFE only ran once (Astro skips
+  // re-running an inline script whose content already executed this
+  // session), leaving the section inert/empty after navigating back to it.
+  document.addEventListener("astro:page-load", initServices);
 </script>

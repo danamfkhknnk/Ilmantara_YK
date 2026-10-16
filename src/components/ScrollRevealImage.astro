@@ -35,7 +35,7 @@ const {
 <script>
   // Scroll-driven crop reveal ala About: overlay kertas (clip-path jendela)
   // + frame crop biru + grid membuka 16% → 0%, foto ease scale 1.14 → 1.
-  (() => {
+  function initScrollReveal() {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
     const easeOutQuart = (t: number) => 1 - (1 - t) ** 4;
@@ -81,5 +81,9 @@ const {
       window.addEventListener("resize", requestMeasure);
       measure();
     });
-  })();
+  }
+
+  // See Services.astro's initServices for why this needs `astro:page-load`
+  // instead of running once at parse time.
+  document.addEventListener("astro:page-load", initScrollReveal);
 </script>

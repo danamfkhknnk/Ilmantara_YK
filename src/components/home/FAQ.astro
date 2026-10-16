@@ -8,8 +8,8 @@ const QUESTIONS = FAQS;
 <section data-framer-name="11 FAQ" class="w-full overflow-x-clip bg-paper text-ink">
   <div class="mx-auto grid max-w-[1312px] items-start gap-9 px-5 py-20 min-[641px]:px-8 min-[641px]:py-[100px] min-[1001px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[1001px]:gap-16 min-[1001px]:px-16 min-[1001px]:py-[130px]">
     <div>
-      <p class="flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase leading-none tracking-[0.05em] text-ink/55">
-        <b class="font-medium text-accent">[11]</b>Pertanyaan
+      <p class="flex items-center gap-2.5 font-mono text-[11px] font-medium capitalize leading-none tracking-[0.05em] text-ink/55">
+        <b class="font-medium text-accent"># Ilmantara /</b> Pertanyaan
       </p>
       <h2 class="mt-[18px] text-[64px] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
         Ada yang ingin Anda ketahui?
@@ -75,6 +75,7 @@ const QUESTIONS = FAQS;
 </section>
 
 <script>
+  function initFaq() {
   const list = document.getElementById("faq-list");
   if (list) {
     const rows = Array.from(list.querySelectorAll("[data-faq-row]"));
@@ -139,4 +140,9 @@ const QUESTIONS = FAQS;
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
   }
+  }
+
+  // See Services.astro's initServices for why this needs `astro:page-load`
+  // instead of running once at parse time.
+  document.addEventListener("astro:page-load", initFaq);
 </script>
