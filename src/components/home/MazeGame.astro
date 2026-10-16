@@ -114,8 +114,6 @@
   import { LEVELS, NODE_FILL, START_DIR } from "./maze/levels";
   import { runFlow, createWorld } from "./maze/flowchart";
 
-  document.querySelectorAll("[data-maze-game]").forEach(initGame);
-
   // Toolbox stencils always offered, per-level filtered by LEVELS[i].toolbox
   // (start/end are singleton anchors, never level-gated).
   const TOOLBOX_ORDER = ["start", "move", "turnLeft", "turnRight", "if", "repeat", "end"];
@@ -806,4 +804,14 @@
     });
     loadLevel(0);
   }
+
+  // `astro:page-load` fires on the initial load and on every client-side
+  // transition navigation — this section isn't `transition:persist`-ed, so
+  // its DOM is fresh each time, but a plain top-level call only ran once
+  // (Astro skips re-running an inline script whose content already executed
+  // this session), leaving the board stuck on "Memuat maze…" after
+  // navigating back to it (e.g. from /journal/ to /#playground).
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll("[data-maze-game]").forEach(initGame);
+  });
 </script>
