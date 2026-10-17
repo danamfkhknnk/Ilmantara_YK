@@ -21,6 +21,7 @@
  * - pegman motion: the original Z() math (x = 50a-49d+1, frames 4T/16/18).
  * - sounds: the original win.mp3 / fail_pegman.mp3.
  */
+import GlyphIcon from "../GlyphIcon.astro";
 ---
 
 <div data-maze-game class="grid gap-6 lg:grid-cols-[1.05fr_auto_1.3fr]">
@@ -101,7 +102,7 @@
       <p data-win-text class="mt-1 text-sm text-ink/60"></p>
       <div class="mt-5 flex gap-2">
         <button type="button" data-replay class="flex-1 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink hover:border-ink/40">Ulangi</button>
-        <button type="button" data-next class="flex-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90">Level berikutnya →</button>
+        <button type="button" data-next class="flex-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:opacity-90">Level berikutnya <GlyphIcon name="right" class="text-white" /></button>
       </div>
     </div>
   </div>
@@ -830,7 +831,23 @@
   // (Astro skips re-running an inline script whose content already executed
   // this session), leaving the board stuck on "Memuat maze…" after
   // navigating back to it (e.g. from /journal/ to /#playground).
+  // The maze sits far below the fold, so building its (fairly heavy) UI during
+  // the initial load is wasted main-thread work. Initialise it only once it
+  // scrolls near the viewport.
   document.addEventListener("astro:page-load", () => {
-    document.querySelectorAll("[data-maze-game]").forEach(initGame);
+    document.querySelectorAll("[data-maze-game]").forEach((root) => {
+      if (root.dataset.mazeInit) return;
+      root.dataset.mazeInit = "pending";
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          obs.disconnect();
+          root.dataset.mazeInit = "done";
+          initGame(root);
+        },
+        { rootMargin: "600px 0px" }
+      );
+      io.observe(root);
+    });
   });
 </script>

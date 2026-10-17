@@ -1,4 +1,5 @@
 ---
+import GlyphIcon from "../components/GlyphIcon.astro";
 import Layout from "./Layout.astro";
 import ArrowLink from "../components/ArrowLink.astro";
 import ArrowRow from "../components/ArrowRow.astro";
@@ -118,13 +119,13 @@ const pad = (n: number) => String(n).padStart(2, "0");
       <!-- Hero image: selected frame with handles + dimension chip -->
       <figure class="relative mt-12">
         <div class="mb-2.5 flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none text-accent">
-          <span aria-hidden="true">◇</span>
+          <GlyphIcon name="diamond" />
           <span>Gambar Utama</span>
           <span class="ml-auto text-ink/65">16 : 8</span>
         </div>
         <div class="relative">
           <div class="overflow-hidden rounded-md border border-ink/10">
-            <Img src={image} alt={imageAlt} sizes="(min-width: 1312px) 1184px, 100vw" loading="lazy" class="aspect-[16/8] w-full object-cover" />
+            <Img src={image} alt={imageAlt} sizes="(min-width: 1312px) 1184px, 100vw" fetchpriority="high" class="aspect-[16/8] w-full object-cover" />
           </div>
           <SelectionFrame label="1440 × 720" />
         </div>
@@ -142,7 +143,10 @@ const pad = (n: number) => String(n).padStart(2, "0");
                   i === 0 && "bg-accent/[0.06]",
                 ]}
               >
-                <span class:list={["mt-[3px] font-mono text-[10px] leading-none", i === 0 ? "text-accent" : "text-ink/35"]} aria-hidden="true">◇</span>
+                <GlyphIcon
+                  name="diamond"
+                  class={`mt-[3px] font-mono text-[10px] leading-none ${i === 0 ? "text-accent" : "text-ink/35"}`}
+                />
                 <p class="text-[15px] leading-[1.55] text-ink/80 transition-colors duration-200 group-hover:text-ink">{point}</p>
               </div>
             ))
@@ -159,7 +163,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
             offerings.map((offer, i) => (
               <div class="relative rounded-lg border border-dashed border-accent/40 bg-white p-5 transition-colors duration-200 [@media(hover:hover)]:hover:border-accent/70">
                 <div class="mb-2.5 flex items-center gap-1.5 font-mono text-[10px] font-medium uppercase leading-none tracking-[0.03em] text-accent">
-                  <span aria-hidden="true">◇</span>
+                  <GlyphIcon name="diamond" />
                   <span>Komponen</span>
                   <span class="ml-auto text-ink/65">({pad(i + 1)})</span>
                 </div>
@@ -179,7 +183,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
           {
             startingFrom && (
               <p class="mt-4 inline-flex items-center gap-2 rounded-[4px] bg-accent px-2.5 py-1.5 font-mono text-[12px] font-medium leading-none text-white">
-                <span aria-hidden="true">◇</span>Mulai dari {startingFrom}
+                <GlyphIcon name="diamond" />Mulai dari {startingFrom}
               </p>
             )
           }
@@ -190,7 +194,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
                 return (
                   <div class="relative">
                     <div class:list={["mb-2.5 flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none", selected ? "text-accent" : "text-ink/65"]}>
-                      <span aria-hidden="true">◇</span>
+                      <GlyphIcon name="diamond" />
                       <span>Frame</span>
                       <span class="ml-auto">{pkg.name}</span>
                     </div>
@@ -339,7 +343,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
                   href={r.href}
                   class="inline-flex items-center gap-2 rounded-md border border-ink/[0.12] bg-white px-3.5 py-2.5 font-mono text-[13px] font-medium transition-colors hover:border-accent hover:text-accent"
                 >
-                  <span class="text-accent" aria-hidden="true">◇</span>
+                  <GlyphIcon name="diamond" class="text-accent" />
                   {r.label}
                 </a>
               ))}

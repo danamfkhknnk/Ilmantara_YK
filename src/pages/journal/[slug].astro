@@ -1,4 +1,5 @@
 ---
+import GlyphIcon from "../../components/GlyphIcon.astro";
 import Layout from "../../layouts/Layout.astro";
 import JournalCard from "../../components/journal/JournalCard.astro";
 import ArrowLink from "../../components/ArrowLink.astro";
@@ -101,13 +102,13 @@ function rich(text: string) {
       <!-- 02 Cover: selected frame with handles + dimension chip -->
       <figure class="relative mt-10 md:mt-14">
         <div class="mb-2.5 flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none text-accent">
-          <span aria-hidden="true">◇</span>
+          <GlyphIcon name="diamond" />
           <span>Gambar</span>
           <span class="ml-auto text-ink/65">16 : 9</span>
         </div>
         <div class="relative">
           <div class="overflow-hidden rounded-md border border-ink/10">
-            <Img src={post.cover} alt={post.coverAlt} sizes="(min-width: 1312px) 1184px, 100vw" class="aspect-[16/9] w-full object-cover" />
+            <Img src={post.cover} alt={post.coverAlt} sizes="(min-width: 1312px) 1184px, 100vw" fetchpriority="high" class="aspect-[16/9] w-full object-cover" />
           </div>
           <SelectionFrame label="1440 × 810" />
         </div>

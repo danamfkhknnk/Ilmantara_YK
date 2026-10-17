@@ -1,4 +1,5 @@
 ---
+import GlyphIcon from "../GlyphIcon.astro";
 import type { JournalPost } from "../../data/journal";
 import Img from "../Img.astro";
 import { LINK_UNDERLINE } from "../../lib/styles";
@@ -8,6 +9,8 @@ const {
   titleClass = "text-[28px]",
   selected = false,
   sizes = "(min-width: 1280px) 31vw, (min-width: 768px) 46vw, 100vw",
+  titleTag: TitleTag = "h3",
+  priority = false,
 } = Astro.props as {
   post: JournalPost;
   titleClass?: string;
@@ -15,6 +18,10 @@ const {
   selected?: boolean;
   /** Responsive `sizes` hint for the cover image. */
   sizes?: string;
+  /** Heading level for the title, so callers can keep the page's heading order sequential. */
+  titleTag?: "h2" | "h3";
+  /** Above-the-fold hero card: load its cover eagerly and at high priority. */
+  priority?: boolean;
 };
 
 const HANDLES = [
@@ -33,7 +40,7 @@ const HANDLES = [
   <!-- frame label -->
   <div class="mb-2.5 flex items-center justify-between gap-3 font-mono text-[11px] font-medium uppercase leading-none tracking-[0.04em]">
     <span class="flex items-center gap-1.5 text-accent">
-      <span aria-hidden="true">◇</span>
+      <GlyphIcon name="diamond" />
       <span>{post.tag}</span>
     </span>
     <span class="truncate text-ink/65">{post.date} · {post.readTime}</span>
@@ -46,7 +53,8 @@ const HANDLES = [
         src={post.cover}
         alt={post.coverAlt}
         sizes={sizes}
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
+        fetchpriority={priority ? "high" : undefined}
         class="aspect-[16/10] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
       />
     </div>
@@ -68,9 +76,9 @@ const HANDLES = [
 
   <!-- meta -->
   <div class="mt-4">
-    <h3 class={`${LINK_UNDERLINE} font-semibold leading-[1.08] tracking-[-0.025em] text-ink transition-colors duration-300 group-hover:text-accent ${titleClass}`}>
+    <TitleTag class={`${LINK_UNDERLINE} font-semibold leading-[1.08] tracking-[-0.025em] text-ink transition-colors duration-300 group-hover:text-accent ${titleClass}`}>
       {post.title}
-    </h3>
+    </TitleTag>
     <p class="mt-2.5 text-[15px] leading-[1.55] text-ink/60">{post.excerpt}</p>
   </div>
 </a>

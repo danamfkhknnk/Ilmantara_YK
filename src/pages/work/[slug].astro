@@ -1,4 +1,5 @@
 ---
+import GlyphIcon from "../../components/GlyphIcon.astro";
 import Layout from "../../layouts/Layout.astro";
 import FigmaPanel from "../../components/figma/FigmaPanel.astro";
 import SelectionFrame from "../../components/figma/SelectionFrame.astro";
@@ -78,7 +79,7 @@ const SECTIONS = [
       <header class="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-16">
         <div>
           <p class="flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none text-accent">
-            <span aria-hidden="true">◇</span>
+            <GlyphIcon name="diamond" />
             <span>Case Study</span>
           </p>
           <h1 class="mt-4 text-balance text-[clamp(40px,6vw,72px)] font-semibold leading-[0.98] tracking-[-0.04em]">
@@ -130,13 +131,13 @@ const SECTIONS = [
       <!-- 02 Cover: selected frame with handles + dimension chip -->
       <figure class="relative mt-12 md:mt-16">
         <div class="mb-2.5 flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none text-accent">
-          <span aria-hidden="true">◇</span>
+          <GlyphIcon name="diamond" />
           <span>Screenshot</span>
           <span class="ml-auto text-ink/65">16 : 10</span>
         </div>
         <div class="relative">
           <div class="overflow-hidden rounded-md border border-ink/10">
-            <Img src={project.cover} alt={project.coverAlt} sizes="(min-width: 1312px) 1184px, 100vw" class="aspect-[16/10] w-full object-cover object-top" />
+            <Img src={project.cover} alt={project.coverAlt} sizes="(min-width: 1312px) 1184px, 100vw" fetchpriority="high" class="aspect-[16/10] w-full object-cover object-top" />
           </div>
           <SelectionFrame label="1440 × 900" />
         </div>

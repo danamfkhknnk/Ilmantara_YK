@@ -1,4 +1,5 @@
 ---
+import GlyphIcon from "../GlyphIcon.astro";
 // Static content — CMS integration removed, edit directly here.
 // Edge fade (mask-image) keeps pills from looking hard-cut at the sides.
 const clients = [
@@ -37,7 +38,7 @@ const SHOW = clients.length > 0 || skills.length > 0;
 
   <div class="flex items-center gap-4">
     <span class="flex shrink-0 items-center gap-1.5 whitespace-nowrap font-mono text-[11px] uppercase tracking-wide text-ink/65">
-      <span class="text-accent" aria-hidden="true">◇</span>
+      <GlyphIcon name="diamond" class="text-accent" />
       Klien kami
     </span>
     <div class="h-px flex-1 bg-ink/10"></div>
@@ -51,7 +52,7 @@ const SHOW = clients.length > 0 || skills.length > 0;
     <div class="flex w-max gap-3 [animation:clients-marquee_32s_linear_infinite] group-hover:[animation-play-state:paused]">
       {[...clients, ...clients].map((client) => (
         <div class="flex shrink-0 items-center gap-2 rounded-full bg-white px-4 py-2.5 shadow-sm transition-all duration-300 hover:text-accent hover:shadow-[inset_0_0_0_1.5px_#4B3BFF]">
-          <span class="text-xs text-accent" aria-hidden="true">◇</span>
+          <GlyphIcon name="diamond" class="text-xs text-accent" />
           <span class="text-sm font-semibold text-ink">{client.name}</span>
           {client.industry && <span class="font-mono text-[10px] tracking-wide text-ink/65">{client.industry}</span>}
         </div>

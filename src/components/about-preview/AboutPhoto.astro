@@ -1,10 +1,11 @@
 ---
+import GlyphIcon from "../GlyphIcon.astro";
 import Img from "../Img.astro";
 import AboutSelection from './AboutSelection.astro';
 ---
 <div data-about-photo class="relative aspect-[4/5] w-full max-[1000px]:max-w-[520px]">
   <div class="absolute -top-6 left-0 flex w-full justify-between font-['AboutMono',monospace] text-[11px] font-medium leading-none text-ink/65">
-    <span><span class="text-accent">▣</span> tentang-ilmantara.webp</span>
+    <span><GlyphIcon name="square" class="text-accent" /> tentang-ilmantara.webp</span>
     <span data-about-crop>Crop · 560 × 700</span>
   </div>
   <div class="absolute inset-0 overflow-hidden rounded-[4px] shadow-[0_40px_70px_-40px_rgba(12,12,14,.55)]">
