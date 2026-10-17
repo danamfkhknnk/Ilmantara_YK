@@ -869,12 +869,12 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         ? { x: 218, y: ctaY + 120, sc: 0.86 }
         : { x: 930, y: Math.max(648, ctaY + contentLayout.ctaHeight + 32), sc: 1 };
 
-      const en = fadeIn(D, L + 0.2);
+      const en = fadeIn(D, 0.15);
       statement.style.top = `${statementY + en.dy}px`;
       statement.style.opacity = en.o;
       statement.style.filter = `blur(${en.blur}px)`;
 
-      const tn = fadeIn(D, L + 0.35);
+      const tn = fadeIn(D, 0.3);
       cta.style.width = `${k}px`;
       // Naya nudges the CTA group, then restores the exact resting layout.
       const nayaWorking = D >= 17 && D < 20;
