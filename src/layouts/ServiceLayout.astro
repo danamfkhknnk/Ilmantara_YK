@@ -4,6 +4,7 @@ import ArrowLink from "../components/ArrowLink.astro";
 import ArrowRow from "../components/ArrowRow.astro";
 import FigmaPanel from "../components/figma/FigmaPanel.astro";
 import SelectionFrame from "../components/figma/SelectionFrame.astro";
+import Img from "../components/Img.astro";
 import { WHATSAPP_LINK } from "../lib/site";
 
 export type ServiceFaq = { q: string; a: string; link?: { label: string; href: string } };
@@ -80,12 +81,12 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
     <div class="relative mx-auto max-w-[1312px] px-5 pb-20 pt-[120px] sm:px-8 md:pt-[150px] lg:px-16">
       <!-- Breadcrumb: canvas file label -->
-      <div class="flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase leading-none tracking-[0.05em] text-ink/55">
+      <div class="flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase leading-none tracking-[0.05em] text-ink/65">
         <span class="text-accent" aria-hidden="true">#</span>
         <a href="/#services" class="hover:text-accent">Layanan</a>
         <span class="opacity-50">/</span>
         <span class="text-ink">{h1}</span>
-        <span class="ml-auto hidden text-ink/40 sm:inline">Ilmantara — Desain</span>
+        <span class="ml-auto hidden text-ink/65 sm:inline">Ilmantara — Desain</span>
       </div>
 
       <!-- Hero: a selected artboard -->
@@ -119,11 +120,11 @@ const pad = (n: number) => String(n).padStart(2, "0");
         <div class="mb-2.5 flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none text-accent">
           <span aria-hidden="true">◇</span>
           <span>Gambar Utama</span>
-          <span class="ml-auto text-ink/40">16 : 8</span>
+          <span class="ml-auto text-ink/65">16 : 8</span>
         </div>
         <div class="relative">
           <div class="overflow-hidden rounded-md border border-ink/10">
-            <img src={image} alt={imageAlt} loading="lazy" class="aspect-[16/8] w-full object-cover" />
+            <Img src={image} alt={imageAlt} sizes="(min-width: 1312px) 1184px, 100vw" loading="lazy" class="aspect-[16/8] w-full object-cover" />
           </div>
           <SelectionFrame label="1440 × 720" />
         </div>
@@ -160,7 +161,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
                 <div class="mb-2.5 flex items-center gap-1.5 font-mono text-[10px] font-medium uppercase leading-none tracking-[0.03em] text-accent">
                   <span aria-hidden="true">◇</span>
                   <span>Komponen</span>
-                  <span class="ml-auto text-ink/40">({pad(i + 1)})</span>
+                  <span class="ml-auto text-ink/65">({pad(i + 1)})</span>
                 </div>
                 <h3 class="text-[20px] font-semibold tracking-[-0.02em]">{offer.title}</h3>
                 <p class="mt-2 text-[15px] leading-[1.6] text-ink/70">{offer.desc}</p>
@@ -188,7 +189,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
                 const selected = i === 1;
                 return (
                   <div class="relative">
-                    <div class:list={["mb-2.5 flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none", selected ? "text-accent" : "text-ink/40"]}>
+                    <div class:list={["mb-2.5 flex items-center gap-1.5 font-mono text-[10px] font-medium leading-none", selected ? "text-accent" : "text-ink/65"]}>
                       <span aria-hidden="true">◇</span>
                       <span>Frame</span>
                       <span class="ml-auto">{pkg.name}</span>
@@ -231,9 +232,10 @@ const pad = (n: number) => String(n).padStart(2, "0");
                   <a href={item.href} class="group block">
                     <div class="relative">
                       <div class="overflow-hidden rounded-md border border-ink/10">
-                        <img
+                        <Img
                           src={item.img}
                           alt={item.imgAlt}
+                          sizes="(min-width: 768px) 48vw, 100vw"
                           loading="lazy"
                           class="aspect-[16/9] w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                         />
@@ -329,7 +331,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
             <div class="mb-3 flex items-center gap-2 font-mono text-[11px] font-medium leading-none">
               <span class="text-accent" aria-hidden="true">#</span>
               <span class="text-ink/70">Aset Tertaut</span>
-              <span class="ml-auto text-ink/40">{related.length} terkait</span>
+              <span class="ml-auto text-ink/65">{related.length} terkait</span>
             </div>
             <div class="flex flex-wrap gap-2">
               {related.map((r) => (
@@ -350,7 +352,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
         <div class="mb-3 flex items-center gap-2 font-mono text-[11px] font-medium leading-none">
           <span class="text-accent" aria-hidden="true">#</span>
           <span class="text-ink/70">Ajakan</span>
-          <span class="ml-auto text-ink/40">Frame · 1440</span>
+          <span class="ml-auto text-ink/65">Frame · 1440</span>
         </div>
         <div class="relative overflow-hidden rounded-xl bg-ink p-8 text-white md:p-12">
           <h2 class="max-w-[640px] text-[32px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-[44px]">

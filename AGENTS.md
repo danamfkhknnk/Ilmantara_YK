@@ -1,24 +1,19 @@
 ## Reference site (the original design)
 
 This project is a pixel-faithful Astro port of a React/Framer site. The
-**original, untouched design** lives in two places:
+in-repo static Framer export (`orange-property-949925.framer.app/`) has been
+removed. The permanent source of truth for visual comparison is now the
+snapshot set under `tools/reference/<section>/<viewport>.png`
+(desktop 1440×900, mobile 390×844) — see the UI check loop below.
 
-- `orange-property-949925.framer.app/` at the repo root — the static Framer
-  export (`index.html`, `about.html`, `work/`, `journal/`, etc). This is the
-  ground truth for layout, copy, spacing and color.
-- `/Users/mm/Project/orange-property-template` — the React source this
-  Astro app was ported from (sibling directory, outside this repo). Read it
-  when porting a component, but **never edit it** — it's the source of
-  truth to diff against, not a working copy.
+The React source this Astro app was ported from still lives at
+`/Users/mm/Project/orange-property-template` (sibling directory, outside this
+repo). Read it when porting a component, but **never edit it** — it's the
+source of truth to diff against, not a working copy.
 
-`npm run dev` serves **both** the Astro app and the reference export at
-once (via `concurrently`):
+`npm run dev` serves the Astro app only:
 
 - Astro app → `http://localhost:4321`
-- Reference export → `http://localhost:4300`
-
-Open both side by side (or screenshot both, see below) when checking
-whether a section matches the original.
 
 ## Styling: Tailwind first, minimal CSS
 
@@ -49,15 +44,14 @@ Always style with Tailwind utility classes in markup, not custom CSS:
 After any change that affects markup, styles, or layout, don't just eyeball
 it once — loop until the diff is clean:
 
-1. `npm run dev` (background) so both servers above are up.
+1. `npm run dev` (background) so the Astro app is up at `http://localhost:4321`.
 2. Capture the current app: `npm run ui:screenshot` → writes
    `tools/screenshots/*.png` at desktop/mobile viewports.
 3. If `tools/reference/<section>/<viewport>.png` doesn't exist yet for the
-   section you're working on, capture it once from the real reference at
-   `http://localhost:4300` (same viewport sizes as `tests/visual.spec.ts`:
-   1440×900 desktop, 390×844 mobile) and save it there — that becomes the
-   permanent source of truth for that section, not a self-regression
-   baseline.
+   section you're working on, capture a reference screenshot (same viewport
+   sizes as `tests/visual.spec.ts`: 1440×900 desktop, 390×844 mobile) and
+   save it there — that becomes the permanent source of truth for that
+   section, not a self-regression baseline.
 4. `npm run ui:compare` → pixelmatch diff against `tools/reference/` (falls
    back to `tools/screenshots/baseline/` only when no reference exists yet),
    diffs in `tools/diffs/`, report in `tools/visual-report/test-result.json`.
@@ -73,17 +67,13 @@ references are in place.
 
 ## Development
 
-Start both dev servers (the Astro app and the reference export) together:
+Start the Astro dev server:
 
 ```
 npm run dev
 ```
 
-This wraps `astro dev` with the static `serve` for the reference export —
-manage the Astro process specifically with `astro dev stop`, `astro dev
-status`, and `astro dev logs`; stop the reference server by killing the
-`serve` process (e.g. `pkill -f "serve orange-property"`) or just the whole
-backgrounded `npm run dev` job.
+Manage it with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
 ## Documentation
 

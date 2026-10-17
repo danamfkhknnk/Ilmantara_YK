@@ -6,13 +6,14 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "concurrently -n astro,reference -c blue,magenta \"astro dev\" \"serve orange-property-949925.framer.app -l 4300\"",
+    "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "playwright test",
     "ui:screenshot": "playwright test tests/visual.spec.ts",
     "ui:compare": "node tools/scripts/compare.mjs",
+    "images:optimize": "node scripts/optimize-images.mjs",
     "ui:test": "npm run ui:screenshot && npm run ui:compare"
   },
   "dependencies": {
@@ -26,9 +27,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.64.0",
-    "concurrently": "^10.0.5",
     "pixelmatch": "^8.0.0",
-    "pngjs": "^7.0.0",
-    "serve": "^14.2.6"
+    "pngjs": "^7.0.0"
   }
 }

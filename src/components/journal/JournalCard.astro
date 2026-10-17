@@ -1,12 +1,20 @@
 ---
 import type { JournalPost } from "../../data/journal";
+import Img from "../Img.astro";
 import { LINK_UNDERLINE } from "../../lib/styles";
 
-const { post, titleClass = "text-[28px]", selected = false } = Astro.props as {
+const {
+  post,
+  titleClass = "text-[28px]",
+  selected = false,
+  sizes = "(min-width: 1280px) 31vw, (min-width: 768px) 46vw, 100vw",
+} = Astro.props as {
   post: JournalPost;
   titleClass?: string;
   /** Show the Figma selection frame permanently (used for the featured post). */
   selected?: boolean;
+  /** Responsive `sizes` hint for the cover image. */
+  sizes?: string;
 };
 
 const HANDLES = [
@@ -28,15 +36,16 @@ const HANDLES = [
       <span aria-hidden="true">◇</span>
       <span>{post.tag}</span>
     </span>
-    <span class="truncate text-ink/40">{post.date} · {post.readTime}</span>
+    <span class="truncate text-ink/65">{post.date} · {post.readTime}</span>
   </div>
 
   <!-- image frame + selection (always on for the featured post, on hover otherwise) -->
   <div class="relative">
     <div class="overflow-hidden rounded-md border border-ink/10">
-      <img
+      <Img
         src={post.cover}
         alt={post.coverAlt}
+        sizes={sizes}
         loading="lazy"
         class="aspect-[16/10] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
       />

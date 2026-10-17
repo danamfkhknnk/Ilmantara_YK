@@ -1,5 +1,6 @@
 ---
 import ArrowRow from "../ArrowRow.astro";
+import Img from "../Img.astro";
 import { WORK } from "../../data/work";
 
 const projects = WORK;
@@ -48,7 +49,7 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
     <div class="relative mx-auto h-full w-full max-w-[1440px] px-5 pb-20 pt-16 md:px-8 lg:px-16 lg:pb-0 lg:pt-[92px]">
       <!-- header row -->
       <div class="flex flex-wrap items-center gap-3">
-        <h2 class="font-mono text-[11px] font-medium capitalize tracking-[0.05em] text-ink/55">
+        <h2 class="font-mono text-[11px] font-medium capitalize tracking-[0.05em] text-ink/65">
           <span class="text-accent"># Ilmantara /</span> Portofolio Website & Toko Online Shopify
         </h2>
         <div class="h-px flex-1 bg-ink/10"></div>
@@ -58,7 +59,7 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
               type="button"
               data-work-tab={i}
               class={`rounded-md px-2.5 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.05em] transition-colors duration-300 ${
-                i === 0 ? "bg-ink text-white" : "bg-transparent text-ink/50 hover:text-ink"
+                i === 0 ? "bg-ink text-white" : "bg-transparent text-ink/65 hover:text-ink"
               }`}
             >
               {String(i + 1).padStart(2, "0")} {c.tab}
@@ -76,7 +77,7 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
                 i === 0 ? "lg:translate-y-0 lg:opacity-100 lg:blur-none" : "lg:pointer-events-none lg:translate-y-10 lg:opacity-0 lg:blur-[6px]"
               } ${i > 0 ? "mt-16 lg:mt-0" : ""}`}
             >
-              <p class="flex gap-2.5 font-mono text-xs font-medium text-ink/50">
+              <p class="flex gap-2.5 font-mono text-xs font-medium text-ink/65">
                 <span>{c.tag}</span><span>·</span><span>{c.year}</span>
               </p>
               <h3 class="mt-4 text-balance text-[30px] font-semibold leading-[1.02] tracking-[-0.02em] text-ink lg:text-[44px]">
@@ -92,10 +93,11 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
                 class="group mt-6 block lg:hidden"
               >
                 <div class="relative aspect-[8/5] overflow-hidden rounded-2xl">
-                  <img
+                  <Img
                     src={c.img}
                     alt={c.imgAlt}
                     title={c.imgAlt}
+                    sizes="(min-width: 1024px) 480px, 100vw"
                     loading="lazy"
                     class="absolute inset-0 h-full w-full object-cover object-top"
                   />
@@ -114,12 +116,13 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
         <div class="hidden min-w-0 lg:block">
           <div class="relative ml-auto aspect-[16/10] w-full max-w-[760px] overflow-hidden bg-ink/5 shadow-[0_30px_70px_-30px_rgba(12,12,14,0.34)]">
             {CASES.map((c, i) => (
-              <img
+              <Img
                 src={c.img}
                 alt={c.imgAlt}
                 title={c.imgAlt}
                 draggable="false"
                 data-work-hero={i}
+                sizes="(min-width: 1024px) 760px, 100vw"
                 class={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500 ease-out ${
                   i === 0 ? "opacity-100" : "opacity-0"
                 }`}
@@ -228,7 +231,7 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
         tab.classList.toggle("bg-ink", on);
         tab.classList.toggle("text-white", on);
         tab.classList.toggle("bg-transparent", !on);
-        tab.classList.toggle("text-ink/50", !on);
+        tab.classList.toggle("text-ink/65", !on);
       });
       panels.forEach((panel, i) => {
         const on = i === index;

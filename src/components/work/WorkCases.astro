@@ -1,5 +1,6 @@
 ---
 import { WORK } from "../../data/work";
+import Img from "../Img.astro";
 import { LINK_UNDERLINE } from "../../lib/styles";
 
 // Cards link to the internal case-study page; the live site is reached via the
@@ -25,7 +26,7 @@ const CASES = WORK.map((p) => ({
         class="group block text-ink"
       >
         <!-- canvas label -->
-        <div class="mb-2.5 flex items-center justify-between font-mono text-[11px] font-medium uppercase tracking-[0.04em] text-ink/50">
+        <div class="mb-2.5 flex items-center justify-between font-mono text-[11px] font-medium uppercase tracking-[0.04em] text-ink/65">
           {c.year && <span>#{c.year}</span>}
           <span>{c.tag}</span>
         </div>
@@ -33,10 +34,11 @@ const CASES = WORK.map((p) => ({
         <!-- project image -->
         <div class="relative aspect-[8/5]">
           <div class="absolute inset-0 overflow-hidden">
-            <img
+            <Img
               src={c.img}
               alt={c.imgAlt}
               title={c.imgAlt}
+              sizes="(min-width: 1024px) 45vw, 100vw"
               loading="lazy"
               class="absolute inset-0 h-full w-full scale-[1.06] object-cover object-top transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:blur-[2px]"
             />

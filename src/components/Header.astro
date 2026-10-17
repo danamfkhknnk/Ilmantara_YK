@@ -12,11 +12,11 @@ const NAV_LINKS = [
 ];
 
 const VIEWERS = [
-  { name: "Dimas", initials: "D", color: "rgb(var(--color-mara-rgb))" },
-  { name: "Tegar", initials: "T", color: "rgb(var(--color-theo-rgb))" },
-  { name: "Natan", initials: "N", color: "rgb(var(--color-accent-rgb))" },
-  { name: "Dana", initials: "D", color: "rgb(var(--color-flow-rgb))" },
-  { name: "Nafis", initials: "N", color: "rgb(138,138,144)" },
+  { name: "Dimas", initials: "D", color: "rgb(var(--color-mara-rgb))", textColor: "#0C0C0E" },
+  { name: "Tegar", initials: "T", color: "rgb(var(--color-theo-rgb))", textColor: "#0C0C0E" },
+  { name: "Natan", initials: "N", color: "rgb(var(--color-accent-rgb))", textColor: "#fff" },
+  { name: "Dana", initials: "D", color: "rgb(var(--color-flow-rgb))", textColor: "#0C0C0E" },
+  { name: "Nafis", initials: "N", color: "rgb(138,138,144)", textColor: "#0C0C0E" },
 ];
 
 const currentPath = new URL(Astro.request.url).pathname;
@@ -58,8 +58,8 @@ const LINKS = NAV_LINKS;
             class="group relative flex"
           >
             <span
-              class="flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 text-[10px] font-semibold text-white"
-              style={{ backgroundColor: viewer.color, borderColor: "rgb(250,250,248)" }}
+              class="flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 text-[10px] font-semibold"
+              style={{ backgroundColor: viewer.color, color: viewer.textColor, borderColor: "rgb(250,250,248)" }}
             >
               {viewer.initials}
             </span>

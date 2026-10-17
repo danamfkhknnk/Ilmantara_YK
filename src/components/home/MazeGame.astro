@@ -26,7 +26,7 @@
 <div data-maze-game class="grid gap-6 lg:grid-cols-[1.05fr_auto_1.3fr]">
   <!-- Frame 1: Maze Canvas -->
   <div class="min-w-0">
-    <p class="mb-2 font-mono text-[11px] text-ink/50">#canvas</p>
+    <p class="mb-2 font-mono text-[11px] text-ink/65">#canvas</p>
     <div data-frame="canvas" class="relative flex flex-col rounded-none border border-ink/10 bg-white/70 p-4 backdrop-blur-sm md:p-5">
       <!-- Figma-style selection frame: square blue border + square handles (decorative) -->
       <div aria-hidden="true" class="pointer-events-none absolute inset-0" style="border: 1.5px solid rgb(var(--color-accent-rgb));">
@@ -55,14 +55,14 @@
         <span data-blocks-left class="pointer-events-none absolute bottom-3 left-3 hidden items-center gap-1.5 rounded-full border border-ink/10 bg-white px-2.5 py-1 font-mono text-[11px] text-ink/70 shadow-sm"></span>
       </div>
       <div class="relative mt-2">
-        <p data-status class="font-mono text-xs text-ink/50">Memuat maze…</p>
+        <p data-status class="font-mono text-xs text-ink/65">Memuat maze…</p>
       </div>
     </div>
   </div>
 
   <!-- Frame 2: Flowchart Toolbox -->
   <div class="min-w-0">
-    <p class="mb-2 font-mono text-[11px] text-ink/50">#node</p>
+    <p class="mb-2 font-mono text-[11px] text-ink/65">#node</p>
     <div data-frame="toolbox" class="flex flex-col rounded-none border border-ink/10 p-3">
       <div data-toolbox class="flex flex-col items-center gap-2.5"></div>
     </div>
@@ -70,11 +70,11 @@
 
   <!-- Frame 3: Flowchart Workspace -->
   <div class="min-w-0">
-    <p class="mb-2 font-mono text-[11px] text-ink/50">#flowchart</p>
+    <p class="mb-2 font-mono text-[11px] text-ink/65">#flowchart</p>
     <div data-frame="workspace" class="flex flex-col rounded-none border border-ink/10">
       <div class="flex items-center justify-between gap-2 border-b border-ink/10 px-3 py-2">
-        <p class="text-xs text-ink/50">Tarik node ke sini, tarik port untuk menyambung</p>
-        <button type="button" data-clear class="text-xs font-medium text-ink/40 underline hover:text-ink">Bersihkan</button>
+        <p class="text-xs text-ink/65">Tarik node ke sini, tarik port untuk menyambung</p>
+        <button type="button" data-clear class="text-xs font-medium text-ink/65 underline hover:text-ink">Bersihkan</button>
       </div>
       <div data-flow-wrap class="relative min-h-0 flex-1 overflow-auto overscroll-contain bg-[radial-gradient(circle_at_1px_1px,rgb(var(--color-ink-rgb)/.14)_1px,transparent_1.2px)] bg-[size:20px_20px]">
         <div data-flow-canvas class="relative">
@@ -113,6 +113,10 @@
 <script type="module">
   import { LEVELS, NODE_FILL, START_DIR } from "./maze/levels";
   import { runFlow, createWorld } from "./maze/flowchart";
+  // Level 1 is the default board, so bundle its map with the script instead of
+  // fetching it as a separate chunk during page load (it was the deepest link
+  // in the network dependency tree). Levels 2–10 stay lazy.
+  import level1Raw from "./maze/maps/level-1.svg?raw";
 
   // Toolbox stencils always offered, per-level filtered by LEVELS[i].toolbox
   // (start/end are singleton anchors, never level-gated).
@@ -167,7 +171,7 @@
     const toolboxFrameEl = $('[data-frame="toolbox"]');
     const workspaceFrameEl = $('[data-frame="workspace"]');
 
-    const mapFiles = import.meta.glob("./maze/maps/level-*.svg", { query: "?raw", import: "default" });
+    const mapFiles = import.meta.glob(["./maze/maps/level-*.svg", "!./maze/maps/level-1.svg"], { query: "?raw", import: "default" });
 
     let uid = 0;
     let levelIdx = 0;
@@ -189,7 +193,7 @@
 
     /* ---------- original map svg (transparent bg, original tile size) ---------- */
     async function loadMapSvg(n) {
-      const raw = await mapFiles[`./maze/maps/level-${n}.svg`]();
+      const raw = n === 1 ? level1Raw : await mapFiles[`./maze/maps/level-${n}.svg`]();
       boardEl.innerHTML = raw;
       boardEl.querySelectorAll("image").forEach((img) => {
         const xl = img.getAttributeNS("http://www.w3.org/1999/xlink", "href") || img.getAttribute("xlink:href");
@@ -305,6 +309,20 @@
       });
     }
 
+    // Chooses a black/white label so node text keeps a WCAG-safe contrast
+    // against its fill colour (white only works on the dark accent blue).
+    function contrastText(hex) {
+      const c = hex.replace("#", "");
+      const chan = (s) => {
+        const v = parseInt(s, 16) / 255;
+        return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+      };
+      const L = 0.2126 * chan(c.slice(0, 2)) + 0.7152 * chan(c.slice(2, 4)) + 0.0722 * chan(c.slice(4, 6));
+      const white = 1.05 / (L + 0.05);
+      const ink = (L + 0.05) / (0.003685 + 0.05);
+      return ink >= white ? "#0C0C0E" : "#FFFFFF";
+    }
+
     // Builds the shaped node visual (shared by toolbox stencils and placed nodes).
     function nodeShapeEl(node, opts = {}) {
       const { w, h } = (opts.compact ? TOOLBOX_DIM : DIM)[node.type];
@@ -313,7 +331,8 @@
       const el = document.createElement("div");
       el.style.width = w + "px";
       el.style.height = h + "px";
-      el.className = "relative flex select-none items-center justify-center text-center font-bold uppercase tracking-wide text-white " + (opts.compact ? "text-[9.5px]" : "text-[11px]");
+      el.style.color = contrastText(fill);
+      el.className = "relative flex select-none items-center justify-center text-center font-bold uppercase tracking-wide " + (opts.compact ? "text-[9.5px]" : "text-[11px]");
       if (shape === "pill" || shape === "rect") {
         el.style.background = fill;
         el.style.borderRadius = shape === "pill" ? "999px" : "8px";

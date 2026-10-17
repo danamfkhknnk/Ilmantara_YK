@@ -1,26 +1,13 @@
 ---
 // Shared custom hero for the homepage.
 // Specification: research/hero-reference-20261012T095713Z/README.md.
-import glyphData from "../data/hero-glyphs.json";
-import editorUrl from "../lib/hero-wordmark-editor.js?url";
 import { WHATSAPP_LINK } from "../lib/site";
+// Shared constants live in a module so the client script below is bundled and
+// minified by Vite rather than emitted as unminified inline JS.
+import { TEAM, ACCENT } from "../lib/hero-config";
 
-const CANVAS_W = 1440;
-const CANVAS_H = 900;
-const MOBILE_CANVAS_W = 420;
-const MOBILE_CANVAS_H = 860;
-const ORIGINAL_DURATION = 12.4;
-const TOTAL_DURATION = 25;
-const TEAM = [
-  { id: "tegar", name: "Tegar", role: "Creative Director", shortRole: "CD", color: "#E5484D", labelColor: "#fff", message: "Buat Hitam, jangan abu-abu." },
-  { id: "nafis", name: "Nafis", role: "UI Designer", shortRole: "UI", color: "#F5C542", labelColor: "#0C0C0E", message: "" },
-  { id: "natan", name: "Natan", role: "Developer", shortRole: "Dev", color: "#8B5E3C", labelColor: "#fff", message: "Jarak dan responsif aman." },
-];
-
-const ACCENT = "#4B3BFF";
 const INK = "#0C0C0E";
 const MARA_COLOR = "#FF5B24";
-const GUIDE_COLOR = "#FF3D6E";
 
 const HEADLINE = "Software House Jogja untuk Website, Toko Online Shopify & Aplikasi Web";
 const DESCRIPTION = "Kami membantu UMKM dan brand membuat website, landing page, dan toko online Shopify yang cepat, mudah dikelola, dan siap mendatangkan pelanggan. Berbasis di Yogyakarta, melayani klien di seluruh Indonesia dan luar negeri.";
@@ -59,7 +46,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
       <div id="ha-statement" class="absolute text-center" style="opacity:0">
         <h1 id="ha-headline" class="m-0 mt-3 text-[26px] font-semibold leading-[1.16] tracking-[-0.032em] text-balance min-[900px]:text-[36px]">{HEADLINE}</h1>
         <p id="ha-description" class="mx-auto mb-0 mt-3 max-w-3xl text-[18px] font-normal leading-[1.45] tracking-[-0.015em] text-balance text-ink/60 min-[900px]:text-[20px]">{DESCRIPTION}</p>
-        <p class="mx-auto mb-0 mt-3 max-w-3xl font-mono text-[11px] font-medium leading-[1.5] tracking-[0.02em] text-ink/45">{TRUST_LINE}</p>
+        <p class="mx-auto mb-0 mt-3 max-w-3xl font-mono text-[11px] font-medium leading-[1.5] tracking-[0.02em] text-ink/65">{TRUST_LINE}</p>
       </div>
       <div
         id="ha-breadcrumb"
@@ -129,19 +116,19 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         <svg width="20" height="22" viewBox="0 0 20 22" class="absolute -left-0.5 -top-0.5 drop-shadow-[0_2px_3px_rgba(0,0,0,.2)]">
           <path d="M2.5 2.5 L2.5 18 L7 13.8 L10.2 20.4 L13 19.1 L9.9 12.6 L16 12.3 Z" fill={MARA_COLOR} stroke="#fff" stroke-width="1.4" stroke-linejoin="round"></path>
         </svg>
-        <div class="absolute whitespace-nowrap text-[11px] font-medium leading-none tracking-[-0.01em] text-white shadow-[0_4px_10px_rgba(0,0,0,.12)]" style={`left:14px; top:17px; background:${MARA_COLOR}; padding:5px 7px; border-radius:3px 8px 8px 8px;`}>{COMMENT_AUTHOR}</div>
+        <div class="absolute whitespace-nowrap text-[11px] font-medium leading-none tracking-[-0.01em] text-ink shadow-[0_4px_10px_rgba(0,0,0,.12)]" style={`left:14px; top:17px; background:${MARA_COLOR}; padding:5px 7px; border-radius:3px 8px 8px 8px;`}>{COMMENT_AUTHOR}</div>
       </div>
 
       <!-- Avatar + collapsed-thread badge: the comment/reply card scales/fades
            out of this same anchor point as it collapses (K window). -->
       <div id="ha-comment-pulse" class="absolute size-8 rounded-full border-2 border-[#FF5B24] opacity-0" aria-hidden="true"></div>
       <div id="ha-thread-anchor" class="pointer-events-none absolute z-20" style="opacity:0;">
-        <button type="button" id="ha-avatar" data-comment-toggle="mara" aria-label="Toggle Dimas comment" aria-controls="ha-comment" aria-expanded="false" disabled tabindex="-1" class="pointer-events-none cursor-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent absolute -left-[14px] -top-[30px] flex size-7 items-center justify-center rounded-[50%_50%_50%_4px] border-2 border-white bg-[#FF5B24] text-[12px] font-semibold leading-none text-white shadow-[0_6px_14px_rgba(255,91,36,.35)]">
+        <button type="button" id="ha-avatar" data-comment-toggle="mara" aria-label="Toggle Dimas comment" aria-controls="ha-comment" aria-expanded="false" disabled tabindex="-1" class="pointer-events-none cursor-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent absolute -left-[14px] -top-[30px] flex size-7 items-center justify-center rounded-[50%_50%_50%_4px] border-2 border-white bg-[#FF5B24] text-[12px] font-semibold leading-none text-ink shadow-[0_6px_14px_rgba(255,91,36,.35)]">
           {COMMENT_AUTHOR[0]}
           <span id="ha-thread-badge" class="absolute -right-[9px] -top-[7px] h-4 min-w-[16px] rounded-[9px] text-center text-[9px] font-semibold leading-4 text-white" style={`background:${INK};`}>2</span>
         </button>
         <div data-comment-popup id="ha-comment" class="absolute -left-[290px] -top-[6px] w-[262px] rounded-xl border border-ink/10 bg-white px-3 py-[11px] shadow-[0_22px_44px_-20px_rgba(12,12,14,.35)]">
-          <div class="flex items-center gap-1.5 text-[12px] font-semibold leading-none">{COMMENT_AUTHOR}<span class="text-[11px] font-normal leading-none text-ink/45">just now</span></div>
+          <div class="flex items-center gap-1.5 text-[12px] font-semibold leading-none">{COMMENT_AUTHOR}<span class="text-[11px] font-normal leading-none text-ink/65">just now</span></div>
           <div class="mt-1.5 min-h-[35px] text-[13px] font-normal leading-[1.35] tracking-[-0.01em]"><span id="ha-comment-text"></span><span id="ha-comment-caret" class="ml-px inline-block h-[14px] w-[1.5px] align-[-2px] bg-[#FF5B24]"></span></div>
           <div id="ha-reply-block" class="mt-[9px] border-t pt-[9px]" style="border-color: rgba(12,12,14,.1); opacity:0;">
             <div class="text-[12px] font-semibold leading-none text-[#10B37A]">{REPLY_AUTHOR}</div>
@@ -154,7 +141,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
         <svg width="20" height="22" viewBox="0 0 20 22" class="absolute -left-0.5 -top-0.5 drop-shadow-[0_2px_3px_rgba(0,0,0,.2)]">
           <path d="M2.5 2.5 L2.5 18 L7 13.8 L10.2 20.4 L13 19.1 L9.9 12.6 L16 12.3 Z" fill="#10B37A" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"></path>
         </svg>
-        <div class="absolute whitespace-nowrap text-[11px] font-medium leading-none tracking-[-0.01em] text-white shadow-[0_4px_10px_rgba(0,0,0,.12)]" style="left:14px; top:17px; background:#10B37A; padding:5px 7px; border-radius:3px 8px 8px 8px;">{REPLY_AUTHOR}</div>
+        <div class="absolute whitespace-nowrap text-[11px] font-medium leading-none tracking-[-0.01em] text-ink shadow-[0_4px_10px_rgba(0,0,0,.12)]" style="left:14px; top:17px; background:#10B37A; padding:5px 7px; border-radius:3px 8px 8px 8px;">{REPLY_AUTHOR}</div>
       </div>
 
       {TEAM.map((member) => (
@@ -167,7 +154,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
           </div>
           {member.message && (
             <div id={`ha-${member.id}-thread`} aria-hidden="true" class="pointer-events-none absolute z-[28] opacity-0">
-              <button type="button" data-team-avatar data-comment-toggle={member.id} aria-label={`Toggle ${member.name} comment`} aria-controls={`ha-${member.id}-bubble`} aria-expanded="false" disabled tabindex="-1" class="pointer-events-none cursor-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent absolute -right-[12px] -top-7 flex size-7 items-center justify-center rounded-[50%_50%_50%_4px] border-2 border-white text-[12px] font-semibold leading-none text-white shadow-md" style={{ backgroundColor: member.color }}>{member.name[0]}</button>
+              <button type="button" data-team-avatar data-comment-toggle={member.id} aria-label={`Toggle ${member.name} comment`} aria-controls={`ha-${member.id}-bubble`} aria-expanded="false" disabled tabindex="-1" class="pointer-events-none cursor-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent absolute -right-[12px] -top-7 flex size-7 items-center justify-center rounded-[50%_50%_50%_4px] border-2 border-white text-[12px] font-semibold leading-none shadow-md" style={{ backgroundColor: member.color, color: member.labelColor }}>{member.name[0]}</button>
               <div id={`ha-${member.id}-bubble`} data-comment-popup data-team-bubble class="relative w-[260px] origin-top-right rounded-xl border border-ink/10 bg-white px-3 py-[11px] shadow-[0_22px_44px_-20px_rgba(12,12,14,.35)]">
                 <div class="text-[12px] font-semibold leading-none" style={{ color: member.color }}>{member.name}</div>
                 <div class="mt-1.5 text-[13px] leading-[1.35] tracking-[-0.01em]">{member.message}</div>
@@ -198,30 +185,30 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
            rest of the canvas instead of sticking to the viewport edge. -->
       <div id="ha-layers" data-floating-component="layers" style="opacity:0" class:list={[CHROME, "left-[36px] top-[590px] h-[262px] w-[236px] overflow-hidden text-[12px] leading-none will-change-transform transition-[border-color] duration-200 [@media(hover:hover)]:hover:border-accent/40 motion-reduce:transition-none"]}>
         <div class="flex gap-3.5 border-b border-ink/10 px-3.5 pt-3 pb-2.5 font-semibold">
-          <span>Layers</span><span class="font-medium text-ink/40">Assets</span>
-          <span class="ml-auto font-mono text-[10px] font-medium text-ink/40">Home</span>
+          <span>Layers</span><span class="font-medium text-ink/65">Assets</span>
+          <span class="ml-auto font-mono text-[10px] font-medium text-ink/65">Home</span>
         </div>
         <div id="ha-layers-list" class="p-1.5"></div>
       </div>
 
       <div id="ha-inspect" data-floating-component="inspect" style="opacity:0" class:list={[CHROME, "left-[1168px] top-[548px] h-[304px] w-[236px] overflow-hidden will-change-transform transition-[border-color] duration-200 [@media(hover:hover)]:hover:border-accent/40 motion-reduce:transition-none"]}>
-        <div class="flex gap-3.5 border-b border-ink/10 px-3.5 pt-3 pb-2.5 text-[12px] font-semibold leading-none"><span>Design</span><span class="font-medium text-ink/40">Prototype</span><span class="font-medium text-ink/40">Inspect</span></div>
+        <div class="flex gap-3.5 border-b border-ink/10 px-3.5 pt-3 pb-2.5 text-[12px] font-semibold leading-none"><span>Design</span><span class="font-medium text-ink/65">Prototype</span><span class="font-medium text-ink/65">Inspect</span></div>
         <div class="grid gap-3.5 px-3.5 py-3">
           <div>
             <div id="ha-inspect-name" class="mb-[9px] overflow-hidden text-[11px] font-semibold leading-none text-ink/80 text-ellipsis whitespace-nowrap">Nothing selected</div>
             <div class="grid grid-cols-2 gap-1.5">
-              <div class={FIELD}><span class="text-[10px] text-ink/40">X</span><span id="ha-inspect-x">–</span></div>
-              <div class={FIELD}><span class="text-[10px] text-ink/40">Y</span><span id="ha-inspect-y">–</span></div>
-              <div id="ha-field-w" class={FIELD}><span class="text-[10px] text-ink/40">W</span><span id="ha-inspect-w">–</span></div>
-              <div id="ha-field-h" class={FIELD}><span class="text-[10px] text-ink/40">H</span><span id="ha-inspect-h">–</span></div>
+              <div class={FIELD}><span class="text-[10px] text-ink/65">X</span><span id="ha-inspect-x">–</span></div>
+              <div class={FIELD}><span class="text-[10px] text-ink/65">Y</span><span id="ha-inspect-y">–</span></div>
+              <div id="ha-field-w" class={FIELD}><span class="text-[10px] text-ink/65">W</span><span id="ha-inspect-w">–</span></div>
+              <div id="ha-field-h" class={FIELD}><span class="text-[10px] text-ink/65">H</span><span id="ha-inspect-h">–</span></div>
             </div>
           </div>
           <div id="ha-inspect-text-block">
             <div class="mb-[9px] text-[11px] font-semibold leading-none text-ink/80">Text</div>
-            <div class="flex justify-between text-[12px] font-medium leading-none"><span>Geist</span><span class="text-ink/50">Semibold</span></div>
+            <div class="flex justify-between text-[12px] font-medium leading-none"><span>Geist</span><span class="text-ink/65">Semibold</span></div>
             <div class="mt-2 grid grid-cols-2 gap-1.5">
-              <div id="ha-field-font" class={FIELD}><span class="text-[10px] text-ink/40">Aa</span><span id="ha-inspect-fontsize">200</span></div>
-              <div class={FIELD}><span class="text-[10px] text-ink/40">|A|</span>-5%</div>
+              <div id="ha-field-font" class={FIELD}><span class="text-[10px] text-ink/65">Aa</span><span id="ha-inspect-fontsize">200</span></div>
+              <div class={FIELD}><span class="text-[10px] text-ink/65">|A|</span>-5%</div>
             </div>
           </div>
           <div>
@@ -229,7 +216,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
             <div class="flex items-center gap-2 font-mono text-[12px] font-medium leading-none">
               <span id="ha-inspect-swatch" class="size-4 shrink-0 rounded-[4px] border border-ink/10 bg-ink bg-cover"></span>
               <span id="ha-inspect-fill">RGB(12, 12, 14)</span>
-              <span id="ha-inspect-fill-detail" class="ml-auto text-ink/45">100%</span>
+              <span id="ha-inspect-fill-detail" class="ml-auto text-ink/65">100%</span>
             </div>
           </div>
         </div>
@@ -255,7 +242,7 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#0C0C0E" stroke-width="1.4" stroke-linejoin="round"><path d="M2.5 13.5h4M2.5 13.5v-4M13.5 2.5h-4M13.5 2.5v4M3 13l10-10"></path></svg>
         </button>
         <span class="mx-1.5 h-5 w-px" style="background: rgba(12,12,14,.1);"></span>
-        <span class="font-mono text-[11px] font-medium leading-none text-ink/55">100%</span>
+        <span class="font-mono text-[11px] font-medium leading-none text-ink/65">100%</span>
       </div>
     </div>
 
@@ -284,7 +271,11 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
   }
 </style>
 
-<script define:vars={{ glyphData, editorUrl, CANVAS_W, CANVAS_H, MOBILE_CANVAS_W, MOBILE_CANVAS_H, ORIGINAL_DURATION, TOTAL_DURATION, TEAM, ACCENT, GUIDE_COLOR, COMMENT_TEXT }}>
+<script>
+  import glyphData from "../data/hero-glyphs.json";
+  import { createWordmarkEditor, paintActionCursor } from "../lib/hero-wordmark-editor.js";
+  import { CANVAS_W, CANVAS_H, MOBILE_CANVAS_W, MOBILE_CANVAS_H, ORIGINAL_DURATION, TOTAL_DURATION, TEAM, ACCENT, GUIDE_COLOR, COMMENT_TEXT } from "../lib/hero-config";
+
   const EASE = {
     out: (e) => 1 - (1 - e) ** 4,
     expo: (e) => (e >= 1 ? 1 : 1 - 2 ** (-10 * e)),
@@ -331,7 +322,6 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     container.dataset.haInitialized = "true";
     const artboard = document.getElementById("ha-artboard");
     const abort = new AbortController();
-    const { createWordmarkEditor, paintActionCursor } = await import(editorUrl);
 
     const svg = document.getElementById("ha-name-svg");
     const hoverSvg = document.getElementById("ha-hover-svg");

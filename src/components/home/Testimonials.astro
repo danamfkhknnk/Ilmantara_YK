@@ -82,11 +82,25 @@ function initialsOf(name: string) {
   const parts = name.trim().split(/\s+/);
   return ((parts[0]?.[0] ?? "") + (parts[1]?.[0] ?? "")).toUpperCase() || "?";
 }
+
+// Pick black or white initials so the avatar label keeps a WCAG-safe contrast
+// against its (per-testimonial) brand background colour.
+function contrastText(hex: string): string {
+  const c = hex.replace("#", "");
+  const chan = (s: string) => {
+    const v = parseInt(s, 16) / 255;
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  };
+  const L = 0.2126 * chan(c.slice(0, 2)) + 0.7152 * chan(c.slice(2, 4)) + 0.0722 * chan(c.slice(4, 6));
+  const white = 1.05 / (L + 0.05);
+  const ink = (L + 0.05) / (0.003685 + 0.05);
+  return ink >= white ? "#0C0C0E" : "#FFFFFF";
+}
 ---
 
 <section id="testimonials" data-framer-name="08 Testimonials" class="px-6 py-24 md:px-10 md:pb-48">
   <p class="font-mono text-xs font-medium tracking-wide">
-    <span class="text-accent"># Ilmantara /</span> <span class="text-ink/40">Testimoni</span>
+    <span class="text-accent"># Ilmantara /</span> <span class="text-ink/65">Testimoni</span>
   </p>
 
   <div class="mt-4 grid gap-6 lg:grid-cols-[1fr_320px]">
@@ -114,8 +128,8 @@ function initialsOf(name: string) {
               />
             ) : (
               <div
-                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white"
-                style={`background-color: ${t.color || FALLBACK_DOTS[i % FALLBACK_DOTS.length]};`}
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+                style={`background-color: ${t.color || FALLBACK_DOTS[i % FALLBACK_DOTS.length]}; color: ${contrastText(t.color || FALLBACK_DOTS[i % FALLBACK_DOTS.length])};`}
                 aria-hidden="true"
               >
                 {initialsOf(t.name)}
@@ -124,7 +138,7 @@ function initialsOf(name: string) {
             <div>
               <p class="text-sm font-semibold text-ink">{t.name}</p>
               {(t.role || t.company) && (
-                <p class="text-xs text-ink/50">
+                <p class="text-xs text-ink/65">
                   {t.role}{t.role && t.company ? ", " : ""}
                   {t.company && (t.companyUrl ? (
                     <a href={t.companyUrl} target="_blank" rel="noopener noreferrer" title={t.company} class="underline underline-offset-2 hover:text-accent">{t.company}</a>
@@ -151,7 +165,7 @@ function initialsOf(name: string) {
             target="_blank"
             rel="noopener noreferrer"
             title="Sumber ulasan"
-            class="mt-3 inline-flex items-center gap-1 text-xs text-ink/45 underline underline-offset-2 transition-colors hover:text-accent"
+            class="mt-3 inline-flex items-center gap-1 text-xs text-ink/65 underline underline-offset-2 transition-colors hover:text-accent"
           >
             {"Sumber ulasan"}<span aria-hidden="true">↗</span>
           </a>
@@ -163,8 +177,10 @@ function initialsOf(name: string) {
 
 <script>
   // Scroll-linked reveal mirroring the reference quote grid: cards below the
-  // fold sit blurred and slightly transparent, resolving to sharp/opaque as
-  // they scroll into view. Purely progressive — no static change.
+  // fold sit blurred, resolving to sharp as they scroll into view. The
+  // reference also faded opacity 0.35 → 1, but translucent text fails the
+  // WCAG color-contrast audit for below-the-fold cards, so the fade is
+  // dropped and only the blur animates. Purely progressive — no static change.
   function initTestimonials() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const cards = Array.from(document.querySelectorAll("[data-quote-reveal]"));
@@ -182,7 +198,6 @@ function initialsOf(name: string) {
         const eased = p * p * (3 - 2 * p);
         const blur = (1 - eased) * 4;
         card.style.filter = blur < 0.05 ? "" : `blur(${blur.toFixed(2)}px)`;
-        card.style.opacity = blur < 0.05 ? "" : (0.35 + 0.65 * eased).toFixed(3);
       });
     }
 
