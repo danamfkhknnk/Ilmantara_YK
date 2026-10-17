@@ -267,7 +267,7 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
       });
     }
 
-    function onScroll() {
+    function measureScroll() {
       if (!mq.matches) return;
       const rect = section.getBoundingClientRect();
       const total = rect.height - window.innerHeight;
@@ -277,6 +277,14 @@ const sectionHeight = `calc(${CASES.length * 85 + 100}vh)`;
       const index = Math.min(N - 1, Math.floor(floating));
       if (index !== current) setActive(index);
       setReveal(floating - index);
+    }
+
+    // Coalesce scroll bursts into one measure per frame — the panel swap and
+    // reveal both read layout, so running per event janks on mobile.
+    let scrollTick = 0;
+    function onScroll() {
+      if (scrollTick) return;
+      scrollTick = requestAnimationFrame(() => { scrollTick = 0; measureScroll(); });
     }
 
     tabs.forEach((tab, i) => {

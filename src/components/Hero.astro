@@ -1207,7 +1207,13 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     function frame() {
       rafId = 0;
       const D = debugTime !== null ? debugTime : (performance.now() - startTime) / 1000;
-      if ((!visible && D > TOTAL_DURATION) || document.hidden) return;
+      // Only animate while the hero is actually on screen. The intro is
+      // 25 s long, so the old `!visible && D > TOTAL_DURATION` guard kept a
+      // full-scene render running every frame for the first 25 s even after
+      // the hero had been scrolled far out of view — that stole main-thread
+      // time from every scroll further down the page. The IntersectionObserver
+      // (re)starts the loop via requestFrame() when the hero comes back.
+      if (!visible || document.hidden) return;
       const state = editor.snapshot();
       if (prefersReducedMotion && D > TOTAL_DURATION + 1 && debugTime === null && !state.dirty && !editor.isDragging() && !editor.isLocked()) return;
       render(D); requestFrame();
@@ -1224,8 +1230,11 @@ const FIELD = "flex h-7 items-center gap-2 rounded-md bg-ink/[.045] px-2 font-mo
     resize.observe(container);
     const contentResize = new ResizeObserver(() => { contentLayout.key = null; render(lastTime); });
     contentResize.observe(statement); contentResize.observe(cta);
-    window.addEventListener("scroll", () => render(lastTime), { passive: true, signal: abort.signal });
-    window.addEventListener("scroll", () => { if (prefersReducedMotion) render(lastTime); }, { passive: true, signal: abort.signal });
+    // Scroll drives the hero's exit transition, but frame() already re-renders
+    // every frame while the hero is on screen — so scrolling only needs to make
+    // sure the loop is running. requestFrame() is a no-op while it is (guarded
+    // by rafId), which avoids scheduling a second full render per frame.
+    window.addEventListener("scroll", requestFrame, { passive: true, signal: abort.signal });
 
     const heroApi = {
       ready: Promise.resolve(true),
